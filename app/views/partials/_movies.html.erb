@@ -1,0 +1,24 @@
+
+<% movie.each do |movie| %>
+    <div class="card">
+        <%= link_to movie_path(movie) do %>
+            <%= image_tag('http://image.tmdb.org/t/p/w300_and_h450_bestv2/' + movie.poster_path) %>
+        <% end %>
+        <p class="card-text"></p>
+        <div class="rating">
+            <div class="row">
+                <div class="col-xs-6 col-md-6">
+                    <%= link_to movie_like_path(movie.id), class: 'tooltip-link', 'data-original-title': 'Like', 'data-toggle': 'tooltip', method: :get do %>
+                        <%= fa_icon "thumbs-up" %> <strong>Like</strong>
+                    <% end  %>
+                </div>
+                <div class="col-xs-6 col-md-6">
+                    <%= link_to movie_dislike_path(movie.id), class: 'tooltip-link', 'data-original-title': 'Like', 'data-toggle': 'tooltip', method: :get do %>
+                        <%= fa_icon "thumbs-down" %> <strong>Dislike</strong>
+                    <% end  %>
+                </div>
+            </div>
+        </div>
+    </div>
+<% end %>
+

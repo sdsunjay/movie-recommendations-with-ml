@@ -1,0 +1,22 @@
+
+  <div class="field">
+    <%= form.label :popularity %>
+    <%= form.text_field :popularity %>
+  </div>
+
+  <div class="field">
+    <%= form.label :release_date %>
+    <%= form.datetime_select :release_date %>
+  </div>
+
+  <div class="field">
+    <%= form.label :revenue %>
+    <%= form.text_field :revenue %>
+  </div>
+
+  <div class="field">
+    <%= form.label :runtime %>
+    <%= form.number_field :runtime %>
+  </div>
+
+

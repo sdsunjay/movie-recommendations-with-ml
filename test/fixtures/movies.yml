@@ -1,0 +1,29 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  imdb_id: 1
+  title: MyString
+  tagline: MyString
+  status: MyString
+  poster_path: MyString
+  genre_id: 1
+  overview: MyText
+  popularity: MyString
+  budget: 
+  release_date: 2018-08-30 22:43:49
+  revenue: MyString
+  runtime: 1
+
+two:
+  imdb_id: 1
+  title: MyString
+  tagline: MyString
+  status: MyString
+  poster_path: MyString
+  genre_id: 1
+  overview: MyText
+  popularity: MyString
+  budget: 
+  release_date: 2018-08-30 22:43:49
+  revenue: MyString
+  runtime: 1

@@ -1,0 +1,93 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ */
+
+@import "bootstrap";
+@import "font-awesome";
+
+
+body {
+      padding-top: 50px;
+      font-family:'Arial', sans-serif;
+      font-size:14px;
+      color: #666;
+      line-height:1.5em;
+}
+header {
+    background: #333;
+    color: #fff;
+    height: 80px;
+    margin-bottom: 20px;
+}
+footer {
+    background: #333;
+    color: #fff;
+    height: 60px;
+    margin-top: 20px;
+    text-align: center;
+    padding-top: 20px;
+}
+#movies-index{
+    text-align: center;
+}
+#movies-index img{
+    width: 100%;
+    padding: 2px;
+    border: 1px #ccc solid;
+
+}
+#movie-index h3{
+    height:100px;
+}
+#movies-index .btn{
+    display: block;
+    margin-top: 20px;
+}
+#movies-show h2{
+    background:#f4f4f4;
+    padding:10px;
+}
+.movies-show-left{
+    float:left;
+    width:50%;
+}
+.movies-show-right{
+    float:left;
+    width:40%;
+    margin-top:10px;
+    margin-left:20px;
+}
+
+.movies-show .btn{
+    margin:20px 0 0 70px;
+}
+.card {
+    float:left;
+    width:33.333%;
+    padding:.75rem;
+    //margin-bottom: 2rem;
+    border:0;
+    position:relative;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    background-color: #fff;
+    border-radius: .25rem;
+}
+.rating{
+    padding-left: 1em;
+    padding-right: 1em;
+}
+

@@ -1,0 +1,28 @@
+<div id="movies-show">
+    <h2><%= @movie.title %></h2>
+    <div class="movies-show-left">
+        <%= image_tag('http://image.tmdb.org/t/p/w300_and_h450_bestv2'+@movie.poster_path) %>
+    </div>
+    <div class="movies-show-right">
+        <h3>Movie Info: </h3>
+        <ul>
+            <li><strong>Tagline: </strong><%= @movie.tagline %></li>
+            <li><strong>Genres: </strong></li>
+            <% @movie.categorizations.each do |categorization| %>
+                <%= link_to categorization.genre.name, genre_path(categorization.genre) %><br>
+            <% end %>
+            <li><strong>Runtime: </strong><%= @movie.runtime %> mins</li>
+            <li><strong>Release Date: </strong><%= @movie.release_date %></li>
+            <li><strong>Status: </strong><%= @movie.status %></li>
+            <li><strong>Budget: </strong><%= @movie.budget %></li>
+            <li><strong>Revenue: </strong><%= @movie.revenue %></li>
+        </ul>
+    </div>
+    <div class="clearfix"></div>
+        <h4>Excerpt</h4>
+        <p><%= @movie.overview %></p>
+        <h3>Admin Functions </h3>
+        <%= link_to 'Edit', edit_movie_path(@movie), class: "btn btn-default btn-sm" %> |
+        <%= link_to 'Delete', movie_path(@movie), method: :delete, class: "btn btn-danger btn-sm", data: { confirm: "Are you sure?" } %>
+    </div>
+</div>

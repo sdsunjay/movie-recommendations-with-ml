@@ -1,0 +1,21 @@
+<h1>Movies</h1>
+    <% if @movies.any? %>
+            <div class="row">
+                <%= render 'partials/movies', :movie => @movies %>
+            </div>
+    <% else %>
+        <article class="single-from-blog">
+            <div class="blog-title">
+                <h2>No movies available yet</h2>
+            </div>
+        </article>
+              </div>
+    <% end %>
+    <%= will_paginate @movies %>
+</div>
+<br>
+<div class="row">
+    <div class="col-xs-6 col-md-6">
+        <%= link_to 'New Movie', new_movie_path %>
+    </div>
+</div>
