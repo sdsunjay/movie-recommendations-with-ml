@@ -1,0 +1,7 @@
+<% if current_user == @user %>
+    <% "My Profile" %>
+    <%= render 'partials/reviews' %>
+    <p>test 1</p>
+<% else %>
+    <% current_user.name  + "'s Profile" %>
+<% end %>

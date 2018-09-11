@@ -1,0 +1,21 @@
+<p id="notice"><%= notice %></p>
+<h2><%= @genre.name %> </h2>
+<div id="movies-index">
+   <% if @movies.exists? %>
+        <% @movies.each_slice(4) do |movie| %>
+            <div class="row">
+                <% movie.each do |movie| %>
+                    <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                      <%= link_to movie_path(movie) do %>
+                        <%= image_tag('http://image.tmdb.org/t/p/w300_and_h450_bestv2/' + movie.poster_path) %>
+                      <% end %>
+                    </div>
+                <% end %>
+            </div>
+        <% end %>
+    <% else %>
+       <p>No movies in this genre yet.</p>
+    <% end %>
+</div>
+<%= link_to 'Edit', edit_genre_path(@genre) %> |
+<%= link_to 'Back', genres_path %>

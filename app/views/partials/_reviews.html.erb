@@ -1,0 +1,28 @@
+<% if @reviews.exists? %>
+	<% @reviews.each_with_index do |review, index| %>
+		<article class="single-from-blog">
+            <%= link_to movie_path(review.movie) do %>
+                <%= image_tag('http://image.tmdb.org/t/p/w300_and_h450_bestv2/' + review.movie.poster_path) %>
+            <% end %>
+            <div class="blog-title">
+                <p>
+                Rating: <%= review.rating %> <br> On
+                    <a href="#" class="tooltip-link" data-original-title="Date" data-toggle="tooltip">
+                        <i class="fa fa-calendar"></i>
+                        <%= review.created_at.strftime('%B %e at %l:%M %p' ) %>
+                    </a>
+                </p>
+	       	</div>
+		    <div class="blog-footer">
+		    </div>
+		</article>
+	<% end %>
+<% else %>
+    <article class="single-from-blog wow fadeInLeft">
+        <div class="blog-title">
+            <h2>No reviews yet</h2>
+        </div>
+    </article>
+<% end %>
+
+<%= will_paginate @reviews %>
