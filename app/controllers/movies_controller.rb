@@ -1,17 +1,20 @@
 class MoviesController < ApplicationController
     before_action :authenticate_user!, except: [:index]
     before_action :set_movie, only: [:show, :edit, :update, :destroy]
+    before_action :set_user, only: [:index, :show, :edit, :update, :destroy]
 
   # GET /movies
   # GET /movies.json
   def index
+    # @facebook_movies = Facebook.get_object(current_user.token, '/me/movies?fields=name')
+    # puts @facebook_movies
     #  @movies = Facebook.get_object(current_user.token, '/me/movies?fields=name')
     # @movies = movie_service.popular
     # @genres = Genre.all
     if params[:query].present?
       @movies = Movie.search(params[:query], page: params[:page])
     else
-      @movies = Movie.all.order(created_at: :desc).paginate(per_page: 10, page: params[:page])
+      @movies = Movie.all.order(created_at: :desc).paginate(per_page: 15, page: params[:page])
     end
   end
 
@@ -51,7 +54,8 @@ class MoviesController < ApplicationController
   # GET /movies/1
   # GET /movies/1.json
   def show
-      @movie = Movie.find(params[:id])
+    # @review = @user.reviews.where(movie_id: @movie.id).order("created_at DESC")
+    @review = Review.where(user_id: @user, movie_id: @movie.id).order(created_at: :desc).paginate(per_page: 15, page: params[:page])
   end
 
 
@@ -127,9 +131,13 @@ class MoviesController < ApplicationController
   end
 
   # Use callbacks to share common setup or constraints between actions.
-    def set_movie
-      @movie = Movie.find(params[:id])
-    end
+  def set_movie
+    @movie = Movie.find(params[:id])
+  end
+
+  def set_user
+    @user = current_user
+  end
 
     # Never trust parameters from the scary internet, only allow the white list through.
 

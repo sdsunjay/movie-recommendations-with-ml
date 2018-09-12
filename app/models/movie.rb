@@ -22,4 +22,10 @@ class Movie < ApplicationRecord
      Movie.where("title LIKE title")
    end
 
+   def has_review(user_id, movie_id)
+      return Review.exists?(user: user_id, movie_id: movie_id )
+   end
+   def movie_review(user_id, movie_id)
+     return Review.where(user: user_id, movie_id: movie_id )
+   end
 end

@@ -1,7 +1,13 @@
 <% if current_user == @user %>
     <% "My Profile" %>
     <%= render 'partials/reviews' %>
-    <p>test 1</p>
+    <% if @user.super_admin? %>
+        <div class="row">
+            <div class="col-xs-6 col-md-6">
+                <%= link_to 'New Movie', new_movie_path %>
+            </div>
+        </div>
+    <% end %>
 <% else %>
     <% current_user.name  + "'s Profile" %>
 <% end %>
