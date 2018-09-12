@@ -1,15 +1,13 @@
 <h1>Movies</h1>
-    <% if @movies.any? %>
-            <div class="row">
-                <%= render 'partials/movies', :movie => @movies %>
-            </div>
-    <% else %>
-        <article class="single-from-blog">
-            <div class="blog-title">
-                <h2>No movies available yet</h2>
-            </div>
-        </article>
-              </div>
-    <% end %>
-    <%= will_paginate @movies %>
-</div>
+<% if @movies.any? %>
+    <div class="row">
+        <%= render 'partials/movies', :movie => @movies %>
+        <%= will_paginate @movies %>
+    </div>
+<% else %>
+    <article class="single-from-blog">
+        <div class="blog-title">
+            <h2>No movies available yet</h2>
+        </div>
+    </article>
+<% end %>

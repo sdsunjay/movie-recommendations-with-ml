@@ -20,11 +20,6 @@
 </head>
 <body>
   <%= render 'shared/header' %>
-  <header>
-  <div class="container">
-      <h1>BLOCKBUSTER VIDEO <small><%= @page_title ? @page_title: 'Welcome' %></small></h1>
-  </div>
-  </header>
   <section>
       <div class="container">
           <div class="row">
@@ -34,10 +29,10 @@
               <% if flash[:alert] %>
                   <div class="alert alert-danger"><%= flash[:alert] %></div>
               <% end %>
+          </div>
+          <div class="row">
               <%= yield %>
               <%= render "shared/facebook-login" %>
-              <div class="col-md-4">
-              </div>
           </div>
       </div>
   </section>

@@ -1,0 +1,169 @@
+body {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 16px;
+	overflow-x: hidden !important;
+	color: #838282;
+}
+ul{
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+a{
+	text-decoration: none;
+	color: #00D999;
+}
+a:focus{
+	outline: none;
+	text-decoration: none;
+}
+h1,h2,h3,h4,h5,h6{
+	font-family: 'Raleway', sans-serif;
+}
+h2 {
+	color: #fff;
+	font-size: 30px;
+	font-weight: 700;
+	line-height: 40px;
+	margin: 0;
+	padding-bottom: 10px;
+}
+img{
+ border:none;
+}
+.nav-tabs {
+  border-bottom: none;
+}
+.nav-tabs > li > a:hover {
+  border-color: #eee #eee #f0f0f0;
+}
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus {
+  color: #555;
+  cursor: default;
+  background-color: #fff;
+  border: 1px solid #f0f0f0;
+  border-bottom-color: transparent;
+}
+#datetimepicker {
+	margin-bottom: 20px
+}
+
+/* Preloader */
+
+#preloader {
+	position: fixed;
+	top:0;
+	left:0;
+	right:0;
+	bottom:0;
+	background-color:#fff; /* change if the mask should have another color then white */
+	z-index:99999; /* makes sure it stays on top */
+}
+
+.loader {
+	font-size: 10px;
+	top: 300px;
+	left: 45%;
+	text-indent: -9999em;
+	width: 11em;
+	height: 11em;
+	border-radius: 50%;
+	position: relative;
+	-webkit-animation: load3 1.4s infinite linear;
+	animation: load3 1.4s infinite linear;
+	-webkit-transform: translateZ(0);
+	-ms-transform: translateZ(0);
+	transform: translateZ(0);
+}
+.loader:before {
+	width: 50%;
+	height: 50%;
+	border-radius: 100% 0 0 0;
+	position: absolute;
+	top: 0;
+	left: 0;
+	content: '';
+}
+.loader:after {
+	background: #fff;
+	width: 75%;
+	height: 75%;
+	border-radius: 50%;
+	content: '';
+	margin: auto;
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+}
+//header {
+    //background: #333;
+   // color: #fff;
+   // height: 80px;
+   // margin-bottom: 20px;
+//}
+footer {
+    background: #333;
+    color: #fff;
+    height: 60px;
+    margin-top: 20px;
+    text-align: center;
+    padding-top: 20px;
+}
+#movies-index{
+    text-align: center;
+}
+#movies-index img{
+    width: 100%;
+    padding: 2px;
+    border: 1px #ccc solid;
+
+}
+#movie-index h3{
+    height:100px;
+}
+#movies-index .btn{
+    display: block;
+    margin-top: 20px;
+}
+#movies-show h2{
+    background:#f4f4f4;
+    padding:10px;
+}
+.movies-show-left{
+    float:left;
+    width:50%;
+}
+.movies-show-right{
+    float:left;
+    width:45%;
+    margin-top:10px;
+    margin-left:10px;
+}
+
+.movies-show .btn{
+    margin:20px 0 0 70px;
+}
+.card {
+    float:left;
+    width:33.333%;
+    padding:.75rem;
+    //margin-bottom: 2rem;
+    border:0;
+    position:relative;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    background-color: #fff;
+    border-radius: .25rem;
+}
+.rating{
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
