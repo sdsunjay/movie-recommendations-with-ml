@@ -6,26 +6,31 @@
     <div class="movies-show-right">
         <h3>Movie Info: </h3>
         <ul>
-            <li><strong>Tagline: </strong><%= @movie.tagline %></li>
+            <% unless @movie.tagline.blank? %>
+                <li><strong>Tagline: </strong><%= @movie.tagline %></li>
+            <% end %>
             <li><strong>Genres: </strong></li>
             <% @movie.categorizations.each do |categorization| %>
-                <%= link_to categorization.genre.name, genre_path(categorization.genre) %><br>
+                <%= link_to categorization.genre.name, genre_path(categorization.genre) %>,
             <% end %>
-            <li><strong>Runtime: </strong><%= @movie.runtime %> mins</li>
-            <li><strong>Release Date: </strong><%= @movie.release_date %></li>
-            <li><strong>Status: </strong><%= @movie.status %></li>
-            <li><strong>Budget: </strong><%= @movie.budget %></li>
-            <li><strong>Revenue: </strong><%= @movie.revenue %></li>
+            <% unless @movie.runtime.blank? %>
+                <li><strong>Runtime: </strong><%= @movie.runtime %> mins</li>
+            <% end %>
+            <li><strong>Release Date: </strong><%= @movie.release_date.strftime('%Y-%m-%d') %></li>
+            <% unless @movie.budget.blank? %>
+                <li><strong>Budget: </strong><%= @movie.budget %></li>
+            <% end %>
+            <% unless @movie.revenue.blank? %>
+                <li><strong>Revenue: </strong><%= @movie.revenue %></li>
+            <% end %>
+            <li><strong>Overview: </strong><%= @movie.overview %></li>
         </ul>
     </div>
-    <div class="clearfix"></div>
-        <h4>Excerpt</h4>
-        <p><%= @movie.overview %></p>
-    <% if @user.super_admin? %>
-        <h3>Admin Functions </h3>
-        <%= link_to 'Edit', edit_movie_path(@movie), class: "btn btn-default btn-sm" %> |
-        <%= link_to 'Delete', movie_path(@movie), method: :delete, class: "btn btn-danger btn-sm", data: { confirm: "Are you sure?" } %>
-    <% end %>
-    </div>
-    </div>
-
+</div>
+<div class="clearfix"></div>
+<% if @user.super_admin? %>
+    <h3>Admin Functions </h3>
+    <%= link_to 'Edit', edit_movie_path(@movie), class: "btn btn-default btn-sm" %> |
+    <%= link_to 'Delete', movie_path(@movie), method: :delete, class: "btn btn-danger btn-sm", data: { confirm: "Are you sure?" } %>
+<% end %>
+</div>

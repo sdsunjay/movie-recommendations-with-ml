@@ -8,10 +8,6 @@ Rails.application.routes.draw do
   resources :users, only: [:index, :show, :edit, :destroy, :update]
   devise_for :users, :controllers => {:omniauth_callbacks => "users/omniauth_callbacks"}
   devise_scope :user do
-    # get 'sign_in', to: 'devise/sessions#new', as: :user_sign_in
-    # get 'sign_out', to: 'devise/sessions#destroy', as: :user_sign_out
-    # delete 'sign_out', to: 'devise/sessions#destroy', as: :destroy_user_session
-
     authenticated :user do
 
       # resources :users, only: [:index, :show, :edit, :destroy, :update]
