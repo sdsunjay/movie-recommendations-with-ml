@@ -5,16 +5,16 @@ Rails.application.routes.draw do
   get '/privacy', to: 'static_pages#privacy'
   get '/terms', to: 'static_pages#terms'
 
-  devise_for :users, :controllers => {:omniauth_callbacks => 'users/omniauth_callbacks'}
-
+  resources :users, only: [:index, :show, :edit, :destroy, :update]
+  devise_for :users, :controllers => {:omniauth_callbacks => "users/omniauth_callbacks"}
   devise_scope :user do
+    # get 'sign_in', to: 'devise/sessions#new', as: :user_sign_in
+    # get 'sign_out', to: 'devise/sessions#destroy', as: :user_sign_out
     # delete 'sign_out', to: 'devise/sessions#destroy', as: :destroy_user_session
 
     authenticated :user do
 
-      resources :users, only: [:index, :show, :edit, :destroy, :update]
-      # get 'sign_in', to: 'devise/sessions#new', as: :new_user_session
-      # get 'sign_out', to: 'devise/sessions#destroy', as: :destroy_user_session
+      # resources :users, only: [:index, :show, :edit, :destroy, :update]
       root to: 'movies#index', as: :authenticated_root
 	    resources :genres, only: [:index,:show, :new, :create, :edit, :update]
 	    get 'movies/:id/like', to: 'movies#like', as: :movie_like

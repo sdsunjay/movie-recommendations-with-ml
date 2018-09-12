@@ -10,5 +10,8 @@ class Review < ApplicationRecord
 
 	# the driver (owner of the post) can review multiple passengers, but not the same passenger in the same post
   validates :movie_id, uniqueness: { scope: :user_id, message: "You've already reviewed this movie!" }
+  def has_review?
+    return if Review.exists?(user: user, movie_id: movie_id)
+  end
 
 end

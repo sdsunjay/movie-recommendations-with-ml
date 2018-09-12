@@ -6,7 +6,10 @@ class User < ApplicationRecord
 
   has_many :reviews
   has_many :movies
+  has_many :friendships
   validates_uniqueness_of :email
+
+  enum access_level: [:user, :admin, :super_admin]
 
   def self.new_with_session(params, session)
   super.tap do |user|
@@ -17,7 +20,6 @@ class User < ApplicationRecord
 end
 
   def self.from_omniauth(auth)
-    puts auth
   where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
     user.email = auth.info.email
     user.password = Devise.friendly_token[0,20]
@@ -26,15 +28,41 @@ end
     user.gender = auth.extra.raw_info.gender # assuming the user model has an image
     user.token = auth.credentials.token
   end
-end
-
-  def self.koala(auth)
-    access_token = auth.token
-    facebook = Koala::Facebook::API.new(access_token)
-    #facebook.get_object("me?fields=name,picture")
-    # TODO only store Facebook IDs, not other information
-    friends = facebook.get_connections("me", "friends")
-    return friends
+  user.add_friends
+    user.save
+    user
   end
+
+  def add_friends
+    @facebook.get_connection("me", "friends").each do |hash|
+      self.friendships.where(:name => hash['name'], :uid => hash['id']).first_or_create
+    end
+  end
+
+  private
+
+  def facebook
+    @facebook ||= Koala::Facebook::API.new(token)
+  end
+
+
+  # def facebook()
+  #   @facebook ||= Koala::Facebook::API.new(token)
+  #  block_given? ? yield(@facebook) : @facebook
+    # rescue Koala::Facebook::APIError =>
+      # logger.info e.to_s
+    #  nil
+    # TODO only store Facebook IDs, not other information
+    # friends = facebook.get_connections("me", "friends")
+    #facebook.get_object("me?fields=movies")
+    # get_object("me") {|data| data['education']}  # => only education section of profile
+    # return friends
+  # end
+
+  # def friends
+  #  @friends = facebook { |fb| fb.get_connections("me", "friends") }
+  #  user_friends = User.where(uid: @friends.map { |f| f['id'] })
+  #  puts user_friends
+  #end
 
 end

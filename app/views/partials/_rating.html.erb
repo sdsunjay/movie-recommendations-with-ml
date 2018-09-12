@@ -1,0 +1,10 @@
+<% if review.rating == 5 %>
+    <div class="col-xs-6 col-md-6">
+        <%= fa_icon "thumbs-up" %> <strong>Like</strong>
+    </div>
+<% end  %>
+<% if review.rating == 1 %>
+    <div class="col-xs-6 col-md-6">
+        <%= fa_icon "thumbs-down" %> <strong>Dislike</strong>
+    </div>
+<% end  %>

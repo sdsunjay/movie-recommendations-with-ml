@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_02_033749) do
+ActiveRecord::Schema.define(version: 2018_09_12_002202) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,15 @@ ActiveRecord::Schema.define(version: 2018_09_02_033749) do
     t.datetime "updated_at", null: false
     t.index ["genre_id"], name: "index_categorizations_on_genre_id"
     t.index ["movie_id"], name: "index_categorizations_on_movie_id"
+  end
+
+  create_table "friendships", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "friend_id"
+    t.index ["friend_id"], name: "index_friendships_on_friend_id"
+    t.index ["user_id"], name: "index_friendships_on_user_id"
   end
 
   create_table "genres", force: :cascade do |t|
@@ -94,6 +103,8 @@ ActiveRecord::Schema.define(version: 2018_09_02_033749) do
 
   add_foreign_key "categorizations", "genres"
   add_foreign_key "categorizations", "movies"
+  add_foreign_key "friendships", "users"
+  add_foreign_key "friendships", "users", column: "friend_id", on_delete: :cascade
   add_foreign_key "movies", "users"
   add_foreign_key "reviews", "movies"
   add_foreign_key "reviews", "users"

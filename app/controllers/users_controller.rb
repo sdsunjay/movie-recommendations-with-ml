@@ -15,7 +15,12 @@ class UsersController < ApplicationController
     # GET /users/:id.:format
     def show
         # @posts = Post.where(user_id: @user.id).order(created_at: :desc).paginate(per_page: 5, page: params[:page])
-        @reviews = Review.where(user_id: @user).order(created_at: :desc).paginate(per_page: 10, page: params[:page])
+      @reviews = Review.includes(:movie).where(user_id: @user).order(created_at: :desc).paginate(per_page: 15, page: params[:page])
+      if @reviews.blank?
+        @avg_review = 0
+      else
+        @avg_review = @reviews.average(:rating).round(2)
+      end
     end
 
     # GET /users/:id/edit
@@ -56,6 +61,7 @@ class UsersController < ApplicationController
 
     def set_user
       @user = User.find(params[:id])
+      @user.friends
     end
 
     def user_params
