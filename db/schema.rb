@@ -43,7 +43,7 @@ ActiveRecord::Schema.define(version: 2018_09_12_002202) do
   create_table "movies", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.integer "vote_count"
-    t.decimal "vote_average", precision: 3, scale: 2
+    t.decimal "vote_average", precision: 5, scale: 2
     t.string "title", null: false
     t.string "tagline"
     t.integer "status"

@@ -56,17 +56,11 @@ class ReviewsController < ApplicationController
     @movie = Movie.find(params[:movie_id])
   end
 
-   def require_admin
-    unless current_user.admin? || current_user.super_admin?
-      redirect_to root_path, alert: 'Access denied.'
-    end
-  end
-
   def review_params
     params
       .require(:review)
-      .permit(:rating, )
-      .merge(movie_id: @movie.id, user_id: current_user.id)
+      .permit(:rating, :movie_id)
+      .merge(user_id: current_user.id)
   end
 
 end

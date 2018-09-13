@@ -2,6 +2,7 @@ class MoviesController < ApplicationController
     before_action :authenticate_user!, except: [:index]
     before_action :set_movie, only: [:show, :edit, :update, :destroy]
     before_action :set_user, only: [:index, :show, :edit, :update, :destroy]
+    before_action :require_admin, only: [:destroy]
 
   # GET /movies
   # GET /movies.json
@@ -11,10 +12,11 @@ class MoviesController < ApplicationController
     #  @movies = Facebook.get_object(current_user.token, '/me/movies?fields=name')
     # @movies = movie_service.popular
     # @genres = Genre.all
-    if params[:query].present?
-      @movies = Movie.search(params[:query], page: params[:page])
+    @review = Review.new
+    if params[:title].present?
+      @movies = Movie.search(params[:title]).paginate(per_page: 15, page: params[:page])
     else
-      @movies = Movie.all.order(created_at: :desc).paginate(per_page: 15, page: params[:page])
+      @movies = Movie.all.order(created_at: :asc).paginate(per_page: 15, page: params[:page])
     end
   end
 
@@ -26,12 +28,15 @@ class MoviesController < ApplicationController
       @review.movie_id = @movie.id
       @review.rating = 5
       if @review.save
-        redirect_to movies_path, :notice => "Review has been saved successfully."
+        flash[:notice] = 'Review has been saved successfully.'
+        redirect_back(fallback_location: movies_path)
       else
-        redirect_to movies_path, :alert => 'Database error'
+        flash[:alert] = 'Database Error'
+        redirect_back(fallback_location: movies_path)
       end
     else
-        redirect_to movies_path, :alert => 'You have already reviewed this movie'
+        flash[:alert] = 'You have already reviewed this movies'
+        redirect_back(fallback_location: movies_path)
     end
   end
   def dislike
@@ -42,12 +47,15 @@ class MoviesController < ApplicationController
       @review.movie_id = @movie.id
       @review.rating = 1
       if @review.save
-        redirect_to movies_path, :notice => "Review has been saved successfully."
+        flash[:notice] = 'Review has been saved successfully.'
+        redirect_back(fallback_location: movies_path)
       else
-        redirect_to movies_path, :alert => 'Database error'
+        flash[:alert] = 'Database Error'
+        redirect_back(fallback_location: movies_path)
       end
     else
-        redirect_to movies_path, :alert => 'You have already reviewed this movie'
+        flash[:alert] = 'You have already reviewed this movies'
+        redirect_back(fallback_location: movies_path)
     end
   end
 
@@ -105,13 +113,13 @@ class MoviesController < ApplicationController
 
   # DELETE /movies/1
   # DELETE /movies/1.json
-  # def destroy
-  #  @movie.destroy
-  #  respond_to do |format|
-  #    format.html { redirect_to movies_url, notice: 'Movie was successfully destroyed.' }
-  #    format.json { head :no_content }
-  #  end
-  # end
+  def destroy
+    @movie.destroy
+    respond_to do |format|
+      format.html { redirect_to movies_url, notice: 'Movie was successfully destroyed.' }
+      format.json { head :no_content }
+    end
+  end
 
   private
 

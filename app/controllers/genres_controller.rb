@@ -6,15 +6,15 @@ class GenresController < ApplicationController
   # GET /genres
   # GET /genres.json
   def index
-      @genres = Genre.all.order(created_at: :desc).paginate(per_page: 15, page: params[:page])
+      @genres = Genre.all.order(created_at: :desc).paginate(per_page: 50, page: params[:page])
       @reviews =  @user.reviews.order(created_at: :desc)
   end
 
   # GET /genres/1
   # GET /genres/1.json
   def show
-      @genres = Genre.all
-      @movies = @genre.movies.all.order(created_at: :desc).paginate(per_page: 15, page: params[:page])
+      # @genres = Genre.all
+      @movies = @genre.movies.all.order(created_at: :asc).paginate(per_page: 15, page: params[:page])
       @reviews =  @user.reviews.order(created_at: :desc)
   end
 
@@ -80,11 +80,6 @@ class GenresController < ApplicationController
       @user = current_user
     end
 
-    def require_admin
-    unless current_user.admin? || current_user.super_admin?
-      redirect_to root_path, alert: 'Access denied.'
-    end
-  end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def genre_params
