@@ -1,18 +1,22 @@
 <p id="notice"><%= notice %></p>
-<h2><%= @genre.name %> </h2>
-<div id="movies-index">
-   <% if @movies.exists? %>
+<h1><%= @genre.name %> </h1>
+   <% if @movies.try(:any?) %>
         <div class="row">
             <%= render 'partials/movies', :movie => @movies %>
+            <!-- render page links in the view -->
+            <%= will_paginate @movies %>
         </div>
-    <% else %>
-       <p>No movies in this genre yet.</p>
-   <% end %>
+<% else %>
+    <article class="single-from-blog">
+        <div class="blog-title">
+            <h2>No movies available yet</h2>
+        </div>
+    </article>
+<% end %>
 
-<!-- render page links in the view -->
-<%= will_paginate @movies %>
-</div>
-    <% if @user.super_admin? %>
+<% if @user.super_admin? %>
+<div class="row">
 <%= link_to 'Edit', edit_genre_path(@genre) %> |
 <%= link_to 'Back', genres_path %>
+</div>
 <% end %>

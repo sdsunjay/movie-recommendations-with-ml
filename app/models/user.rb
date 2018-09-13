@@ -20,20 +20,21 @@ class User < ApplicationRecord
 end
 
   def self.from_omniauth(auth)
-  where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
-    user.email = auth.info.email
-    user.password = Devise.friendly_token[0,20]
-    user.name = auth.info.name   # assuming the user model has a name
-    user.image = auth.info.image # assuming the user model has an image
-    user.gender = auth.extra.raw_info.gender # assuming the user model has an image
-    user.token = auth.credentials.token
-  end
-  user.add_friends
-    user.save
-    user
+    where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
+      user.email = auth.info.email
+      user.password = Devise.friendly_token[0,20]
+      user.name = auth.info.name   # assuming the user model has a name
+      user.image = auth.info.image # assuming the user model has an image
+      user.gender = auth.extra.raw_info.gender # assuming the user model has a gender
+      user.token = auth.credentials.token
+    # TODO fix this
+    # user.add_friends
+      user.save
+      user
+    end
   end
 
-  def add_friends
+  def self.add_friends
     @facebook.get_connection("me", "friends").each do |hash|
       self.friendships.where(:name => hash['name'], :uid => hash['id']).first_or_create
     end
@@ -41,14 +42,14 @@ end
 
   private
 
-  def facebook
-    @facebook ||= Koala::Facebook::API.new(token)
-  end
+  #def facebook
+  #  @facebook ||= Koala::Facebook::API.new(token)
+  #end
 
 
-  # def facebook()
-  #   @facebook ||= Koala::Facebook::API.new(token)
-  #  block_given? ? yield(@facebook) : @facebook
+  def facebook()
+     @facebook ||= Koala::Facebook::API.new(token)
+      block_given? ? yield(@facebook) : @facebook
     # rescue Koala::Facebook::APIError =>
       # logger.info e.to_s
     #  nil
@@ -57,7 +58,7 @@ end
     #facebook.get_object("me?fields=movies")
     # get_object("me") {|data| data['education']}  # => only education section of profile
     # return friends
-  # end
+  end
 
   # def friends
   #  @friends = facebook { |fb| fb.get_connections("me", "friends") }

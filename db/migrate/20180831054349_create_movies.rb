@@ -3,7 +3,7 @@ class CreateMovies < ActiveRecord::Migration[5.2]
     create_table :movies do |t|
       t.references :user, index: true, null: false, foreign_key: true
       t.integer :vote_count
-      t.numeric :vote_average, precision: 3, scale: 2
+      t.numeric :vote_average, precision: 5, scale: 2
       t.string :title, null: false, unique: true
       t.string :tagline
       t.integer :status

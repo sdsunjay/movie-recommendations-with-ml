@@ -43,19 +43,19 @@ class UsersController < ApplicationController
     end
 
     # DELETE /users/:id.:format
-    # def destroy
+    def destroy
     #     #authorize! :delete, @user
 
-    #     @user = User.destroy(params[:id])
-    #     @user.posts.each{|post| post.destroy}
-    #     @user.reviews.each{|post| post.destroy}
-    #     if @user.destroy
-    #        flash[:notice] = "User Removed"
-    #        #redirect_to root_path
-    #     else
-    #        render 'destroy'
-    #     end
-    # end
+        #@user = User.destroy(params[:id])
+        #@user.posts.each{|post| post.destroy}
+        # @user.reviews.each{|post| post.destroy}
+        # if @user.destroy
+        #  flash[:notice] = "User Removed"
+        #  redirect_to root_path
+        #else
+        #  render 'destroy'
+        #end
+    end
 
     private
 

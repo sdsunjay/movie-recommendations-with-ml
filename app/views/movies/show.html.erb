@@ -28,9 +28,9 @@
     </div>
 </div>
 <div class="clearfix"></div>
-<% if @user.super_admin? %>
+    <% if @user.super_admin? %>
     <h3>Admin Functions </h3>
     <%= link_to 'Edit', edit_movie_path(@movie), class: "btn btn-default btn-sm" %> |
     <%= link_to 'Delete', movie_path(@movie), method: :delete, class: "btn btn-danger btn-sm", data: { confirm: "Are you sure?" } %>
-<% end %>
+    <% end %>
 </div>

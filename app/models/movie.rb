@@ -1,8 +1,8 @@
 class Movie < ApplicationRecord
 
     belongs_to :user
-    has_many :review
-    has_many :categorizations
+    has_many :review, dependent: :delete_all
+    has_many :categorizations, dependent: :delete_all
     has_many :genres, through: :categorizations
 
     validates :title, presence:true
@@ -17,10 +17,13 @@ class Movie < ApplicationRecord
     #end
     #
     #
-
-   def self.search(title)
-     Movie.where("title LIKE title")
-   end
+   def self.search(pattern)
+    if pattern.blank?  # blank? covers both nil and empty string
+      all
+    else
+      where('title LIKE ?', "%#{pattern}%")
+    end
+  end
 
    def has_review(user_id, movie_id)
       return Review.exists?(user: user_id, movie_id: movie_id )
