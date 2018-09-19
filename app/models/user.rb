@@ -15,7 +15,7 @@ class User < ApplicationRecord
   super.tap do |user|
     if data = session["devise.facebook_data"] && session["devise.facebook_data"]["extra"]["raw_info"]
       user.email = data["email"] if user.email.blank?
-      user.friends = add_friends()
+      user.friends = add_friends(user.id, user.token)
     end
   end
 end
@@ -34,17 +34,18 @@ end
         user.hometown = auth.extra.raw_info.hometown['name'] # assuming the user has a hometown
       end
       user.token = auth.credentials.token
+      # TODO - add this
+      # user.oauth_expires_at = Time.at(auth.credentials.expires_at)
       user.save
-      add_friends
-      add_movies
+      add_friends(user.id, user.token)
+      add_movies(user.id, user.token)
       user
     end
   end
 
-  private
   # @movies = Facebook.get_object(current_user.token, '/me/movies?fields=name,picture,studio')
-  def self.add_movies()
-    @graph = Koala::Facebook::API.new(self.token)
+  def self.add_movies(user_id, token)
+    @graph = Koala::Facebook::API.new(token)
     # movies = @graph.get_object("me", "movies?fields=name")
     movies = @graph.get_object("me?fields=movies")
     # puts movies
@@ -52,25 +53,27 @@ end
       movies.each_with_index do |hash, index|
         @movies = Movie.where(title: hash[index]['name'])
         @movies.each do |movie|
-          Review.where(user: self.id, movie_id: movie.id).first_or_create
+          Review.where(user: user_id, movie_id: movie.id).first_or_create
         end
       end
     end
   end
 
-  def self.add_friends()
-    @facebook ||= Koala::Facebook::API.new(self.token)
+  def self.add_friends(user_id, token)
+    @facebook ||= Koala::Facebook::API.new(token)
     friends = @facebook.get_connection("me", "friends")
     puts friends
     unless friends.nil?
       friends.each_with_index do |hash, index|
         @users = User.where(uid: hash[index]['id'])
         @users.each do |friend|
-          Friendship.where(user: self.id, friend_id: friend.id).first_or_create
+          Friendship.where(user: user_id, friend_id: friend.id).first_or_create
         end
       end
     end
   end
+
+  private
 
   def old_friends(token)
     @facebook ||= Koala::Facebook::API.new(token)
