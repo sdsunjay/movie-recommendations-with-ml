@@ -28,7 +28,7 @@ class ApplicationController < ActionController::Base
 
   def require_admin
     unless current_user.admin? || current_user.super_admin?
-      redirect_to root_path, alert: 'Access denied.'
+      redirect_to movies_path, alert: 'Access denied.'
     end
   end
 
