@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
     before_action :authenticate_user!
     before_action :set_user, only: [:show, :edit, :update]
+    before_action :require_admin, only: [:destroy]
 
     def index
         #authorize!
@@ -14,12 +15,14 @@ class UsersController < ApplicationController
 
     # GET /users/:id.:format
     def show
-        # @posts = Post.where(user_id: @user.id).order(created_at: :desc).paginate(per_page: 5, page: params[:page])
       @reviews = Review.includes(:movie).where(user_id: @user).order(created_at: :desc).paginate(per_page: 15, page: params[:page])
       if @reviews.blank?
         @avg_review = 0
       else
+        @number_of_reviews = @user.reviews.count()
         @avg_review = @reviews.average(:rating).round(2)
+        @number_of_liked_movies = Review.where(user_id: @user, rating: 5).count()
+        @number_of_disliked_movies = Review.where(user_id: @user, rating: 1).count()
       end
     end
 
@@ -31,8 +34,10 @@ class UsersController < ApplicationController
     def update
         # authorize! :update, @user
         respond_to do |format|
-            if @user.update(user_params)
-                sign_in(@user == current_user ? @user : current_user, bypass: true)
+          if @user.update(user_params)
+                # Sign in the user by passing validation in case his password changed
+                sign_in @user, :bypass => true
+                # sign_in(@user == current_user ? @user : current_user, bypass: true)
                 format.html { redirect_to user_path, notice: 'Your profile was successfully updated.' }
                 format.json { head :no_content }
             else
@@ -46,27 +51,24 @@ class UsersController < ApplicationController
     def destroy
     #     #authorize! :delete, @user
 
-        #@user = User.destroy(params[:id])
-        #@user.posts.each{|post| post.destroy}
-        # @user.reviews.each{|post| post.destroy}
-        # if @user.destroy
-        #  flash[:notice] = "User Removed"
-        #  redirect_to root_path
-        #else
-        #  render 'destroy'
-        #end
+        @user = User.destroy(params[:id])
+        @user.reviews.each{|review| review.destroy}
+        if @user.destroy
+          flash[:notice] = "User Removed"
+          redirect_to root_path
+        else
+          render 'destroy'
+        end
     end
 
     private
 
     def set_user
       @user = User.find(params[:id])
-      @user.friends
     end
 
     def user_params
-       accessible = [ :name, :email] # extend with your own params
-       accessible << [ :password, :password_confirmation ] unless params[:user][:password].blank?
+       accessible = [ :name, :email, :gender, :hometown, :location, :education] # extend with your own params
        params.require(:user).permit(accessible)
     end
 end
