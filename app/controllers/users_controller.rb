@@ -1,16 +1,11 @@
 class UsersController < ApplicationController
     before_action :authenticate_user!
     before_action :set_user, only: [:show, :edit, :update]
-    before_action :require_admin, only: [:destroy]
+    before_action :require_admin, only: [:destroy, :index]
 
     def index
         #authorize!
         @users = User.all.order(created_at: :desc).paginate(per_page: 10, page: params[:page])
-        unless current_user.admin? || current_user.super_admin?
-            unless @user == current_user
-                redirect_to root_path, alert: 'Access denied.'
-            end
-        end
     end
 
     # GET /users/:id.:format
