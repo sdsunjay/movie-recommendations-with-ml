@@ -49,7 +49,7 @@ end
     movies = @graph.get_object("me?fields=movies")
     # puts movies
     unless movies.nil?
-      movies.each_with_index do |hash, index| %>
+      movies.each_with_index do |hash, index|
         @movies = Movie.where(title: hash[index]['name'])
         @movies.each do |movie|
           Review.where(user: self.id, movie_id: movie.id).first_or_create
@@ -63,7 +63,7 @@ end
     friends = @facebook.get_connection("me", "friends")
     puts friends
     unless friends.nil?
-      friends.each_with_index do |hash, index| %>
+      friends.each_with_index do |hash, index|
         @users = User.where(uid: hash[index]['id'])
         @users.each do |friend|
           Friendship.where(user: self.id, friend_id: friend.id).first_or_create
