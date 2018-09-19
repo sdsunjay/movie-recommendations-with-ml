@@ -52,7 +52,7 @@ end
       movies.each_with_index do |hash, index| %>
         @movies = Movie.where(title: hash[index]['name'])
         @movies.each do |movie|
-          Review.where(user_id: self.id, movie_id: movie.id).first_or_create
+          Review.where(user: self.id, movie_id: movie.id).first_or_create
         end
       end
     end
@@ -66,7 +66,7 @@ end
       friends.each_with_index do |hash, index| %>
         @users = User.where(uid: hash[index]['id'])
         @users.each do |friend|
-          Friendship.where(user_id: self.id, friend_id: friend.id).first_or_create
+          Friendship.where(user: self.id, friend_id: friend.id).first_or_create
         end
       end
     end
