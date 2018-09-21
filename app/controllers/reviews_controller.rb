@@ -30,7 +30,7 @@ class ReviewsController < ApplicationController
   def update
     if @review.update(review_params)
       flash[:notice] = "Review Updated"
-      redirect_to root_path
+      redirect_to reviews_path
     else
       flash[:alert] = "Review Not Updated"
       render 'edit'
