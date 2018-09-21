@@ -17,6 +17,7 @@ class ApplicationController < ActionController::Base
   def new_session_path(_scope)
     new_user_session_path
   end
+
   def authenticate
   	redirect_to :login unless user_signed_in?
   end
