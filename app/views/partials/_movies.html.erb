@@ -8,7 +8,8 @@
                 <div class="rating">
                     <div class="row">
                         <p class="card-text">
-                        <% if movie.has_review(current_user.id, movie.id) %>
+                        <!--TODO add the actual rating that the user has given -->
+                        <% if movie.movie_review(current_user.id, movie.id).exists? %>
                             Reviewed
                         <% else %>
                             <div class="col-xs-6 col-md-6">

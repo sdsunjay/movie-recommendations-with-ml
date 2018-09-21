@@ -18,23 +18,9 @@
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-      <li class=" <%= params[:controller] == 'movies' ? 'nav-item active' : 'nav-item'%>"><%= link_to 'Home', movies_path, class: "nav-link" %></li>
-      <!-- <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-      </li> -->
         <% if user_signed_in? %>
-          <li class=" <%= params[:controller] == 'genres' ? 'nav-item active' : 'nav-item'%>"><%= link_to 'Genres', genres_path, class: "nav-link" %></li>
-          <li class=" <%= params[:controller] == 'users' ? 'nav-item active' : 'nav-item'%>"><%= link_to 'Acount', user_path(current_user), class: "nav-link" %></li>
-        <% else %>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#">Movies</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#">Account</a>
-            </li>
-            <li class="nav-item" ><%= link_to "Sign Up", new_user_session_path, class: "nav-link" %></li>
-            <li class="nav-item" ><%= link_to "Sign In", new_user_session_path, class: "nav-link" %></li>
-      <% end %>
+      <li class=" <%= params[:controller] == 'movies' ? 'nav-item active' : 'nav-item'%>"><%= link_to 'Home', movies_path, class: "nav-link" %></li>
+          <li class=" <%= params[:controller] == 'users' ? 'nav-item active' : 'nav-item'%>"><%= link_to 'Account', user_path(current_user), class: "nav-link" %></li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Genres
@@ -60,15 +46,29 @@
            <%= link_to 'War', genre_path(10752), class: "dropdown-item" %>
            <%= link_to 'Western', genre_path(37), class: "dropdown-item" %>
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Something else here</a>
         </div>
       </li>
+        <% else %>
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#">Account</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#">Genres</a>
+            </li>
+            <li class="nav-item" ><%= link_to "Sign Up", new_user_session_path, class: "nav-link" %></li>
+            <li class="nav-item" ><%= link_to "Sign In", new_user_session_path, class: "nav-link" %></li>
+      <% end %>
     </ul>
+        <% if user_signed_in? %>
       <%= form_tag movies_path, method: :get, class: "form-inline my-2 my-lg-0 navbar-form navbar-right", role: "search" do %>
           <p>
           <%= text_field_tag :title, params[:title], placeholder: 'Movie Title', class: "form-control mr-sm-2" %>
           <%= submit_tag "Search", name: nil, class: "btn btn-outline-success my-2 my-sm-0" %>
           </p>
+      <% end %>
       <% end %>
   </div>
 </nav>

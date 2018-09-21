@@ -9,10 +9,11 @@
             <% unless @movie.tagline.blank? %>
                 <li><strong>Tagline: </strong><%= @movie.tagline %></li>
             <% end %>
-            <li><strong>Genres: </strong></li>
+            <li><strong>Genres: </strong>
             <% @movie.categorizations.each do |categorization| %>
                 <%= link_to categorization.genre.name, genre_path(categorization.genre) %>,
             <% end %>
+            </li>
             <% unless @movie.runtime.blank? %>
                 <li><strong>Runtime: </strong><%= @movie.runtime %> mins</li>
             <% end %>
@@ -22,6 +23,9 @@
             <% end %>
             <% unless @movie.revenue.blank? %>
                 <li><strong>Revenue: </strong><%= @movie.revenue %></li>
+            <% end %>
+            <% unless @movie.popularity.blank? %>
+                <li><strong>Popularity: </strong><%= @movie.popularity %></li>
             <% end %>
             <li><strong>Overview: </strong><%= @movie.overview %></li>
         </ul>

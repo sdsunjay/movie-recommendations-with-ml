@@ -1,26 +1,51 @@
-<h2>Log in</h2>
+<title>Sign In or Sign Up %></title>
+<div class="row">
+    <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+        <h4>So glad you want movie recommendations!</h4>
+        <div class="card card-signin my-5">
+            <div class="card-body">
+                <h5 class="card-title text-center">Sign Up</h5>
+                <form class="form-signin">
+                    <div class='row'>
+                        <div class='col-sm-12'>
+                            <div class='textcenter'>
+                                <!-- if devise_mapping.omniauthable? -->
+                                <!-- resource_class.omniauth_providers.each do |provider| -->
+                                <!-- omniauth_authorize_path(resource_name, provider, {intent: :sign_up}), -->
+                                <!-- end -->
+                                <!-- end -->
 
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
+                                <%= link_to image_tag('facebooksignup.png', style: 'height: 40px;'), user_facebook_omniauth_authorize_path, class: 'btn tng-lg btn-facebook btn-block text-uppercase', 'data-text': 'SIGN UP'%>
 
-  <div class="field">
-    <%= f.label :password %><br />
-    <%= f.password_field :password, autocomplete: "current-password" %>
-  </div>
+                                <br/>
+                                <p>We use Facebook to keep everyone real. We will never post on your behalf.</p>
+                            </div>
+                        </div>
 
-  <% if devise_mapping.rememberable? -%>
-    <div class="field">
-      <%= f.check_box :remember_me %>
-      <%= f.label :remember_me %>
-    </div>
-  <% end -%>
+                        <div class='col-sm-12' style='padding-top: 50px;'>
+                            <p class='textcenter'>By signing up, you agree to the <%= link_to 'Terms of Use', terms_path %> and <%= link_to 'Privacy Policy', privacy_path %>.
+                            <br> Please learn more <%= link_to 'here', about_path %></p>
 
-  <div class="actions">
-    <%= f.submit "Log in" %>
-  </div>
-<% end %>
+                        </div><!-- end col-sm-12-->
+                    </div><!-- end .row -->
 
-<%= render "devise/shared/links" %>
+                    <hr>
+                    <div class='row'>
+
+                        <div class='col-sm-6 col-xs-12'>
+                            <p class='align-modal-p'>Already have an account?</p>
+                        </div>
+                        <div class='col-sm-6 col-xs-12'>
+                                <!-- if devise_mapping.omniauthable? -->
+                                <!-- resource_class.omniauth_providers.each do |provider| -->
+                                <!-- omniauth_authorize_path(resource_name, provider, {intent: :sign_up}), -->
+                                <!-- end -->
+                                <!-- end -->
+                                <%= link_to raw("<span>SIGN IN</span>"),  user_facebook_omniauth_authorize_path,class: 'btn tng-lg btn-facebook btn-block text-uppercase', 'data-text': 'SIGN IN'%>
+                        </div>
+                    </div><!-- end .row -->
+                </form>
+            </div><!-- end card-body -->
+        </div><!-- end card card-signin my-5 -->
+        </div><!-- end col-sm-9 col-md-7 col-lg-5 -->
+    </div><!-- end .row -->

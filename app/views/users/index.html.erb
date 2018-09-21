@@ -1,0 +1,56 @@
+
+<!-- 'access_level' must be set to 1 or 2 to view this page -->
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="page-sub-title textcenter">
+            <h2 class="page-header">Manage Users <%= link_to 'Sign In',  new_user_session_path, class:'btn btn-success pull-right'%></h2>
+        </div><!-- end .page-sub-title -->
+    </div><!-- end .col-md-12 col-sm-12 col-xs-12 -->
+    <% if @users.any? %>
+        <table class="table table-striped">
+            <tr>
+                <th>Role </th>
+                <th>User's Name</th>
+                <th>Gender</th>
+                <th>Email</th>
+                <th>Location</th>
+                <th>Hometown</th>
+                <th>Facebook Picture </th>
+                <th>Create Date </th>
+                <th>Current Sign In </th>
+                <th>Last Sign In </th>
+                <th>Sign In Count </th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+            <% @users.each do |user| %>
+                <tr>
+                    <td><%= user.access_level %></td>
+                    <td>
+                        <% if user.link.blank? %>
+                            <%= user.name %>
+                        <% else %>
+                            <%= link_to (user.name), user.link %>
+                        <% end %>
+                    </td>
+                    <td><%= user.gender %></td>
+                    <td><%= user.email %></td>
+                    <td><%= user.location %></td>
+                    <td><%= user.hometown %></td>
+                    <td><%= image_tag user.image, size: '50' %></td>
+                    <td><%= user.created_at.to_time.strftime('%B %e at %l:%M %p' ) %></td>
+                    <% if false %>
+                        <td><%= user.current_sign_in_at? ? 'nil' : user.current_sign_in_at.strftime('%B %e at %l:%M %p' ) %></td>
+                        <td><%= user.last_sign_in_at? ? 'nil' : user.last_sign_in_at.strftime('%B %e at %l:%M %p' ) %></td>
+                    <% end %>
+                    <td><%= user.current_sign_in_at %></td>
+                    <td><%= user.last_sign_in_at %></td>
+                    <td><%= user.sign_in_count %></td>
+                    <td><%= link_to 'Edit', edit_user_path(user), class: 'btn btn-primary' %></td>
+                    <td><%= link_to 'Delete', user_path(user), class: 'btn btn-danger', method: :delete, data: { confirm: "Are you sure?" } %></td>
+                </tr>
+            <% end %>
+        </table>
+        <%= will_paginate @users %>
+    <% else %>
+        <p>There are no users</p>
+    <% end %>
