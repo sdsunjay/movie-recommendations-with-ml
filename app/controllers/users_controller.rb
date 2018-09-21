@@ -10,9 +10,12 @@ class UsersController < ApplicationController
 
     # GET /users/:id.:format
     def show
-      @reviews = Review.includes(:movie).where(user_id: @user).order(created_at: :desc).paginate(per_page: 15, page: params[:page])
+      @reviews = Review.includes(:movie).where(user_id: @user).order(created_at: :desc).paginate(per_page: 15, page: params[:reviews_given_page])
       if @reviews.blank?
         @avg_review = 0
+        @number_of_reviews = 0
+        @number_of_liked_movies = 0
+        @number_of_disliked_movies = 0
       else
         @number_of_reviews = @user.reviews.count()
         @avg_review = @reviews.average(:rating).round(2)
