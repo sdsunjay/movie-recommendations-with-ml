@@ -4,6 +4,11 @@ class ApplicationController < ActionController::Base
 
   rescue_from Koala::Facebook::AuthenticationError, with: :user_not_authorized
 
+
+  def after_sign_in_path_for(resource)
+    request.env['omniauth.origin'] || stored_location_for(resource) || root_path
+  end
+
   def access_denied _auth_error = nil
     redirect_to root_path
   end
