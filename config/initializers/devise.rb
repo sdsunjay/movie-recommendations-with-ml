@@ -257,9 +257,7 @@ Devise.setup do |config|
   # ==> OmniAuth
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
-  # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
- #config.omniauth :facebook, , scope: 'public_profile,email,user_friends', image_size: 'large', info_fields: 'email, id,first_name,last_name,gender,picture,link,age_range,friends'
-  config.omniauth :facebook, FACEBOOK_CONFIG['app_id'], FACEBOOK_CONFIG['secret'], scope: 'public_profile,email,user_likes,user_gender,user_friends,user_hometown,user_location', callback_url: 'http://localhost:3000/users/auth/facebook/callback'
+  config.omniauth :facebook, FACEBOOK_CONFIG['app_id'], FACEBOOK_CONFIG['secret'], scope: 'public_profile,email,user_likes,user_gender,user_friends,user_hometown,user_location', image_size: 'large', info_fields: 'email, id, name,gender,picture,link,location,hometown,friends', callback_url: 'http://localhost:3000/users/auth/facebook/callback'
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
@@ -287,7 +285,7 @@ Devise.setup do |config|
   # ==> Turbolinks configuration
   # If your app is using Turbolinks, Turbolinks::Controller needs to be included to make redirection work correctly:
   #
-  # ActiveSupport.on_load(:devise_failure_app) do
-  #   include Turbolinks::Controller
-  # end
+  ActiveSupport.on_load(:devise_failure_app) do
+    include Turbolinks::Controller
+  end
 end
