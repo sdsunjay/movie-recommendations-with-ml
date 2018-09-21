@@ -1,0 +1,27 @@
+<div class="col-lg-4 col-md-5 col-sm-12">
+    <aside class="blog-right wow fadeInRight">
+        <!-- Start Sidebar Single widget -->
+        <div class="single-widget">
+            <h4>
+                <i class="fa fa-bar-chart" style="color: #00d999;"></i>
+                <strong>Activity</strong>
+            </h4>
+            <% if @user.super_admin? %>
+                <p><%= link_to 'New Movie', new_movie_path %></p>
+            <% end %>
+
+            <hr class="line2">
+            <p>
+            <i class="fa fa-calendar" style="color: #00d999;"></i>
+            <strong>Since:</strong>
+            <%= @user.created_at.strftime("%m/%d/%Y") %>
+            </p>
+            <p>
+            <i class="fa fa-power-off" style="color: #00d999;"></i>
+            <strong>Last visit:</strong>
+            <%= @user.last_sign_in_at.strftime("%m/%d/%Y") %>
+            </p>
+        </div>
+        <!-- End Sidebar Single widget -->
+    </aside>
+</div><!-- end col-lg-4 col-md-5 col-sm-12 -->
