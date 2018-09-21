@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   get '/terms', to: 'static_pages#terms'
   devise_for :users, :controllers => {:omniauth_callbacks => "users/omniauth_callbacks"}
   resources :users, only: [:index, :show, :edit, :destroy, :update]
+  devise_scope :user do
   authenticated :user do
 
     # resources :users, only: [:index, :show, :edit, :destroy, :update]
@@ -20,7 +21,8 @@ Rails.application.routes.draw do
   end
 
   unauthenticated do
-    root to: 'static_pages#about', as: :unauthenticated_root
+    root to: 'devise/sessions#new', as: :unauthenticated_root
+  end
   end
 
 
