@@ -4,21 +4,22 @@ class User < ApplicationRecord
   # :registerable
   devise :database_authenticatable, :recoverable, :rememberable, :trackable, :validatable, :omniauthable, omniauth_providers: [:facebook]
 
-  has_many :reviews
-  has_many :movies
-  has_many :friendships
+  has_many :reviews, dependent: :destroy
+  has_many :movies, dependent: :destroy
+  has_many :friendships, dependent: :destroy
   validates_uniqueness_of :email
 
   enum access_level: [:user, :admin, :super_admin]
 
+  # TODO - this may need to be moved
   def self.new_with_session(params, session)
-  super.tap do |user|
-    if data = session["devise.facebook_data"] && session["devise.facebook_data"]["extra"]["raw_info"]
-      user.email = data["email"] if user.email.blank?
-      user.friends = add_friends(user.id, user.token)
+    super.tap do |user|
+      if data = session["devise.facebook_data"] && session["devise.facebook_data"]["extra"]["raw_info"]
+        user.email = data["email"] if user.email.blank?
+        user.friends = add_friends(user.id, user.token)
+      end
     end
   end
-end
 
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
@@ -37,37 +38,62 @@ end
       # TODO - add this
       # user.oauth_expires_at = Time.at(auth.credentials.expires_at)
       user.save
-      add_friends(user.id, user.token)
-      add_movies(user.id, user.token)
       user
     end
+    # add_friends(auth.credentials.token)
+    # add_movies(auth.credentials.token)
   end
 
+  # fbgraph(token).get_object(id, args, options, &block)
   # @movies = Facebook.get_object(current_user.token, '/me/movies?fields=name,picture,studio')
-  def self.add_movies(user_id, token)
+  # Facebook.get_object(current_user.token, '/me/books?fields=name,picture,written_by')
+
+  def self.add_movies(token, user_id)
     @graph = Koala::Facebook::API.new(token)
     # movies = @graph.get_object("me", "movies?fields=name")
-    movies = @graph.get_object("me?fields=movies")
-    # puts movies
-    unless movies.nil?
-      movies.each_with_index do |hash, index|
-        @movies = Movie.where(title: hash[index]['name'])
-        @movies.each do |movie|
-          Review.where(user: user_id, movie_id: movie.id).first_or_create
+    # @movies = @graph.get_object("/me/movies?fields=name")
+    @movies = @graph.get_object("me/movies/", {}, api_version: "v3.1")
+    # TODO - add pagination
+    puts 'Movies: '
+    puts @movies
+    unless @movies.nil?
+      @movies.each do |hash|
+        # puts hash
+        @user_movie = Movie.where("title = ?", hash["name"])
+        @user_movie.each do |movie|
+          cell = Review.new(movie_id: movie.id, user_id: user_id, rating: 5)
+          cell.save!
         end
+        # Review.where(user: user_id, movie_id: @movie.id).first_or_create
       end
     end
   end
 
-  def self.add_friends(user_id, token)
+  def self.add_friends(token, user_id)
     @facebook ||= Koala::Facebook::API.new(token)
-    friends = @facebook.get_connection("me", "friends")
-    puts friends
-    unless friends.nil?
-      friends.each_with_index do |hash, index|
-        @users = User.where(uid: hash[index]['id'])
-        @users.each do |friend|
-          Friendship.where(user: user_id, friend_id: friend.id).first_or_create
+    @friends = @facebook.get_connection("me", "friends")
+    # TODO - add pagination
+    puts @friends
+    unless @friends.nil?
+      # @user_friends= User.where(["uid = '%s'", @friends.to_s])
+      # @user_friends =  User.where(["uid = :id", @friends])
+      # @user_friends.each do |friend|
+      #  puts @friend.id
+      #  User.friendships.create(user_id: user_id, friends_id: @friend.id)
+      #end
+      # puts 'USERS: '
+      # puts @users
+      @friends.each do |hash|
+        # {"name"=>"Sunjay Dhama", "id"=>"10205306719984646"}
+        @user_friends = User.where(["uid = '%s'", hash["id"].to_s])
+        @user_friends.each do |friend|
+          puts friend.id.to_s
+          # @user = User.where(uid: hash["id"])
+          # User.find(1).posts.create(content: "post content")
+          # Friendship.create(friend_id: friend.id.to_s)
+          cell = Friendship.new(friend_id: friend.id, user_id: user_id)
+          cell.save!
+          # Friendship.where(user: user_id, friend_id: @friend.id).first_or_create
         end
       end
     end
@@ -94,16 +120,16 @@ end
 
 
   # def facebook()
-    # @facebook ||= Koala::Facebook::API.new(token)
-    # block_given? ? yield(@facebook) : @facebook
-    # rescue Koala::Facebook::APIError =>
-    # logger.info e.to_s
-    #  nil
-    # TODO only store Facebook IDs, not other information
-    # friends = facebook.get_connections("me", "friends")
-    #facebook.get_object("me?fields=movies")
-    # get_object("me") {|data| data['education']}  # => only education section of profile
-    # return friends
+  # @facebook ||= Koala::Facebook::API.new(token)
+  # block_given? ? yield(@facebook) : @facebook
+  # rescue Koala::Facebook::APIError =>
+  # logger.info e.to_s
+  #  nil
+  # TODO only store Facebook IDs, not other information
+  # friends = facebook.get_connections("me", "friends")
+  #facebook.get_object("me?fields=movies")
+  # get_object("me") {|data| data['education']}  # => only education section of profile
+  # return friends
   # end
 
 end
