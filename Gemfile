@@ -45,7 +45,7 @@ gem 'themoviedb'
 gem 'will_paginate', '>= 3.0'
 gem 'jquery-rails'
 gem 'koala'
-
+gem 'seed_dump'
 gem 'rubyzip', '~> 1.2.2'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
