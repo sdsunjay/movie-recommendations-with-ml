@@ -1,0 +1,36 @@
+<%= form_for(@user) do |f| %>
+    <div class='form-signin'>
+        <div class="form-label-group">
+            <%= f.text_field :name, required: true, autofocus: true, placeholder: 'Name', class: 'form-control', id: 'inputName' %>
+            <label for="inputName">Name</label>
+        </div>
+        <div class="form-label-group">
+            <%= f.text_field :email, required: true, autofocus: true, placeholder: 'E-mail', class: 'form-control', id: 'inputEmail'  %>
+            <label for="inputEmail">Email address</label>
+        </div>
+        <div class='form-label-group'>
+            <div class="arrow"></div>
+            <%= f.select(:gender, options_for_select([['Male', 'male'],['Female', 'female'], ['Other', 'other']]), {prompt: 'Select Gender'}, { required: true, class: 'form-control' }) %>
+        </div><!-- end form-label-group -->
+
+        <div class="form-label-group">
+            <%= f.text_field :education, placeholder: 'Education', class: 'form-control' %>
+            <label for="inputEmail">Education </label>
+        </div>
+        <div class="form-label-group">
+            <%= f.text_field :hometown, placeholder: 'Hometown', class: 'form-control' %>
+            <label for="inputEmail">Hometown</label>
+        </div>
+        <div class="form-label-group">
+            <%= f.text_field :location, placeholder: 'location', class: 'form-control' %>
+            <label for="inputEmail">Location</label>
+        </div>
+
+            <div class='col-sm-12'>
+                <% if user_signed_in? %>
+                    <%= f.button :submit, class:'button button-default', 'data-text': 'UPDATE' do %>
+                        <span>UPDATE</span>
+                    <% end %>
+                <% end %>
+            </div><!-- end .col-sm-12 -->
+        <% end %>
