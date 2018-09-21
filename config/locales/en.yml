@@ -16,18 +16,37 @@
 #
 # This would use the information in config/locales/es.yml.
 #
-# The following keys must be escaped otherwise they will not be retrieved by
-# the default I18n backend:
-#
-# true, false, on, off, yes, no
-#
-# Instead, surround them with single quotes.
-#
-# en:
-#   'true': 'foo'
-#
 # To learn more, please read the Rails Internationalization guide
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  users:
+    create:
+      notice: "User account was successfully created."
+      alert: "There was an error creating the user account."
+    update:
+      notice: "User account was successfully updated."
+      alert: "There was an error updating the user account."
+  movies:
+    create:
+      notice: "Movie was successfully created."
+      alert: "There was an error creating the movie."
+    update:
+      notice: "Movie was successfully updated."
+      alert: "There was an error updating the movie."
+    destroy:
+      notice: "Movie was successfully removed."
+      alert: "There was an error removing the movie."
+  reviews:
+    create:
+      notice: "Review was successfully created."
+      alert: "There was an error creating the review."
+    update:
+      notice: "Review was successfully updated."
+      alert: "There was an error updating the review."
+    destroy:
+      notice: "Review was successfully removed."
+      alert: "There was an error removing the review."
+  errors:
+    reviews:
+      already_exists: "already exists"
