@@ -61,8 +61,7 @@ class User < ApplicationRecord
         # puts hash
         @user_movie = Movie.where("title = ?", hash["name"])
         @user_movie.each do |movie|
-          cell = Review.new(movie_id: movie.id, user_id: user_id, rating: 5)
-          cell.save!
+          Review.create(movie_id: movie.id, user_id: user_id, rating: 5)
         end
         # Review.where(user: user_id, movie_id: @movie.id).first_or_create
       end
@@ -87,13 +86,7 @@ class User < ApplicationRecord
         # {"name"=>"Sunjay Dhama", "id"=>"10205306719984646"}
         @user_friends = User.where(["uid = '%s'", hash["id"].to_s])
         @user_friends.each do |friend|
-          puts friend.id.to_s
-          # @user = User.where(uid: hash["id"])
-          # User.find(1).posts.create(content: "post content")
-          # Friendship.create(friend_id: friend.id.to_s)
-          cell = Friendship.new(friend_id: friend.id, user_id: user_id)
-          cell.save!
-          # Friendship.where(user: user_id, friend_id: @friend.id).first_or_create
+          Friendship.create(friend_id: friend.id, user_id: user_id)
         end
       end
     end
