@@ -1,10 +1,13 @@
 class FriendshipsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_friendship, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [:index, :show, :edit, :update, :destroy]
+  before_action :require_admin
 
   # GET /friendships
   # GET /friendships.json
   def index
-    @friendships = Friendship.all
+    @friendships = Friendship.all.order(created_at: :desc).paginate(per_page: 50, page: params[:page])
   end
 
   # GET /friendships/1
@@ -24,8 +27,7 @@ class FriendshipsController < ApplicationController
   # POST /friendships
   # POST /friendships.json
   def create
-    @friendship = Friendship.new(friendship_params)
-
+    @friendship = current_user.friendships.build(friendship_params)
     respond_to do |format|
       if @friendship.save
         format.html { redirect_to @friendship, notice: 'Friendship was successfully created.' }
@@ -72,7 +74,6 @@ class FriendshipsController < ApplicationController
     params
       .require(:friendship)
       .permit(:friend_id)
-      .merge(user_id: current_user.id)
   end
 
 end
