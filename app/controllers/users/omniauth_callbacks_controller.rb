@@ -11,9 +11,10 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
         #  puts intent
         # Don't create a new identity
       if intent == "sign_up"
+        puts intent
         # sign up flow, such as:
-        User.add_friends(@user.token, @user.id)
-        User.add_movies(@user.token, @user.id)
+        # @user.add_friends
+        # @user.add_movies
       end
       sign_in_and_redirect @user, event: :authentication #this will throw if @user is not activated
       set_flash_message(:notice, :success, kind: "Facebook") if is_navigational_format?
