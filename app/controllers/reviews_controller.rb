@@ -2,10 +2,10 @@ class ReviewsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_movie, only: [:show, :edit, :update, :destroy]
   before_action :set_review, only: [:show, :edit, :update, :destroy]
-  before_action :require_admin, only: [:index, :destroy]
+  before_action :require_admin, only: [:index]
 
   def index
-    @reviews = Review.all.order(created_at: :desc).paginate(per_page: 10, page: params[:page])
+    @reviews = Review.all.order(created_at: :desc).paginate(per_page: 50, page: params[:page])
   end
 
   def new
@@ -40,7 +40,7 @@ class ReviewsController < ApplicationController
    def destroy
      if @review.destroy
        flash[:notice] = 'Review Deleted'
-       redirect_to post_path
+       redirect_to movie_path(@movie)
      else
        render 'destroy'
      end
@@ -60,7 +60,6 @@ class ReviewsController < ApplicationController
     params
       .require(:review)
       .permit(:rating, :movie_id)
-      .merge(user_id: current_user.id)
   end
 
 end
