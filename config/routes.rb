@@ -7,22 +7,22 @@ Rails.application.routes.draw do
   devise_for :users, :controllers => {:omniauth_callbacks => "users/omniauth_callbacks"}
   resources :users, only: [:index, :show, :edit, :destroy, :update]
   devise_scope :user do
-  authenticated :user do
+    authenticated :user do
 
-    # resources :users, only: [:index, :show, :edit, :destroy, :update]
-    root to: 'movies#index', as: :authenticated_root
-    resources :genres, only: [:index,:show, :new, :create, :edit, :update]
-    get 'movies/:id/like', to: 'movies#like', as: :movie_like
-    get 'movies/:id/dislike', to: 'movies#dislike', as: :movie_dislike
-    resources :reviews, only: [:index]
-    resources :movies, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
-      resources :reviews, only: [:new, :create, :edit, :update, :destroy]
+      resources :friendships, only: [:new, :create, :index, :show, :edit, :destroy, :update]
+      root to: 'movies#index', as: :authenticated_root
+      resources :genres, only: [:index,:show, :new, :create, :edit, :update]
+      get 'movies/:id/like', to: 'movies#like', as: :movie_like
+      get 'movies/:id/dislike', to: 'movies#dislike', as: :movie_dislike
+      resources :reviews, only: [:index]
+      resources :movies, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
+        resources :reviews, only: [:new, :create, :edit, :update, :destroy]
+      end
     end
-  end
 
-  unauthenticated do
-    root to: 'devise/sessions#new', as: :unauthenticated_root
-  end
+    unauthenticated do
+      root to: 'devise/sessions#new', as: :unauthenticated_root
+    end
   end
 
 
