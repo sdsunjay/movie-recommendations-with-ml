@@ -76,11 +76,6 @@ class GenresController < ApplicationController
       @genre = Genre.find(params[:id])
     end
 
-    def set_user
-      @user = current_user
-    end
-
-
     # Never trust parameters from the scary internet, only allow the white list through.
     def genre_params
       params.require(:genre).permit(:name)
