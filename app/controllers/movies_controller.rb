@@ -63,7 +63,9 @@ class MoviesController < ApplicationController
   # GET /movies/1.json
   def show
     # @review = @user.reviews.where(movie_id: @movie.id).order("created_at DESC")
-    @review = Review.where(user_id: @user, movie_id: @movie.id).order(created_at: :desc).paginate(per_page: 15, page: params[:page])
+    @reviews = @user.reviews
+    @movie_review = @reviews.where(movie_id: @movie.id).first
+    ##Review.where(user_id: @user, movie_id: @movie.id).order(created_at: :desc).paginate(per_page: 15, page: params[:page])
   end
 
 
@@ -141,10 +143,6 @@ class MoviesController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_movie
     @movie = Movie.find(params[:id])
-  end
-
-  def set_user
-    @user = current_user
   end
 
     # Never trust parameters from the scary internet, only allow the white list through.
