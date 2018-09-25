@@ -48,8 +48,8 @@ class User < ApplicationRecord
   # @movies = Facebook.get_object(current_user.token, '/me/movies?fields=name,picture,studio')
   # Facebook.get_object(current_user.token, '/me/books?fields=name,picture,written_by')
 
-  def self.add_movies(token, user_id)
-    @graph = Koala::Facebook::API.new(token)
+  def self.add_movies
+    @graph = Koala::Facebook::API.new(self.token)
     # movies = @graph.get_object("me", "movies?fields=name")
     # @movies = @graph.get_object("/me/movies?fields=name")
     @movies = @graph.get_object("me/movies/", {}, api_version: "v3.1")
@@ -61,15 +61,15 @@ class User < ApplicationRecord
         # puts hash
         @user_movie = Movie.where("title = ?", hash["name"])
         @user_movie.each do |movie|
-          Review.create(movie_id: movie.id, user_id: user_id, rating: 5)
+          Review.create(movie_id: movie.id, user_id: self.id, rating: 5)
         end
         # Review.where(user: user_id, movie_id: @movie.id).first_or_create
       end
     end
   end
 
-  def self.add_friends(token, user_id)
-    @facebook ||= Koala::Facebook::API.new(token)
+  def self.add_friends
+    @facebook ||= Koala::Facebook::API.new(self.token)
     @friends = @facebook.get_connection("me", "friends")
     # TODO - add pagination
     puts @friends
@@ -86,7 +86,7 @@ class User < ApplicationRecord
         # {"name"=>"Sunjay Dhama", "id"=>"10205306719984646"}
         @user_friends = User.where(["uid = '%s'", hash["id"].to_s])
         @user_friends.each do |friend|
-          Friendship.create(friend_id: friend.id, user_id: user_id)
+          Friendship.create(friend_id: friend.id, user_id: self.user_id)
         end
       end
     end
