@@ -11,6 +11,14 @@
     </div>
   <% end %>
 
+    <li class="control-group">
+        <%= form.label :user_id, "User ID", class: "control-label" %>
+        <div class="controls"><%= form.number_field :user_id %></div>
+    </li>
+    <li class="control-group">
+        <%= form.label :friend_id, "Friend ID", class: "control-label" %>
+        <div class="controls"><%= form.number_field :friend_id %></div>
+    </li>
   <div class="actions">
     <%= form.submit %>
   </div>
