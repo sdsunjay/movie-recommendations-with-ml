@@ -1,4 +1,4 @@
-<% movie.each do |movie| %>
+<% @movies.each do |movie| %>
     <% if movie.poster_path.present? %>
         <div class="col">
             <div class="card">
@@ -12,16 +12,7 @@
                         <% if movie.movie_review(current_user.id, movie.id).exists? %>
                             Reviewed
                         <% else %>
-                            <div class="col-xs-6 col-md-6">
-                                <%= link_to movie_like_path(movie.id), class: 'tooltip-link', 'data-original-title': 'Like', 'data-toggle': 'tooltip', method: :get do %>
-                                    <%= fa_icon "thumbs-up" %> <strong>Like</strong>
-                                <% end  %>
-                            </div>
-                            <div class="col-xs-6 col-md-6">
-                                <%= link_to movie_dislike_path(movie.id), class: 'tooltip-link', 'data-original-title': 'Like', 'data-toggle': 'tooltip', method: :get do %>
-                                    <%= fa_icon "thumbs-down" %> <strong>Dislike</strong>
-                                <% end  %>
-                            </div>
+                            <%= render 'partials/add-review', movie: movie %>
                         <% end %>
                         </p>
                     </div>
