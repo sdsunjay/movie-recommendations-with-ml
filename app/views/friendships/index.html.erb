@@ -1,25 +1,34 @@
-<p id="notice"><%= notice %></p>
+<h2>Friendships</h2>
+<!-- 'access_level' must be set to 1 or 2 to view this page -->
+<div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="page-sub-title textcenter">
+        <h2 class="page-header">Manage Friendships </h2>
+    </div><!-- end .page-sub-title -->
+</div><!-- end .col-md-12 col-sm-12 col-xs-12 -->
+<% if @friendships.any? %>
+    <table class="table table-striped">
+        <tr>
+            <th>User</th>
+            <th>Friend</th>
+            <th>Created At</th>
+            <th>Show</th>
+            <th>Edit</th>
+            <th>Delete</th>
 
-<h1>Friendships</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @friendships.each do |friendship| %>
-      <tr>
-        <td><%= link_to 'Show', friendship %></td>
-        <td><%= link_to 'Edit', edit_friendship_path(friendship) %></td>
-        <td><%= link_to 'Destroy', friendship, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Friendship', new_friendship_path %>
+        </tr>
+        <% @friendships.each do |friend| %>
+            <tr>
+                <td> <%= link_to friend.user.name, user_path(friend.user.id)  %></td>
+                <td><%= link_to friend.friend.name, user_path(friend.friend.id) %></td>
+                <td><%= friend.created_at.to_time.strftime('%B %e at %l:%M %p' ) %></td>
+                <td><%= link_to 'Show', friend %></td>
+                <td><%= link_to 'Edit', edit_friendship_path(friend) %></td>
+                <td><%= link_to 'Destroy', friend, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+            </tr>
+        <% end %>
+    </table>
+    <%= will_paginate @friendships %>
+<% else %>
+    <p>There are no friendships</p>
+<% end %>
+    <p><%= link_to 'New Friendship', new_friendship_path %></p>
