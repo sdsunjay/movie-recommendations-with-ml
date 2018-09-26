@@ -14,7 +14,7 @@ While the majority of users are normal users, some users are *admin* or *super_a
     * In the future, we will utilize the Facebook Graph API to reach out to the application and update the user's friends
 
 * Facebook API
-  * Using the Koala gem, we get the user's friends from the [Facebook API] (https://developers.facebook.com/docs/graph-api/reference/user/friends/). However, we only get the first page of their friends. We need to iterate through all their friends by iterating through all the pages returned by the API. The same is true for when we get the user's movies.
+  * Using the Koala gem, we get the user's friends from the [Facebook API](https://developers.facebook.com/docs/graph-api/reference/user/friends/). However, we only get the first page of their friends. We need to iterate through all their friends by iterating through all the pages returned by the API. The same is true for when we get the user's movies.
   * The Facebook API gives us a token, which we store. We will also store the expiration date of that token, but when/how do we update it?
   * Please look at app/models/user.rb, specifically add_friends and add_movies as these functions need help
 
@@ -25,9 +25,9 @@ While the majority of users are normal users, some users are *admin* or *super_a
 
 ## Specific Files
   Please revie the following specific files
-* app/models/user.rb
-* app/controllers/application_controller.rb
-* app/controllers/movies_controller.rb
-* app/controllers/users_controller.rb
-* app/views/devise/sessions/new.html
-* app/views/partials/_movies.html.erb
+* [app/models/user.rb](app/models/user.rb)
+* [app/controllers/application_controller.rb](app/controllers/application_controller.rb)
+* [app/controllers/movies_controller.rb](app/controllers/movies_controller.rb)
+* [app/controllers/users_controller.rb](app/controllers/users_controller.rb)
+* [app/views/devise/sessions/new.html](app/views/devise/sessions/new.html)
+* [app/views/partials/_movies.html.erb](app/views/partials/_movies.html.erb)
