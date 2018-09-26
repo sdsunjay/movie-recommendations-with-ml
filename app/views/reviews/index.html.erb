@@ -18,7 +18,7 @@
     </tr>
     <% @reviews.each do |review| %>
         <tr>
-            <td> <%= link_to review.user.name, user_path(current_user.id)  %></td>
+            <td> <%= link_to review.user.name, user_path(review.user.id)  %></td>
             <td><%= link_to review.movie.title, movie_path(review.movie) %></td>
             <td> <%= review.rating %></td>
             <td><%= review.created_at.to_time.strftime('%B %e at %l:%M %p' ) %></td>
