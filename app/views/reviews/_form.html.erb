@@ -1,27 +1,24 @@
 <%= form_for([@movie, review]) do |f| %>
-  <% if review.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(review.errors.count, "error") %> prohibited this review from being saved:</h2>
+    <% if review.errors.any? %>
+        <div id="error_explanation">
+            <h2><%= pluralize(review.errors.count, "error") %> prohibited this review from being saved:</h2>
 
-      <ul>
-      <% review.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+            <ul>
+                <% review.errors.full_messages.each do |message| %>
+                    <li><%= message %></li>
+                <% end %>
+            </ul>
+        </div>
+    <% end %>
     <li class="control-group">
-        <%= f.label :user_id, "user id", class: "control-label" %>
-        <div class="controls"><%= f.number_field :user_id %></div>
+        <%= f.label :user, "User:", class: "control-label" %> <%= current_user.name %>
     </li>
     <li class="control-group">
-        <%= f.label :movie_id, "movie id", class: "control-label" %>
-        <div class="controls"><%= f.number_field :movie_id %></div>
+        <%= f.label :movie_id, "Title:", class: "control-label" %> <%= @movie.title  %>
     </li>
     <li class="control-group">
         <%= f.label :rating, "rating", class: "control-label" %>
         <div class="controls"><%= f.number_field :rating %></div>
     </li>
     <%= f.submit %>
-    </div>
 <% end %>
