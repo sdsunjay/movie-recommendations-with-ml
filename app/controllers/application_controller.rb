@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
   end
 
   def access_denied _auth_error = nil
-    redirect_to root_path
+    redirect_to authenticated_root_path
   end
 
   def user_not_authorized _auth_error = nil
