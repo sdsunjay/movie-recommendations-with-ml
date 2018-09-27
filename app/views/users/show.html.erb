@@ -26,12 +26,14 @@
                                         </h4>
                                         <% if @user.gender.present? %>
                                             <% if @user.gender == 'female' %>
-                                                <i class="fa fa-female" style="color: #00d999;"></i>
-                                                (<%= @user.gender %>Gender)
-                                            <% end %>
-                                            <% if @user.gender == 'male' %>
-                                                <i class="fa fa-male" style="color: #00d999;"></i>
-                                                (<%= @user.gender %>Gender)
+                                                <i class="fa fa-female" aria-hidden="true" style="color: #00d999;"></i>
+                                                (<%= @user.gender %>)
+                                            <% elsif @user.gender == 'male' %>
+                                                <i class="fa fa-male" aria-hidden="true" style="color: #00d999;"></i>
+                                                (<%= @user.gender %>)
+                                            <% else %>
+                                                <i class="fa fa-superpowers" aria-hidden="true" style="color: #00d999;"></i>
+                                                (<%= @user.gender %>)
                                             <% end %>
                                         <% end %>
 
@@ -67,7 +69,7 @@
                                             Location:
                                             <% if @user.location.present? %>
                                                 <i class="fa fa-check" style="color: green"></i>
-                                                <%= @user.location%>,
+                                                <%= @user.location%>
                                             <% else %>
                                                 <i class="fa fa-times" style="color: red"></i>
                                                 Location Not Added
@@ -78,7 +80,7 @@
                                             Hometown:
                                             <% if @user.hometown.present? %>
                                                 <i class="fa fa-check" style="color: green"></i>
-                                                <%= @user.hometown%>,
+                                                <%= @user.hometown%>
                                             <% else %>
                                                 <i class="fa fa-times" style="color: red"></i>
                                                 Hometown Not Added
