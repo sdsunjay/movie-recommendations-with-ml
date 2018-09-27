@@ -37,7 +37,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'cocoon'
 gem 'devise', '>= 4.0.0', require: true
-gem 'omniauth-facebook'
+gem 'omniauth-facebook', require: true
 gem 'bootstrap', '~> 4.1.3'
 gem 'popper_js', '~> 1.14.3'
 gem 'font-awesome-rails'
