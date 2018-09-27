@@ -54,7 +54,7 @@ class UsersController < ApplicationController
 
         if @user.destroy
           flash[:notice] = "User Removed"
-          redirect_to root_path
+          redirect_to users_path
         else
           render 'destroy'
         end
