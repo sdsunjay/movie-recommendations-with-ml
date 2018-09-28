@@ -1,3 +1,4 @@
+# users per day
 SELECT
   (
     DATE_TRUNC(
@@ -17,6 +18,26 @@ GROUP BY(
     ) + INTERVAL '0 second'
   ) AT TIME ZONE 'Etc/UTC'
 
+# reviews per day
+
+SELECT
+  (
+    DATE_TRUNC(
+      'day',
+      (created_at :: timestamptz - INTERVAL '0 second') AT TIME ZONE 'Etc/UTC'
+    ) + INTERVAL '0 second'
+  ) AT TIME ZONE 'Etc/UTC' AS date_trunc_day_created_at_timestampz_interval_0_second_at_time,
+  COUNT(*) AS count_all
+FROM
+  "reviews"
+WHERE
+  (created_at IS NOT NULL)
+GROUP BY(
+    DATE_TRUNC(
+      'day',
+      (created_at :: timestamptz - INTERVAL '0 second') AT TIME ZONE 'Etc/UTC'
+    ) + INTERVAL '0 second'
+  ) AT TIME ZONE 'Etc/UTC'
 
 WITH registered_users AS (
   SELECT
