@@ -1,9 +1,9 @@
+# review
 class Review < ApplicationRecord
-
   # user will review many movies
-	belongs_to :user
-	# movie will have many reviews
-	belongs_to :movie
+	belongs_to :user, class_name: 'User'
+  # movie will have many reviews
+	belongs_to :movie, class_name: 'Movie'
 	validates :user_id, presence: { message: 'Your review must belong to a user'}
 	validates :movie_id, presence: { message: 'Your review must belong to a movie'}
   validates :rating, presence: { message: 'You must give the movie a rating'}
