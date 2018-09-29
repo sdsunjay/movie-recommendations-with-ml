@@ -9,7 +9,7 @@
                     <div class="row">
                         <p class="card-text">
                         <!--TODO add the actual rating that the user has given -->
-                        <% if movie.movie_review(current_user.id, movie.id).exists? %>
+                        <% if current_user.reviews.where(movie: movie).exists? %>
                             Reviewed
                         <% else %>
                             <%= render 'partials/add-review', movie: movie %>
