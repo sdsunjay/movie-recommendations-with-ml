@@ -18,7 +18,9 @@
     </li>
     <li class="control-group">
         <%= f.label :rating, "rating", class: "control-label" %>
-        <div class="controls"><%= f.number_field :rating %></div>
+        <div class="controls">
+            <%= f.select :rating, options_for_select([["Like",5], ["Dislike", 1]]),  { prompt: "No Limit" } %>
+        </div>
     </li>
     <%= f.submit %>
 <% end %>
