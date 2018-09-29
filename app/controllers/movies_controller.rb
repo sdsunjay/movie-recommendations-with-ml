@@ -16,14 +16,14 @@ class MoviesController < ApplicationController
     # @user_reviews = @user.reviews
     if params[:title].present?
       ahoy.track "Searched movie", title: params[:title]
-      @movies = Movie.search(params[:title]).paginate(per_page: 15, page: params[:page])
+      @movies = Movie.search(params[:title]).paginate(per_page: 99, page: params[:page])
       if @movies.blank?
         ahoy.track "Movie not found"
         flash[:alert] = params[:title] + ' not found'
         redirect_back(fallback_location: movies_path)
       end
     else
-      @movies = Movie.all.order(created_at: :asc).paginate(per_page: 15, page: params[:page])
+      @movies = Movie.all.order(created_at: :asc).paginate(per_page: 99, page: params[:page])
     end
   end
 
