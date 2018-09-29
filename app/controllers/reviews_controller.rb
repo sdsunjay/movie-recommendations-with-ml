@@ -5,7 +5,7 @@ class ReviewsController < ApplicationController
   before_action :require_admin, only: [:index]
 
   def index
-    @reviews = Review.all.order(created_at: :desc).paginate(per_page: 50, page: params[:page])
+    @reviews = Review.all.order(created_at: :desc).paginate(per_page: 99, page: params[:page])
   end
 
   def new

@@ -4,14 +4,14 @@ class UsersController < ApplicationController
     before_action :require_admin, only: [:destroy, :index]
 
     def index
-        @users = User.all.order(created_at: :desc).paginate(per_page: 10, page: params[:page])
+        @users = User.all.order(created_at: :desc).paginate(per_page: 99, page: params[:page])
     end
 
     # GET /users/:id.:format
     def show
-      @friends = Friendship.where(user_id: @user).order(created_at: :desc).paginate(per_page: 15, page: params[:friends_page])
+      @friends = Friendship.where(user_id: @user).order(created_at: :desc).paginate(per_page: 99, page: params[:friends_page])
 
-      @reviews = Review.includes(:movie).where(user_id: @user).order(created_at: :desc).paginate(per_page: 15, page: params[:reviews_given_page])
+      @reviews = Review.includes(:movie).where(user_id: @user).order(created_at: :desc).paginate(per_page: 99, page: params[:reviews_given_page])
       if @reviews.blank?
         @avg_review = 0
         @number_of_reviews = 0
