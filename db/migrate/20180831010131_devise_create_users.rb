@@ -12,7 +12,7 @@ class DeviseCreateUsers < ActiveRecord::Migration[5.2]
       t.string :encrypted_password, null: false, default: ""
       t.text :image
       t.string :link
-      t.integer :access_level
+      t.integer :access_level, null: false, default: 0
       t.text :friends
       t.string :education
 
