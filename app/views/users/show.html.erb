@@ -1,4 +1,4 @@
-<% if user_signed_in? && current_user == @user %>
+<% if user_signed_in?  %>
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12">
             <div class="blog-area">
@@ -24,6 +24,7 @@
                                             <i class="fa fa-user" style="color: #00d999; font-size: 1.5em;"></i>
                                             <strong>About me</strong>
                                         </h4>
+                                        <h5>
                                         <% if @user.gender.present? %>
                                             <% if @user.gender == 'female' %>
                                                 <i class="fa fa-female" aria-hidden="true" style="color: #00d999;"></i>
@@ -36,7 +37,13 @@
                                                 (<%= @user.gender %>)
                                             <% end %>
                                         <% end %>
-
+                                        </h5>
+                                        <h5>
+                                        <% if @friends.present? %>
+                                            <i class="fa fa-users" aria-hidden="true"></i>
+                                            (<%= @friends.count %>)
+                                        <% end %>
+                                        </h5>
                                         <hr>
                                         <h5>
                                             <i class="fa fa-star" style="color: #00d999;"></i>
@@ -49,7 +56,7 @@
                                         <% if @number_of_reviews < 50 %>
                                             Movies Reviewed -- Please review more movies)
                                         <% else %>
-                                            Movies Reviewed -- Please review more movies)
+                                            Movies Reviewed )
                                         <% end %>
                                         </h5>
                                         <h5>
@@ -150,19 +157,24 @@
                             <!-- End of My Reviews -->
 
                             <div class="tab-pane fade show" id="friends" role="tabpanel" aria-labelledby="friends-tab">
-                                <section class="single-from-blog" style="margin-bottom: 0; border: 1px solid #f0f0f0;">
-                                    <div class="blog-title">
-                                        <h2>No friends display yet</h2>
-                                    </div>
-                                </section>
-                           </div>
+                                <% if @friends.try(:any?) %>
+                                <%= render 'partials/friends', :friends => @friends %>
+                                <% else %>
+                                    <section class="single-from-blog" style="margin-bottom: 0; border: 1px solid #f0f0f0;">
+                                        <div class="blog-title">
+                                            <h2>No friends yet</h2>
+                                        </div>
+                                    </section>
+                                <% end %>
+                                <%= will_paginate @friends, param_name: 'friends_page' %>
+                            </div>
+                            <!-- End of My Friends -->
 
                             <!-- Beginning of My Recommendations -->
                             <div class="tab-pane fade" id="recommendations" role="tabpanel" aria-labelledby="recommendations-tab">
                                 <section class="single-from-blog" style="margin-bottom: 0; border: 1px solid #f0f0f0;">
                                     <div class="blog-title">
-                                        <h2>No recommendations yet</h2>
-                                        <h2>Please continue reviewing movies</h2>
+                                        <h2>No movie recommendations yet</h2>
                                     </div>
                                 </section>
                             </div>
