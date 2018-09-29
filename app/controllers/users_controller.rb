@@ -9,6 +9,8 @@ class UsersController < ApplicationController
 
     # GET /users/:id.:format
     def show
+      @friends = Friendship.where(user_id: @user).order(created_at: :desc).paginate(per_page: 15, page: params[:friends_page])
+
       @reviews = Review.includes(:movie).where(user_id: @user).order(created_at: :desc).paginate(per_page: 15, page: params[:reviews_given_page])
       if @reviews.blank?
         @avg_review = 0
@@ -32,9 +34,8 @@ class UsersController < ApplicationController
         # authorize! :update, @user
         respond_to do |format|
           if @user.update(user_params)
-                # Sign in the user by passing validation in case his password changed
-                sign_in @user, :bypass => true
-                # sign_in(@user == current_user ? @user : current_user, bypass: true)
+                # Sign in the user bypassing validation
+                bypass_sign_in(@user)
                 format.html { redirect_to user_path, notice: 'Your profile was successfully updated.' }
                 format.json { head :no_content }
             else
