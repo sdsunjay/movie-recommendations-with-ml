@@ -6,49 +6,47 @@
         </div><!-- end .page-sub-title -->
     </div><!-- end .col-md-12 col-sm-12 col-xs-12 -->
     <% if @users.any? %>
-        <table class="table table-striped">
+        <table class="table table-striped table-sm">
+          <thead>
             <tr>
-                <th>Role </th>
-                <th>User's Name</th>
-                <th>Gender</th>
-                <th>Email</th>
-                <th>Location</th>
-                <th>Hometown</th>
-                <th>Facebook Picture </th>
-                <th>Create Date </th>
-                <th>Current Sign In </th>
-                <th>Last Sign In </th>
-                <th>Sign In Count </th>
-                <th>Edit</th>
-                <th>Delete</th>
+                <th scope="col">User</th>
+                <th scope="col">Gender</th>
+                <th scope="col">Email</th>
+                <th scope="col">Location</th>
+                <th scope="col">Hometown</th>
+                <th scope="col">Create Date </th>
+                <th scope="col">Last Sign In </th>
+                <th scope="col">Sign In Count </th>
+                <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
             </tr>
+          </thead>
+          <tbody>
             <% @users.each do |user| %>
                 <tr>
-                    <td><%= user.access_level %></td>
-                    <td>
+                    <th scope="row">
                         <% if user.link.blank? %>
-                            <%= user.name %>
+                            <%= link_to user.name, user_path(user) %>
                         <% else %>
                             <%= link_to (user.name), user.link %>
                         <% end %>
-                    </td>
+                    </th>
                     <td><%= user.gender %></td>
                     <td><%= user.email %></td>
                     <td><%= user.location %></td>
                     <td><%= user.hometown %></td>
-                    <td><%= image_tag user.image, size: '50' %></td>
-                    <td><%= user.created_at.to_time.strftime('%B %e at %l:%M %p' ) %></td>
+                    <td><%= user.created_at.to_time.strftime('%B %e %H:%M' ) %></td>
                     <% if false %>
                         <td><%= user.current_sign_in_at? ? 'nil' : user.current_sign_in_at.strftime('%B %e at %l:%M %p' ) %></td>
                         <td><%= user.last_sign_in_at? ? 'nil' : user.last_sign_in_at.strftime('%B %e at %l:%M %p' ) %></td>
                     <% end %>
-                    <td><%= user.current_sign_in_at %></td>
-                    <td><%= user.last_sign_in_at %></td>
+                    <td><%= user.last_sign_in_at.strftime("%Y-%m-%d") %></td>
                     <td><%= user.sign_in_count %></td>
                     <td><%= link_to 'Edit', edit_user_path(user), class: 'btn btn-primary' %></td>
                     <td><%= link_to 'Delete', user_path(user), class: 'btn btn-danger', method: :delete, data: { confirm: "Are you sure?" } %></td>
                 </tr>
             <% end %>
+           <tbody>
         </table>
         <%= will_paginate @users %>
     <% else %>
