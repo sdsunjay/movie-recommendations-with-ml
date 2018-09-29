@@ -5,17 +5,22 @@ class ApplicationController < ActionController::Base
   # as `authenticate_user!` (or whatever your resource is) will halt the filter chain and redirect
   # before the location can be stored.
 
+  # after_action :track_action
 
   protect_from_forgery with: :exception
 
   rescue_from Koala::Facebook::AuthenticationError, with: :user_not_authorized
 
   def after_sign_in_path_for(resource)
-    request.env['omniauth.origin'] || stored_location_for(resource) || movies_path
+    stored_location_for(resource) || user_path(resource) || request.env['omniauth.origin']
   end
 
   def access_denied _auth_error = nil
-    redirect_to authenticated_root_path
+    if user_signed_in?
+      redirect_to authenticated_root_path
+    else
+      redirect_to unauthenticated_root_path
+    end
   end
 
   def user_not_authorized _auth_error = nil
@@ -29,7 +34,7 @@ class ApplicationController < ActionController::Base
   end
 
   def authenticate
-  	redirect_to :login unless user_signed_in?
+  	redirect_to new_user_session_path unless user_signed_in?
   end
 
   def user_signed_in?
@@ -39,11 +44,13 @@ class ApplicationController < ActionController::Base
 
   def require_admin
     unless current_user.admin? || current_user.super_admin?
-      redirect_to movies_path, alert: 'Access denied.'
+      flash[:alert] = 'Access denied'
+      redirect_back fallback_location: movies_path, allow_other_host: false
     end
   end
 
   def set_user
+    return @user if defined? @user
     @user = current_user
   end
 
@@ -60,6 +67,10 @@ class ApplicationController < ActionController::Base
     def store_user_location!
       # :user is the scope we are authenticating
       store_location_for(:user, request.fullpath)
+    end
+
+    def track_action
+      ahoy.track "Ran action", request.path_parameters
     end
 
 
