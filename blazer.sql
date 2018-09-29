@@ -39,6 +39,35 @@ GROUP BY(
     ) + INTERVAL '0 second'
   ) AT TIME ZONE 'Etc/UTC'
 
+SELECT
+  date_trunc('month', rating) :: date AS month,
+  gender,
+  COUNT(*)
+FROM
+  reviews
+  INNER JOIN users ON reviews.user_id = users.id
+GROUP BY
+  month,
+  gender
+ORDER BY
+  month,
+  gender
+
+SELECT
+  date_trunc('month', rating) :: date AS month,
+  gender,
+  COUNT(*)
+FROM
+  reviews
+  INNER JOIN users ON reviews.user_id = users.id
+GROUP BY
+  month,
+  gender
+ORDER BY
+  month,
+  gender
+
+
 WITH registered_users AS (
   SELECT
     COUNT(*) AS value,
