@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :users, :controllers => {omniauth_callbacks: 'users/omniauth_callbacks', sessions: 'users/sessions', registrations: 'users/registrations'}
+  devise_for :users, :controllers => {omniauth_callbacks: 'users/omniauth_callbacks', registrations: 'users/registrations'}
   # static pages
   get '/home', to: 'static_pages#home'
   get '/help', to: 'static_pages#help'
