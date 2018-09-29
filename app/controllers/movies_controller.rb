@@ -1,8 +1,9 @@
 class MoviesController < ApplicationController
     before_action :authenticate_user!, except: [:index]
-    before_action :set_movie, only: [:show, :edit, :update, :destroy]
     before_action :set_user, only: [:index, :show, :edit, :update, :destroy]
-    before_action :require_admin, only: [:destroy]
+    before_action :set_movie, only: [:show, :edit, :update, :destroy]
+    before_action :set_movie_review, only: [:show, :edit, :update, :destroy]
+    before_action :require_admin, only: [:create, :new, :destroy]
 
   # GET /movies
   # GET /movies.json
@@ -12,10 +13,12 @@ class MoviesController < ApplicationController
     #  @movies = Facebook.get_object(current_user.token, '/me/movies?fields=name')
     # @movies = movie_service.popular
     # @genres = Genre.all
-    @review = Review.new
+    # @user_reviews = @user.reviews
     if params[:title].present?
+      ahoy.track "Searched movie", title: params[:title]
       @movies = Movie.search(params[:title]).paginate(per_page: 15, page: params[:page])
       if @movies.blank?
+        ahoy.track "Movie not found"
         flash[:alert] = params[:title] + ' not found'
         redirect_back(fallback_location: movies_path)
       end
@@ -66,19 +69,13 @@ class MoviesController < ApplicationController
   # GET /movies/1
   # GET /movies/1.json
   def show
-    # @review = @user.reviews.where(movie_id: @movie.id).order("created_at DESC")
-    @reviews = @user.reviews
-    @movie_review = @reviews.where(movie_id: @movie.id).first
-    ##Review.where(user_id: @user, movie_id: @movie.id).order(created_at: :desc).paginate(per_page: 15, page: params[:page])
   end
 
 
   # GET /movies/new
   def new
-    # @movie = current_user.movies.build
     @movie = current_user.movies.build
     get_genres
-    # @movie.categorizations.build
   end
 
   # GET /movies/1/edit
@@ -149,19 +146,23 @@ class MoviesController < ApplicationController
     @movie = Movie.find(params[:id])
   end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
+  def set_movie_review
+    @reviews = @user.reviews
+    @movie_review = @reviews.where(movie_id: @movie.id).first
+  end
 
-    def movie_params
-      params
-        .require(:movie)
-        .permit(:title, :vote_count, :vote_average, :tagline, :status, :poster_path, :original_language, :backdrop_path, :adult, :overview, :popularity, :budget, :release_date, :revenue, :runtime, :genre_ids => [])
-        .merge(user_id: current_user.id)
-    end
-    # Utility methods
-    def get_genres
-      @genres = Genre.all
-      @movie_genres = @movie.categorizations.build
-      # @movie_genre = @movie.genres.build
-    end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def movie_params
+    params
+      .require(:movie)
+      .permit(:title, :vote_count, :vote_average, :tagline, :status, :poster_path, :original_language, :backdrop_path, :adult, :overview, :popularity, :budget, :release_date, :revenue, :runtime, :genre_ids => [])
+  end
+
+  # Utility methods
+  def get_genres
+    @genres = Genre.all
+    @movie_genres = @movie.categorizations.build
+  end
 
 end
