@@ -1,20 +1,19 @@
 class GenresController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_genre, only: [:show, :edit, :update, :destroy]
+  before_action :set_genre, only: [:show, :edit, :update]
   before_action :set_user
-  before_action :require_admin, only: [:edit, :new, :update, :destroy]
+  before_action :require_admin, only: [:edit, :new, :update]
   # GET /genres
   # GET /genres.json
   def index
-      @genres = Genre.all.order(created_at: :desc).paginate(per_page: 99, page: params[:page])
-      @reviews =  @user.reviews.order(created_at: :desc)
+      @genres = Genre.all.order(created_at: :desc)
+      # @reviews =  @user.reviews.order(created_at: :desc)
   end
 
   # GET /genres/1
   # GET /genres/1.json
   def show
-      # @genres = Genre.all
-      @movies = @genre.movies.all.order(created_at: :asc).paginate(per_page: 99, page: params[:page])
+      @pagy, @movies = pagy(@genre.movies.all.order(created_at: :asc), items: 99)
       @reviews =  @user.reviews.order(created_at: :desc)
   end
 
@@ -25,7 +24,6 @@ class GenresController < ApplicationController
 
   # GET /genres/1/edit
   def edit
-     @genre = Genre.find_by(id: params[:id])
      @movies = Movie.all
      @moviesTheGenreIncludes = @genre.movies.pluck(:id)
   end
@@ -57,16 +55,6 @@ class GenresController < ApplicationController
         format.html { render :edit }
         format.json { render json: @genre.errors, status: :unprocessable_entity }
       end
-    end
-  end
-
-  # DELETE /genres/1
-  # DELETE /genres/1.json
-  def destroy
-    @genre.destroy
-    respond_to do |format|
-      format.html { redirect_to genres_url, notice: 'Genre was successfully destroyed.' }
-      format.json { head :no_content }
     end
   end
 
