@@ -28,7 +28,7 @@
         <% end %>
         </tbody>
     </table>
-    <%= will_paginate @friends %>
+    <%= pagy_nav_bootstrap(@pagy).html_safe %>
 <% else %>
     <p>There are no friendships</p>
 <% end %>

@@ -12,18 +12,16 @@ class MoviesController < ApplicationController
     # puts @facebook_movies
     #  @movies = Facebook.get_object(current_user.token, '/me/movies?fields=name')
     # @movies = movie_service.popular
-    # @genres = Genre.all
-    # @user_reviews = @user.reviews
     if params[:title].present?
       ahoy.track "Searched movie", title: params[:title]
-      @movies = Movie.search(params[:title]).paginate(per_page: 99, page: params[:page])
+      @pagy, @movies = pagy(Movie.search(params[:title]), items: 99)
       if @movies.blank?
         ahoy.track "Movie not found"
         flash[:alert] = params[:title] + ' not found'
         redirect_back(fallback_location: movies_path)
       end
     else
-      @movies = Movie.all.order(created_at: :asc).paginate(per_page: 99, page: params[:page])
+      @pagy, @movies = pagy(Movie.all.order(created_at: :asc), items: 99)
     end
   end
 

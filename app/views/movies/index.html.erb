@@ -2,7 +2,9 @@
 <% if @movies.try(:any?) %>
     <div class="row">
         <%= render 'partials/movies', :movie => @movies %>
-        <%= will_paginate @movies %>
+    </div>
+    <div class="row">
+        <%= pagy_nav_compact_bootstrap(@pagy).html_safe %>
     </div>
 <% else %>
     <article class="single-from-blog">

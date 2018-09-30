@@ -6,15 +6,14 @@ class GenresController < ApplicationController
   # GET /genres
   # GET /genres.json
   def index
-      @genres = Genre.all.order(created_at: :desc).paginate(per_page: 99, page: params[:page])
-      @reviews =  @user.reviews.order(created_at: :desc)
+      @genres = Genre.all.order(created_at: :desc)
+      # @reviews =  @user.reviews.order(created_at: :desc)
   end
 
   # GET /genres/1
   # GET /genres/1.json
   def show
-      # @genres = Genre.all
-      @movies = @genre.movies.all.order(created_at: :asc).paginate(per_page: 99, page: params[:page])
+      @pagy, @movies = pagy(@genre.movies.all.order(created_at: :asc), items: 99)
       @reviews =  @user.reviews.order(created_at: :desc)
   end
 
@@ -25,7 +24,6 @@ class GenresController < ApplicationController
 
   # GET /genres/1/edit
   def edit
-     @genre = Genre.find_by(id: params[:id])
      @movies = Movie.all
      @moviesTheGenreIncludes = @genre.movies.pluck(:id)
   end
