@@ -1,3 +1,5 @@
+# require_dependency 'AddMoviesToUserWorker'
+# require_dependency 'AddFriendsToUserWorker'
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   before_action :set_user_service
 
@@ -17,8 +19,10 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       @user = User.from_omniauth(auth)
       if @user.persisted?
         if intent == "sign_up"
-          @user.add_friends
-          @user.add_movies
+          ahoy.track "New user sign up", name: @user.name
+          puts "IN SIGN UP intent"
+          AddMoviesToUserWorker.perform_async(@user.id)
+          AddFriendsToUserWorker.perform_async(@user.id)
         end
         sign_in_and_redirect @user, event: :authentication #this will throw if @user is not activated
         set_flash_message(:notice, :success, kind: "Facebook") if is_navigational_format?
@@ -48,7 +52,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       if @user.blank?
         @user = User.where(email: auth.info.email)
         if @user.present?
-          puts @user
+          # puts @user
           # 5. User is logged out and they login to a new account which doesn't match their old one
           flash[:alert] = "An account with this email already exists. Please sign in with that account before connecting your #{auth.provider.titleize} account."
           redirect_to new_user_session_path

@@ -48,6 +48,8 @@ gem 'koala'
 gem 'seed_dump'
 gem 'rubyzip', '~> 1.2.2'
 
+# background jobs
+gem 'sidekiq', '>= 5.2.2'
 # analytics
 gem 'ahoy_matey'
 gem 'blazer'
