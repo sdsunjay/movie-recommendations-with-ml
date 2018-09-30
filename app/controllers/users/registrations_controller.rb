@@ -1,8 +1,10 @@
 # users/registrations_controller.rb
 class Users::RegistrationsController < Devise::RegistrationsController
 
-  protected
   def after_sign_up_path_for(resource)
+    puts "IN AFTER SIGN UP FOR"
+    AddMoviesToUserWorker.perform_async(current_user.id)
+    AddFriendsToUserWorker.perform_async(current_user.id)
     signed_in_root_path(resource)
   end
 
