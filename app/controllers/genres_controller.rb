@@ -1,8 +1,8 @@
 class GenresController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_genre, only: [:show, :edit, :update, :destroy]
+  before_action :set_genre, only: [:show, :edit, :update]
   before_action :set_user
-  before_action :require_admin, only: [:edit, :new, :update, :destroy]
+  before_action :require_admin, only: [:edit, :new, :update]
   # GET /genres
   # GET /genres.json
   def index
@@ -55,16 +55,6 @@ class GenresController < ApplicationController
         format.html { render :edit }
         format.json { render json: @genre.errors, status: :unprocessable_entity }
       end
-    end
-  end
-
-  # DELETE /genres/1
-  # DELETE /genres/1.json
-  def destroy
-    @genre.destroy
-    respond_to do |format|
-      format.html { redirect_to genres_url, notice: 'Genre was successfully destroyed.' }
-      format.json { head :no_content }
     end
   end
 

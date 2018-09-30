@@ -10,6 +10,7 @@ class Review < ApplicationRecord
 
 	# the user cannot review the same movie twice
   validates :movie_id, uniqueness: { scope: :user_id, message: "You've already reviewed this movie!" }
+
   def has_review?
     return if Review.exists?(user: user, movie_id: movie_id)
   end
