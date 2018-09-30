@@ -306,7 +306,7 @@ DEPENDENCIES
   spring
   spring-watcher-listen (~> 2.0.0)
   themoviedb
-  turbolinks (~> 5)
+  turbolinks (~> 5.2.0)
   tzinfo-data
   uglifier (>= 1.3.0)
   web-console (>= 3.3.0)
