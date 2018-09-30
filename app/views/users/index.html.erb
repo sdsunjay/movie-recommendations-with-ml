@@ -48,7 +48,7 @@
             <% end %>
            <tbody>
         </table>
-        <%= will_paginate @users %>
+        <%= pagy_nav_bootstrap(@pagy).html_safe %>
     <% else %>
         <p>There are no users</p>
     <% end %>

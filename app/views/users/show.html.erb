@@ -39,10 +39,8 @@
                                         <% end %>
                                         </h5>
                                         <h5>
-                                        <% if @friends.present? %>
                                             <i class="fa fa-users" aria-hidden="true"></i>
-                                            (<%= @friends.count %>)
-                                        <% end %>
+                                            (<%= @friends_count %>)
                                         </h5>
                                         <hr>
                                         <h5>
@@ -152,7 +150,7 @@
                                         </div>
                                     </section>
                                 <% end %>
-                                <%= will_paginate @reviews, param_name: 'reviews_given_page' %>
+                                <%= pagy_nav_compact_bootstrap(@pagy_reviews).html_safe %>
                             </div>
                             <!-- End of My Reviews -->
 
@@ -166,7 +164,7 @@
                                         </div>
                                     </section>
                                 <% end %>
-                                <%= will_paginate @friends, param_name: 'friends_page' %>
+                                <%= pagy_nav_compact_bootstrap(@pagy_friends).html_safe %>
                             </div>
                             <!-- End of My Friends -->
 
