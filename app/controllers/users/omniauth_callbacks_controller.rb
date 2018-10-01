@@ -20,7 +20,6 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       if @user.persisted?
         if intent == "sign_up"
           ahoy.track "New user sign up", name: @user.name
-          puts "IN SIGN UP intent"
           AddMoviesToUserWorker.perform_async(@user.id)
           AddFriendsToUserWorker.perform_async(@user.id)
         end
