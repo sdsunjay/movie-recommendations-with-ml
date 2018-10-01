@@ -14,14 +14,14 @@ class MoviesController < ApplicationController
     # @movies = movie_service.popular
     if params[:title].present?
       ahoy.track "Searched movie", title: params[:title]
-      @pagy, @movies = pagy(Movie.search(params[:title]), items: 99)
+      @pagy, @movies = pagy(Movie.search(params[:title]), items: 33)
       if @movies.blank?
         ahoy.track "Movie not found"
         flash[:alert] = params[:title] + ' not found'
         redirect_back(fallback_location: movies_path)
       end
     else
-      @pagy, @movies = pagy(Movie.all.order(created_at: :asc), items: 99)
+      @pagy, @movies = pagy(Movie.all.order(created_at: :asc), items: 33)
     end
   end
 
