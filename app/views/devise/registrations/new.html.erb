@@ -24,8 +24,16 @@
                     </div><!-- end .row -->
 
                     <hr>
+                    <div class='row'>
+                        <div class='col-sm-6 col-xs-12'>
+                            <p class='align-modal-p'>Already have an account?</p>
+                        </div>
+                        <div class='col-sm-6 col-xs-12'>
+                            <%= link_to raw("<span>SIGN IN</span>"),  user_facebook_omniauth_authorize_path,class: 'btn tng-lg btn-facebook btn-block text-uppercase', 'data-text': 'SIGN IN'%>
+                        </div>
+                    </div><!-- end .row -->
                 </form>
             </div><!-- end card-body -->
         </div><!-- end card card-signin my-5 -->
-        </div><!-- end col-sm-9 col-md-7 col-lg-5 -->
-    </div><!-- end .row -->
+    </div><!-- end col-sm-9 col-md-7 col-lg-5 -->
+</div><!-- end .row -->
