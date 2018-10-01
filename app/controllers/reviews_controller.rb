@@ -5,7 +5,7 @@ class ReviewsController < ApplicationController
   before_action :require_admin, only: [:index]
 
   def index
-    @pagy, @reviews = pagy(Review.all.order(created_at: :desc), items: 99)
+    @pagy, @reviews = pagy(Review.all.order(created_at: :desc), items: 33)
   end
 
   def new
