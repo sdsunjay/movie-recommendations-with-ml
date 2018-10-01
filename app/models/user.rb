@@ -43,8 +43,7 @@ class User < ApplicationRecord
 			user.image = auth.info.image # assuming the user has an image
 			user.gender = auth.extra.raw_info.gender # assuming the user has a gender
 			user.access_level = 0
-			# TODO - Add this
-			# user.link = auth.extra.raw_info.link
+			user.link = auth.extra.raw_info.link
 			unless auth.extra.raw_info.location.nil?
 				user.location = auth.extra.raw_info.location['name'] # assuming the user has a location
 			end
