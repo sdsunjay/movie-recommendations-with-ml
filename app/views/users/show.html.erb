@@ -142,7 +142,9 @@
                            <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
                                <!-- <div id="reviews-given-tab" class="tab-pane fade in active" > -->
                                 <% if @reviews.try(:any?) %>
-                                <%= render 'partials/reviews', :reviews => @reviews %>
+                                    <div class="row">
+                                        <%= render 'partials/reviews', :reviews => @reviews %>
+                                    </div>
                                 <% else %>
                                     <section class="single-from-blog" style="margin-bottom: 0; border: 1px solid #f0f0f0;">
                                         <div class="blog-title">
@@ -150,13 +152,17 @@
                                         </div>
                                     </section>
                                 <% end %>
-                                <%= pagy_nav_compact_bootstrap(@pagy_reviews).html_safe %>
+                                <div class="row">
+                                    <%= pagy_nav_compact_bootstrap(@pagy_reviews).html_safe %>
+                                </div>
                             </div>
                             <!-- End of My Reviews -->
 
                             <div class="tab-pane fade show" id="friends" role="tabpanel" aria-labelledby="friends-tab">
                                 <% if @friends.try(:any?) %>
+                                <div class="row">
                                 <%= render 'partials/friends', :friends => @friends %>
+                                </div>
                                 <% else %>
                                     <section class="single-from-blog" style="margin-bottom: 0; border: 1px solid #f0f0f0;">
                                         <div class="blog-title">
