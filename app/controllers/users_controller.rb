@@ -9,9 +9,9 @@ class UsersController < ApplicationController
 
     # GET /users/:id.:format
     def show
-      @pagy_friends, @friends = pagy(Friendship.where(user_id: @user).order(created_at: :desc), items: 99)
+      @pagy_friends, @friends = pagy(Friendship.where(user_id: @user).order(created_at: :desc), items: 33)
 
-      @pagy_reviews, @reviews = pagy(Review.includes(:movie).where(user_id: @user).order(created_at: :desc), items: 99)
+      @pagy_reviews, @reviews = pagy(Review.includes(:movie).where(user_id: @user).order(created_at: :desc), items: 33)
       if @friends.blank?
         @friends_count = 0
       else
