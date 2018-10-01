@@ -1,6 +1,5 @@
-
-REDIS_URL = Rails.application.secrets.REDIS_URL
-REDIS_PASSWORD = Rails.application.secrets.REDIS_PASSWORD
+REDIS_URL = Rails.application.credentials.development[:redis_url]
+REDIS_PASSWORD = Rails.application.credentials.development[:redis_password]
 Sidekiq.configure_server do |config|
   config.redis = { url: REDIS_URL, password: REDIS_PASSWORD }
 end
