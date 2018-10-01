@@ -9,6 +9,8 @@ Rails.application.routes.draw do
 
 
   devise_scope :user do
+    get '/sign-in', to: 'devise/sessions#new', as: :signin
+    get '/sign-up', to: 'devise/registrations#new', as: :signup
     authenticated :user do
       resources :users, only: [:show, :edit, :destroy, :update ]
       resources :friendships, only: [:new, :create]
@@ -22,7 +24,7 @@ Rails.application.routes.draw do
     end
 
     unauthenticated do
-      root to: 'devise/sessions#new', as: :unauthenticated_root
+      root to: 'devise/registrations#new', as: :unauthenticated_root
     end
 
     authenticate :user, ->(user) {user.super_admin?} do
