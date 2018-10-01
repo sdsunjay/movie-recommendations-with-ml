@@ -17,7 +17,7 @@ class Movie < ApplicationRecord
     if pattern.blank?  # blank? covers both nil and empty string
       all
     else
-      where('title LIKE ?', "%#{pattern}%")
+      where('lower(title) LIKE lower(?)', "%#{pattern}%")
     end
   end
 
