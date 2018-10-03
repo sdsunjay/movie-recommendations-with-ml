@@ -1,5 +1,3 @@
-# require_dependency 'AddMoviesToUserWorker'
-# require_dependency 'AddFriendsToUserWorker'
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   before_action :set_user_service
 
@@ -53,7 +51,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     if user_signed_in?
       @user = current_user
     elsif User.where(provider: auth.provider, uid: auth.uid).exists?
-      @user = User.where(provider: auth.provider, uid: auth.uid).first?
+      @user = User.where(provider: auth.provider, uid: auth.uid).first
     elsif User.where(email: auth.info.email).exists?
       # 5. User is logged out and
       # they login to a new account which doesn't match their old one

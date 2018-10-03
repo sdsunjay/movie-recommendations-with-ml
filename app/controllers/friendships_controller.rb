@@ -1,8 +1,8 @@
 class FriendshipsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_friendship, only: %i[show edit update destroy]
-  before_action :set_user, only: %i[index show edit update destroy]
-  # before_action :require_admin
+  before_action :set_friendship, only: [:show, :edit, :update, :destroy]
+  before_action :set_user, only: [:index, :show, :edit, :update, :destroy]
+  before_action :require_admin
 
   # GET /friendships
   # GET /friendships.json

@@ -55,7 +55,7 @@
             <strong>My Rating:
             </strong>
           </li>
-          <% # TODO repaint the page when the user reviews the movie or deletes their review %>
+          <% # TODO(Sunjay) repaint the page when the user reviews the movie or deletes their review %>
             <%= render 'partials/review', movie: @movie %>
             <% if current_user.reviewed?(@movie) %>
               <div id="edit_review">
