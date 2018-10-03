@@ -1,76 +1,29 @@
 class MoviesController < ApplicationController
-    before_action :authenticate_user!, except: [:index]
-    before_action :set_user, only: [:index, :show, :edit, :update, :destroy]
-    before_action :set_movie, only: [:show, :edit, :update, :destroy]
-    before_action :set_movie_review, only: [:show, :edit, :update, :destroy]
-    before_action :require_admin, only: [:create, :new, :destroy]
+  before_action :authenticate_user!, except: [:index]
+  before_action :set_user, only: %i[index show edit update destroy]
+  before_action :set_movie, only: %i[show edit update destroy]
+  before_action :set_movie_review, only: %i[show edit update destroy]
+  before_action :require_admin, only: %i[create new destroy]
 
   # GET /movies
   # GET /movies.json
   def index
+    @review = Review.new
     if params[:title].present?
-      ahoy.track "Searched movie", title: params[:title]
-      @pagy, @movies = pagy(Movie.search(params[:title]), items: 33)
-      if @movies.blank?
-        ahoy.track "Movie not found"
-        flash[:alert] = params[:title] + ' not found'
-        params.delete :title
-        redirect_back(fallback_location: movies_path)
-      end
+      help_index(params[:title])
     else
       @pagy, @movies = pagy(Movie.all.order(created_at: :asc), items: 33)
     end
   end
 
-  def like
-    @movie = Movie.find(params[:id])
-    @review = Review.new
-    if !Review.where(movie_id: @movie.id, user_id: current_user.id).exists?
-      @review.user_id = current_user.id
-      @review.movie_id = @movie.id
-      @review.rating = 5
-      if @review.save
-        flash[:notice] = 'Review has been saved successfully.'
-        redirect_back(fallback_location: movies_path)
-      else
-        flash[:alert] = 'Database Error'
-        redirect_back(fallback_location: movies_path)
-      end
-    else
-        flash[:alert] = 'You have already reviewed this movies'
-        redirect_back(fallback_location: movies_path)
-    end
-  end
-  def dislike
-    @movie = Movie.find(params[:id])
-    @review = Review.new
-    if !Review.where(movie_id: @movie.id, user_id: current_user.id).exists?
-      @review.user_id = current_user.id
-      @review.movie_id = @movie.id
-      @review.rating = 1
-      if @review.save
-        flash[:notice] = 'Review has been saved successfully.'
-        redirect_back(fallback_location: movies_path)
-      else
-        flash[:alert] = 'Database Error'
-        redirect_back(fallback_location: movies_path)
-      end
-    else
-        flash[:alert] = 'You have already reviewed this movies'
-        redirect_back(fallback_location: movies_path)
-    end
-  end
-
   # GET /movies/1
   # GET /movies/1.json
-  def show
-  end
-
+  def show; end
 
   # GET /movies/new
   def new
     @movie = current_user.movies.build
-    get_genres
+    genres
   end
 
   # GET /movies/1/edit
@@ -121,8 +74,16 @@ class MoviesController < ApplicationController
 
   private
 
+  def help_index(movie_title)
+    ahoy.track 'Searched movie', title: movie_title
+    @pagy, @movies = pagy(Movie.search(movie_title), items: 33)
+    return unless @movies.blank?
 
-   private
+    ahoy.track 'Movie not found'
+    flash[:alert] = movite_title + ' not found'
+    params.delete :title
+    redirect_back(fallback_location: movies_path)
+  end
 
   def movie_detail
     movie_service.movie_detail(params['id'])
@@ -143,21 +104,21 @@ class MoviesController < ApplicationController
 
   def set_movie_review
     @reviews = @user.reviews
-    @movie_review = @reviews.where(movie_id: @movie.id).first
+    # Aaron said this was better, so we believe him
+    @movie_review = @reviews.find_by(movie_id: @movie.id)
+    # @movie_review = @reviews.where(movie_id: @movie.id).first
   end
 
-
-  # Never trust parameters from the scary internet, only allow the white list through.
+  # Never trust parameters from the scary internet
+  # only allow the white list through.
   def movie_params
-    params
-      .require(:movie)
-      .permit(:title, :vote_count, :vote_average, :tagline, :status, :poster_path, :original_language, :backdrop_path, :adult, :overview, :popularity, :budget, :release_date, :revenue, :runtime, :genre_ids => [])
+    accessible = %i[title vote_count vote_average tagline status poster_path original_language backdrop_path adult overview popularity budget release_date revenue runtime genre_ids: []]
+    params.require(:movie).permit(accessible)
   end
 
   # Utility methods
-  def get_genres
+  def genres
     @genres = Genre.all
     @movie_genres = @movie.categorizations.build
   end
-
 end

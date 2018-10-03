@@ -1,23 +1,10 @@
 <% @reviews.each_with_index do |review, index| %>
-    <div class="card">
-        <%= link_to movie_path(review.movie) do %>
-            <%= image_tag('http://image.tmdb.org/t/p/w300_and_h450_bestv2/' + review.movie.poster_path) %>
-        <% end %>
-        <div class="row">
-            <div class="col-sm-10">
-                <a href="#" class="tooltip-link" data-original-title="Date" data-toggle="tooltip">
-                    <i class="fa fa-calendar"></i>
-                    <%= review.created_at.strftime('%B %e at %l:%M %p' ) %>
-                </a>
-            </div>
-            <div class="col-sm-2">
-                <% if review.rating == 5 %>
-                    <%= fa_icon "thumbs-up" %>
-                <% end  %>
-                <% if review.rating == 1 %>
-                    <%= fa_icon "thumbs-down" %>
-                <% end  %>
-            </div>
-        </div><!-- End row -->
-    </div><!-- End card -->
+  <div class="card">
+    <%= link_to movie_path(review.movie) do %>
+    <%= image_tag('http://image.tmdb.org/t/p/w300_and_h450_bestv2/' + review.movie.poster_path) %>
+  <% end %>
+  <%= render 'partials/rating', review: review%>
+
+</div>
+<!-- End card -->
 <% end %>
