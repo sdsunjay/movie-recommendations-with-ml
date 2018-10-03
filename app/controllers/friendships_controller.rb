@@ -1,7 +1,7 @@
 class FriendshipsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_friendship, only: [:show, :edit, :update, :destroy]
-  before_action :set_user, only: [:index, :show, :edit, :update, :destroy]
+  before_action :set_friendship, only: %i[show edit update destroy]
+  before_action :set_user, only: %i[index show edit update destroy]
   # before_action :require_admin
 
   # GET /friendships
@@ -12,8 +12,7 @@ class FriendshipsController < ApplicationController
 
   # GET /friendships/1
   # GET /friendships/1.json
-  def show
-  end
+  def show; end
 
   # GET /friendships/new
   def new
@@ -21,8 +20,7 @@ class FriendshipsController < ApplicationController
   end
 
   # GET /friendships/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /friendships
   # POST /friendships.json
@@ -64,13 +62,15 @@ class FriendshipsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_friendship
-      @friendship = Friendship.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def friendship_params
+  # Use callbacks to share common setup or constraints between actions.
+  def set_friendship
+    @friendship = Friendship.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet
+  # only allow the white list through.
+  def friendship_params
     params
       .require(:friendship)
       .permit(:friend_id, :user_id)

@@ -16,7 +16,7 @@ class FacebookRealtimeUpdatesController < ApplicationController
 
   def subscribe
     updates = Koala::Facebook::RealtimeUpdates.new(:app_id => FACEBOOK_APP_ID, :secret => FACEBOOK_APP_SECRET)
-    updates.subscribe("user", "friends,movies", FACEBOOK_REALTIME_UPDATE_CALLBACK_URL, FACEBOOK_REALTIME_UPDATE_VERIFY_TOKEN)
+    updates.subscribe('user', 'friends,movies', FACEBOOK_REALTIME_UPDATE_CALLBACK_URL, FACEBOOK_REALTIME_UPDATE_VERIFY_TOKEN)
     head :ok
   end
 end
