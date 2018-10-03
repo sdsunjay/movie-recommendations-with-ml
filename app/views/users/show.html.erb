@@ -13,7 +13,7 @@
                             <div class="popular-post-widget">
                                 <div class="single-item">
                                     <div class="col-sm-4">
-                                        <% if @user.image.present? %>
+                                        <% if @user.image? %>
                                             <%= image_tag @user.image, style: 'width: 100%' %>
                                         <% else %>
                                             <%= image_tag "default_avatar_280x280.jpg", style: 'width: 100%' %>
@@ -25,7 +25,7 @@
                                             <strong>About me</strong>
                                         </h4>
                                         <h5>
-                                        <% if @user.gender.present? %>
+                                        <% if @user.gender? %>
                                             <% if @user.gender == 'female' %>
                                                 <i class="fa fa-female" aria-hidden="true" style="color: #00d999;"></i>
                                                 (<%= @user.gender %>)
@@ -72,7 +72,7 @@
                                         <h5>
                                             <i class="fa fa-home" style="color: #00d999;"></i>
                                             Location:
-                                            <% if @user.location.present? %>
+                                            <% if @user.location? %>
                                                 <i class="fa fa-check" style="color: green"></i>
                                                 <%= @user.location%>
                                             <% else %>
@@ -83,7 +83,7 @@
                                         <h5>
                                             <i class="fa fa-home" style="color: #00d999;"></i>
                                             Hometown:
-                                            <% if @user.hometown.present? %>
+                                            <% if @user.hometown? %>
                                                 <i class="fa fa-check" style="color: green"></i>
                                                 <%= @user.hometown%>
                                             <% else %>
@@ -95,7 +95,7 @@
                                             <h5>
                                                 <i class="fa fa-facebook" style="color: #00d999;"></i>
                                                 Facebook:
-                                                <% if @user.link.present? %>
+                                                <% if @user.link? %>
                                                     <i class="fa fa-check" style="color: green"></i>
                                                     <%= link_to 'verified', @user.link %>
                                                 <% else %>
@@ -106,7 +106,7 @@
                                             <h5>
                                                 <i class="fa fa-university" style="color: #00d999;"></i>
                                                 University:
-                                                <% if @user.education.present? %>
+                                                <% if @user.education? %>
                                                     <i class="fa fa-check" style="color: green"></i>
                                                     <%= @user.education %>
                                                 <% else %>
@@ -143,7 +143,7 @@
                                <!-- <div id="reviews-given-tab" class="tab-pane fade in active" > -->
                                 <% if @reviews.try(:any?) %>
                                     <div class="row">
-                                        <%= render 'partials/reviews', :reviews => @reviews %>
+                                        <%= render 'partials/reviews', reviews: @reviews %>
                                     </div>
                                 <% else %>
                                     <section class="single-from-blog" style="margin-bottom: 0; border: 1px solid #f0f0f0;">
@@ -161,7 +161,7 @@
                             <div class="tab-pane fade show" id="friends" role="tabpanel" aria-labelledby="friends-tab">
                                 <% if @friends.try(:any?) %>
                                 <div class="row">
-                                <%= render 'partials/friends', :friends => @friends %>
+                                <%= render 'partials/friends', friends: @friends %>
                                 </div>
                                 <% else %>
                                     <section class="single-from-blog" style="margin-bottom: 0; border: 1px solid #f0f0f0;">
@@ -170,7 +170,6 @@
                                         </div>
                                     </section>
                                 <% end %>
-                                <%= pagy_nav_compact_bootstrap(@pagy_friends).html_safe %>
                             </div>
                             <!-- End of My Friends -->
 
