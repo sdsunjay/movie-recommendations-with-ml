@@ -1,9 +1,9 @@
 class MoviesController < ApplicationController
   before_action :authenticate_user!, except: [:index]
-  before_action :set_user, only: %i[index show edit update destroy]
-  before_action :set_movie, only: %i[show edit update destroy]
-  before_action :set_movie_review, only: %i[show edit update destroy]
-  before_action :require_admin, only: %i[create new destroy]
+  before_action :set_user, only: [:index, :show, :edit, :update, :destroy]
+  before_action :set_movie, only: [:show, :edit, :update, :destroy]
+  before_action :set_movie_review, only: [:show, :edit, :update, :destroy]
+  before_action :require_admin, only: [:create, :new, :edit, :update, :destroy]
 
   # GET /movies
   # GET /movies.json
@@ -80,7 +80,7 @@ class MoviesController < ApplicationController
     return unless @movies.blank?
 
     ahoy.track 'Movie not found'
-    flash[:alert] = movite_title + ' not found'
+    flash[:alert] = movie_title + ' not found'
     params.delete :title
     redirect_back(fallback_location: movies_path)
   end

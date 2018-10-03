@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_user, only: %i[show edit update]
-  before_action :require_admin, only: %i[destroy index]
+  before_action :set_user, only: [:show, :edit, :update]
+  before_action :require_admin, only: [:destroy, :index]
 
   def index
     @pagy, @users = pagy(User.all.order(created_at: :desc), items: 99)

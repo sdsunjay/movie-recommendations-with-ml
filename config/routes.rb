@@ -11,13 +11,14 @@ Rails.application.routes.draw do
     get '/sign-in', to: 'devise/sessions#new', as: :signin
     get '/sign-up', to: 'devise/registrations#new', as: :signup
     authenticated :user do
-      resources :users, only: %i[show edit destroy update]
-      resources :friendships, only: %i[new create]
+      resources :users, only: [:index, :show, :edit, :destroy, :update]
+      resources :friendships, only: [:new, :create, :index, :show, :edit, :destroy, :update]
       root to: 'movies#index', as: :authenticated_root
-      resources :genres, only: [:show]
+      resources :genres, only: [:show, :index, :new, :create, :edit, :destroy, :update]
       get 'movies/:movie_id/reviews/create', to: 'reviews#create', via: :post
-      resources :movies, only: %i[index show] do
-        resources :reviews, only: %i[new create edit update destroy]
+      resources :reviews, only: [:index]
+      resources :movies, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
+        resources :reviews, only: [:new, :create, :edit, :update, :destroy]
       end
     end
 
@@ -25,13 +26,9 @@ Rails.application.routes.draw do
       root to: 'devise/registrations#new', as: :unauthenticated_root
     end
 
+    # TODO - why doesn't this work???
     authenticate :user, ->(user) { user.super_admin? } do
       mount Blazer::Engine, at: 'blazer'
-      resources :users, only: [:index]
-      resources :genres, only: %i[index new create edit update]
-      resources :reviews, only: [:index]
-      resources :movies, only: %i[new create edit update destroy]
-      resources :friendships, only: %i[index show edit destroy update]
     end
   end
 
