@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
     stored_location_for(resource) || user_path(resource) || request.env['omniauth.origin']
   end
 
-  def access_denied _auth_error = nil
+  def access_denied(_auth_error = nil)
     if user_signed_in?
       redirect_to authenticated_root_path
     else
@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def user_not_authorized _auth_error = nil
+  def user_not_authorized(_auth_error = nil)
     flash[:alert] = 'You need to login with Facebook to continue.'
 
     redirect_to destroy_user_session_path
@@ -34,16 +34,17 @@ class ApplicationController < ActionController::Base
   end
 
   def authenticate
-  	redirect_to new_user_session_path unless user_signed_in?
+    redirect_to new_user_session_path unless user_signed_in?
   end
 
   def user_signed_in?
-  	# converts current_user to a boolean by negating the negation
-  	!!current_user
+    # converts current_user to a boolean by negating the negation
+    !!current_user
   end
 
   def require_admin
     unless current_user.admin? || current_user.super_admin?
+
       flash[:alert] = 'Access denied'
       redirect_back fallback_location: movies_path, allow_other_host: false
     end
@@ -51,27 +52,28 @@ class ApplicationController < ActionController::Base
 
   def set_user
     return @user if defined? @user
+
     @user = current_user
   end
 
   private
-    # Its important that the location is NOT stored if:
-    # - The request method is not GET (non idempotent)
-    # - The request is handled by a Devise controller such as Devise::SessionsController as that could cause an
-    #    infinite redirect loop.
-    # - The request is an Ajax request as this can lead to very unexpected behaviour.
-    def storable_location?
-      request.get? && is_navigational_format? && !devise_controller? && !request.xhr?
-    end
 
-    def store_user_location!
-      # :user is the scope we are authenticating
-      store_location_for(:user, request.fullpath)
-    end
+  # Its important that the location is NOT stored if:
+  # - The request method is not GET (non idempotent)
+  # - The request is handled by a Devise controller such as
+  # Devise::SessionsController as that could cause an infinite redirect loop.
+  # - The request is an Ajax request as
+  # this can lead to very unexpected behaviour.
+  def storable_location?
+    request.get? && is_navigational_format? && !devise_controller? && !request.xhr?
+  end
 
-    def track_action
-      ahoy.track "Ran action", request.path_parameters
-    end
+  def store_user_location!
+    # :user is the scope we are authenticating
+    store_location_for(:user, request.fullpath)
+  end
 
-
+  def track_action
+    ahoy.track 'Ran action', request.path_parameters
+  end
 end

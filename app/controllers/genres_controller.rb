@@ -1,20 +1,19 @@
 class GenresController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_genre, only: [:show, :edit, :update]
+  before_action :set_genre, only: %i[show edit update]
   before_action :set_user
-  before_action :require_admin, only: [:edit, :new, :update]
+  before_action :require_admin, only: %i[edit new update]
   # GET /genres
   # GET /genres.json
   def index
-      @genres = Genre.all.order(created_at: :desc)
-      # @reviews =  @user.reviews.order(created_at: :desc)
+    @genres = Genre.all.order(created_at: :desc)
   end
 
   # GET /genres/1
   # GET /genres/1.json
   def show
-      @pagy, @movies = pagy(@genre.movies.all.order(created_at: :asc), items: 99)
-      @reviews =  @user.reviews.order(created_at: :desc)
+    @pagy, @movies = pagy(@genre.movies.all.order(created_at: :asc), items: 99)
+    @reviews = @user.reviews.order(created_at: :desc)
   end
 
   # GET /genres/new
@@ -24,8 +23,8 @@ class GenresController < ApplicationController
 
   # GET /genres/1/edit
   def edit
-     @movies = Movie.all
-     @moviesTheGenreIncludes = @genre.movies.pluck(:id)
+    @movies = Movie.all
+    @movies_the_genre_includes = @genre.movies.pluck(:id)
   end
 
   # POST /genres
@@ -59,13 +58,15 @@ class GenresController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_genre
-      @genre = Genre.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def genre_params
-      params.require(:genre).permit(:name)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_genre
+    @genre = Genre.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet
+  # only allow the white list through.
+  def genre_params
+    params.require(:genre).permit(:name)
+  end
 end
