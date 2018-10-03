@@ -6,7 +6,6 @@ class User < ApplicationRecord
 
 	has_many :friendships
 	has_many :users, through: :friendships
-
 	has_many :reviews, dependent: :destroy
 	has_many :movies, dependent: :destroy
 	has_many :visits, class_name: "Ahoy::Visit"
@@ -162,5 +161,9 @@ class User < ApplicationRecord
 					name: link_name, description: description, picture: image_url, link: page_link
 				})
 		end
+
+    def reviewed?(movie)
+      movie.review.where(user_id: id).exists?
+    end
 
 	end

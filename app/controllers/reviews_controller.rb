@@ -1,7 +1,7 @@
 class ReviewsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_movie, only: [:show, :edit, :update, :destroy]
-  before_action :set_review, only: [:show, :edit, :update, :destroy]
+  before_action :set_movie, only: [:create, :new, :show, :edit, :update, :destroy]
+  before_action :set_review, only: [:show, :edit, :update]
   before_action :require_admin, only: [:index]
 
   def index
@@ -13,18 +13,16 @@ class ReviewsController < ApplicationController
     @review = Review.new
   end
 
-  def edit
-  end
+  def edit; end
 
   def create
-    @review = current_user.reviews.build(review_params)
-    if @review.save
-      flash[:notice] = "Review Created"
-      redirect_to root_path
-    else
-      flash[:alert] = "Review Not Created"
-      render 'new'
-    end
+    return unless params[:rating].present?
+
+    @movie.review.where(user_id: current_user.id, rating: params[:rating]).first_or_create
+      respond_to do |format|
+        format.html {redirect_to movies_path}
+        format.js
+      end
   end
 
   def update
@@ -37,14 +35,14 @@ class ReviewsController < ApplicationController
     end
   end
 
-   def destroy
-     if @review.destroy
-       flash[:notice] = 'Review Deleted'
-       redirect_to movie_path(@movie)
-     else
-       render 'destroy'
-     end
-   end
+  def destroy
+    @movie.review.where(user_id: current_user.id).destroy_all
+
+    respond_to do |format|
+      format.html { redirect_to @movie }
+      format.js
+    end
+  end
 
   private
 
