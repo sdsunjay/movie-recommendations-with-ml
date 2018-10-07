@@ -7,7 +7,7 @@ class FriendshipsController < ApplicationController
   # GET /friendships
   # GET /friendships.json
   def index
-    @pagy, @friends = pagy(Friendship.all.order(created_at: :desc), items: 99)
+    @pagy, @friends = pagy(Friendship.includes(:user).all.order(created_at: :desc), items: 99)
   end
 
   # GET /friendships/1
