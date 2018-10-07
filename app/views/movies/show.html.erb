@@ -19,9 +19,7 @@
           <li>
             <strong>Genres:
             </strong>
-            <% @movie.categorizations.each do |categorization| %>
-              <%= link_to categorization.genre.name, genre_path(categorization.genre) %>,
-            <% end %>
+            <%= @genres.map { |genre| link_to(genre.name, genre_path(genre)) }.join(', ').html_safe %>
           </li>
           <% unless @movie.runtime.blank? %>
             <li>
@@ -55,14 +53,9 @@
             <strong>My Rating:
             </strong>
           </li>
-          <% # TODO(Sunjay) repaint the page when the user reviews the movie or deletes their review %>
+            <div id="movie_<%= @movie.id %>">
             <%= render 'partials/review', movie: @movie %>
-            <% if current_user.reviewed?(@movie) %>
-              <div id="edit_review">
-                <li id="review-edit-partial"><%= link_to 'Edit Review', edit_movie_review_path(@movie, @movie_review), class: 'btn btn-primary', remote: true %></li>
-              </div>
-              <li><%= link_to 'Delete', movie_review_path(@movie, @movie_review), class: 'btn btn-danger', method: :delete, data: { confirm: "Are you sure?" } %></li>
-            <% end %>
+            </div>
           </ul>
         </div>
         <!-- closes col-sm-6 -->
