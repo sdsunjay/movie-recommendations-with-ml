@@ -9,7 +9,7 @@ class User < ApplicationRecord
          omniauth_providers: [:facebook]
 
   has_many :friendships
-  has_many :users, through: :friendships
+  has_many :users, through: :friendships, dependent: :destroy
   has_many :reviews, dependent: :destroy
   has_many :movies, dependent: :destroy
   has_many :visits, class_name: 'Ahoy::Visit'
