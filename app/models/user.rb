@@ -113,6 +113,8 @@ class User < ApplicationRecord
     # user_friends = User.where('uid IN (?)', uids)
     # julian suggested this
     uids = @friends.pluck(:id)
+    puts('UIDS')
+    puts uids
     user_friends = User.where(uid: uids)
     user_friends.each do |user_friend|
       Friendship.create(friend_id: user_friend.id, user_id: id)
@@ -132,10 +134,12 @@ class User < ApplicationRecord
     Koala::Facebook::API.new(access_token)
   rescue Koala::Facebook::APIError => exception
     if exception.fb_error_type == 190
+      # TODO - Add some logging here
       puts exception
       # password reset - redirect to auth dialog
     else
       raise "Facebook Error: #{exception.fb_error_type}"
+      # TODO - Add some logging here
     end
   end
 
