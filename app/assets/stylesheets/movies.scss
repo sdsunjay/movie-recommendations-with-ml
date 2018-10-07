@@ -1,3 +1,14 @@
 // Place all the styles related to the movies controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+.rating-exists {
+    color: #E52727;
+    //text-shadow: 1px 1px 1px #ccc;
+    //font-size: 1.5em;
+}
+.fa-thumbs-up:hover {
+    color: #2E73FE;
+}
+.fa-thumbs-down:hover {
+    color: #2E73FE;
+}
