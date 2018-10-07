@@ -1,17 +1,21 @@
 <div class="row">
-  <div class="col-sm-10">
-    <a href="#" class="tooltip-link" data-original-title="Date" data-toggle="tooltip">
-      <i class="fa fa-calendar"></i>
-      <%= review.created_at.strftime('%b %e at %l:%M %p' ) %>
-    </a>
-  </div>
-  <div class="col-sm-2">
-    <% if review.rating == 5 %>
-      <%= fa_icon "thumbs-up" %>
-    <% end  %>
-    <% if review.rating == 1 %>
-      <%= fa_icon "thumbs-down" %>
-    <% end  %>
-  </div>
+    <div class="col-sm-10">
+        <a href="#" class="tooltip-link" data-original-title="Date" data-toggle="tooltip">
+            <i class="fa fa-calendar"></i>
+            <%= review.created_at.strftime('%b %e at %l:%M %p' ) %>
+        </a>
+    </div>
+    <div class="col-sm-2">
+        <% if review.rating == 5 %>
+            <%= link_to movie_review_path(movie, review), method: :delete, remote: true, class: "rating-exists" do %>
+                <strong><%= fa_icon "thumbs-up" %></strong>
+            <% end %>
+        <% end  %>
+        <% if review.rating == 1 %>
+            <%= link_to movie_review_path(movie, review), method: :delete, remote: true, class: "rating-exists" do %>
+                <strong><%= fa_icon "thumbs-down" %></strong>
+            <% end %>
+        <% end  %>
+    </div>
 </div>
 <!-- End row -->
