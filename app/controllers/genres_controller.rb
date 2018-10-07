@@ -14,7 +14,6 @@ class GenresController < ApplicationController
   # GET /genres/1.json
   def show
     @pagy, @movies = pagy(@genre.movies.all.order(created_at: :asc), items: 99)
-    @reviews = @user.reviews.order(created_at: :desc)
   end
 
   # GET /genres/new
@@ -70,7 +69,7 @@ class GenresController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_genre
-    @genre = Genre.find(params[:id])
+    @genre ||= Genre.find(params[:id])
   end
 
   # Never trust parameters from the scary internet
