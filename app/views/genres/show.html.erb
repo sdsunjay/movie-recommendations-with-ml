@@ -2,9 +2,7 @@
 <% if @movies.try(:any?) %>
   <div class="row">
     <% @movies.each do |movie| %>
-      <div id="movie_<%= movie.id %>">
         <%= render 'partials/movie', movie: movie %>
-      </div>
     <% end %>
     <!-- render page links in the view -->
   </div>
