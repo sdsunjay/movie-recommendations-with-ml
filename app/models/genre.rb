@@ -3,7 +3,7 @@
 # a top level comment
 class Genre < ApplicationRecord
   has_many :categorizations
-  has_many :movies, through: :categorizations
+  has_many :movies, through: :categorizations, dependent: :destroy
 
   validates :name, presence: true
 

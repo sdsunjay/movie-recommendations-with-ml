@@ -51,11 +51,12 @@ class UsersController < ApplicationController
 
   # DELETE /users/:id.:format
   def destroy
-    #     #authorize! :delete, @user
+    # authorize! :delete, @user
 
     @user = User.destroy(params[:id])
     @user.reviews.each(&:destroy)
     @user.friendships.each(&:destroy)
+    @user.movies.each(&:destroy)
 
     if @user.destroy
       flash[:notice] = 'User Removed'
