@@ -2,13 +2,11 @@ class MoviesController < ApplicationController
   before_action :authenticate_user!, except: [:index]
   before_action :set_user, only: [:index, :show, :edit, :update, :destroy]
   before_action :set_movie, only: [:show, :edit, :update, :destroy]
-  before_action :set_movie_review, only: [:show, :edit, :update, :destroy]
   before_action :require_admin, only: [:create, :new, :edit, :update, :destroy]
 
   # GET /movies
   # GET /movies.json
   def index
-    @review = Review.new
     if params[:title].present?
       help_index(params[:title])
     else
@@ -77,7 +75,7 @@ class MoviesController < ApplicationController
   def help_index(movie_title)
     ahoy.track 'Searched movie', title: movie_title
     @pagy, @movies = pagy(Movie.search(movie_title), items: 33)
-    return unless @movies.blank?
+    return unless !@movies.exists?
 
     ahoy.track 'Movie not found'
     flash[:alert] = movie_title + ' not found'
@@ -99,15 +97,11 @@ class MoviesController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_movie
-    @movie = Movie.find(params[:id])
+    @movie ||= Movie.find(params[:id])
+    @review = Review.where(movie_id: params[:id], user_id: current_user.id)
+    @genres  = @movie.genres
   end
 
-  def set_movie_review
-    @reviews = @user.reviews
-    # Aaron said this was better, so we believe him
-    @movie_review = @reviews.find_by(movie_id: @movie.id)
-    # @movie_review = @reviews.where(movie_id: @movie.id).first
-  end
 
   # Never trust parameters from the scary internet
   # only allow the white list through.
