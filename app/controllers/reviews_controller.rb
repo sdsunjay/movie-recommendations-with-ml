@@ -1,11 +1,11 @@
 class ReviewsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_movie, only: [:create, :new, :show, :edit, :update, :destroy]
-  before_action :set_review, only: [:show, :edit, :update]
+  before_action :set_review, only: [:show, :update]
   before_action :require_admin, only: [:index]
 
   def index
-    @pagy, @reviews = pagy(Review.all.order(created_at: :desc), items: 33)
+    @pagy, @reviews = pagy(Review.includes(:user, :movie).all.order(created_at: :desc), items: 33)
   end
 
   def new
@@ -51,7 +51,7 @@ class ReviewsController < ApplicationController
   end
 
   def set_movie
-    @movie = Movie.find(params[:movie_id])
+    @movie ||= Movie.find(params[:movie_id])
   end
 
   def review_params
