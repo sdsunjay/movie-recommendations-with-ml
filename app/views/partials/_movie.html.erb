@@ -1,12 +1,10 @@
 <% if movie.poster_path.present? %>
-    <div class="col">
-        <div class="card">
+    <div class="card">
             <%= link_to movie_path(movie) do %>
-                <%= image_tag('http://image.tmdb.org/t/p/w300_and_h450_bestv2/' + movie.poster_path) %>
+                <%= image_tag('http://image.tmdb.org/t/p/w300_and_h450_bestv2/' + movie.poster_path, alt: "#{movie.title}", class:"card-img-top img-fluid") %>
             <% end %>
             <div id="movie_<%= movie.id %>">
                 <%= render 'partials/review', movie: movie %>
             </div>
         </div>
-    </div>
 <% end %>
