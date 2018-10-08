@@ -28,4 +28,8 @@ class Movie < ApplicationRecord
   def movie_review(user_id, movie_id)
     Review.where(user: user_id, movie_id: movie_id).first
   end
+
+  def self.with_reviewed_by(user_id)
+    Movie.left_joins(:reviews).where(Review.arel_table[:user_id].eq(user_id)).select([Arel.star, Review.arel_table[:id].count.as('reviewed')])
+  end
 end
