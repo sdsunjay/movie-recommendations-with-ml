@@ -145,9 +145,11 @@
                     <!-- <div id="reviews-given-tab" class="tab-pane fade in active" > -->
                     <% if @reviews.try(:any?) %>
                       <div class="row">
-                        <% @reviews.each do |review| %>
-                            <%= render 'partials/movie', movie: review.movie %>
-                        <% end %>
+                        <div class="card-columns">
+                            <% @reviews.each do |review| %>
+                                <%= render 'partials/movie', movie: review.movie %>
+                            <% end %>
+                        </div>
                       </div>
                     <% else %>
                       <section class="single-from-blog" style="margin-bottom: 0; border: 1px solid #f0f0f0;">
@@ -165,7 +167,9 @@
                   <div class="tab-pane fade show" id="friends" role="tabpanel" aria-labelledby="friends-tab">
                     <% if @friends.try(:any?) %>
                       <div class="row">
-                        <%= render 'partials/friends', friends: @friends %>
+                        <div class="card-columns">
+                          <%= render 'partials/friends', friends: @friends %>
+                        </div>
                       </div>
                     <% else %>
                       <section class="single-from-blog" style="margin-bottom: 0; border: 1px solid #f0f0f0;">
