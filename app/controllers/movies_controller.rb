@@ -21,12 +21,12 @@ class MoviesController < ApplicationController
   # GET /movies/new
   def new
     @movie = current_user.movies.build
-    genres
+    @genres = Genre.all.map{|g| [ g.name, g.id ] }
   end
 
   # GET /movies/1/edit
   def edit
-    get_genres
+    # get_genres
   end
 
   # POST /movies
@@ -106,7 +106,7 @@ class MoviesController < ApplicationController
   # Never trust parameters from the scary internet
   # only allow the white list through.
   def movie_params
-    accessible = %i[title vote_count vote_average tagline status poster_path original_language backdrop_path adult overview popularity budget release_date revenue runtime genre_ids: []]
+    accessible = [:title, :vote_count, :vote_average, :tagline, :status, :poster_path, :original_language, :backdrop_path, :adult, :overview, :popularity, :budget, :release_date, :revenue, :runtime, :genre_ids => []]
     params.require(:movie).permit(accessible)
   end
 
