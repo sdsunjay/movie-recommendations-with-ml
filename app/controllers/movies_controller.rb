@@ -11,6 +11,7 @@ class MoviesController < ApplicationController
       help_index(params[:title])
     else
       @pagy, @movies = pagy(Movie.all.order(created_at: :asc), items: 33)
+      # Movie.with_reviewed_by(current_user)
     end
   end
 
