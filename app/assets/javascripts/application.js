@@ -13,8 +13,8 @@
 //= require ahoy
 //= require jquery_ujs
 //= require popper
-//= require bootstrap
 //= require activestorage
 //= require turbolinks
+//= require bootstrap
 //= require cocoon
 //= require_tree .
