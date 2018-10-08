@@ -14,7 +14,7 @@ section .section-title {
 }
 #footer h5{
 	padding-left: 10px;
-    border-left: 3px solid #eeeeee;
+    //border-left: 3px solid #eeeeee;
     padding-bottom: 6px;
     margin-bottom: 20px;
     color:#ffffff;
@@ -67,7 +67,7 @@ section .section-title {
 @media (max-width:767px){
 	#footer h5 {
     padding-left: 0;
-    border-left: transparent;
+    // border-left: transparent;
     padding-bottom: 0px;
     margin-bottom: 10px;
 }
