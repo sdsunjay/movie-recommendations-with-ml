@@ -55,6 +55,7 @@ class User < ApplicationRecord
     user.password = Devise.friendly_token[0, 20]
     user.name = auth.info.name   # assuming the user has a name
     user.image = auth.info.image # assuming the user has an image
+    # TODO why doesn't this work?
     user.gender = auth.extra.raw_info.gender # assuming the user has a gender
     user.access_level = 0
     user.link = auth.extra.raw_info.link
