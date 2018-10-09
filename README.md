@@ -7,7 +7,7 @@ movie-recommendations-with-ml
 ### Getting started
 
 ```
-$ clone repo && cd hitch_a_ride
+$ clone repo && cd movie-recommendations-with-ml
 $ bundle install
 ```
 
@@ -28,3 +28,8 @@ $ rails s
 
 - Ruby On Rails
 - Devise for Authentication
+- Sidekiq
+- Redis
+- Puma
+- Capistrano
+
