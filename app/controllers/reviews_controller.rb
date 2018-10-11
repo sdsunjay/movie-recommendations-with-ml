@@ -2,6 +2,7 @@ class ReviewsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_movie, only: [:create, :new, :show, :edit, :update, :destroy]
   before_action :set_review, only: [:show, :update]
+  before_action :set_user, only: [:create, :edit, :update, :destroy]
   before_action :require_admin, only: [:index]
 
   def index
@@ -18,11 +19,12 @@ class ReviewsController < ApplicationController
   def create
     return unless params[:rating].present?
 
-    @movie.review.where(user_id: current_user.id, rating: params[:rating]).first_or_create
-      respond_to do |format|
-        format.html {redirect_to movies_path}
-        format.js
-      end
+    @movie.reviews.where(user_id: @user.id, rating: params[:rating]).first_or_create
+    @user_reviews = @user.reviews
+    respond_to do |format|
+      format.html {redirect_to movies_path}
+      format.js
+    end
   end
 
   def update
@@ -36,7 +38,8 @@ class ReviewsController < ApplicationController
   end
 
   def destroy
-    @movie.review.where(user_id: current_user.id).destroy_all
+    @movie.reviews.where(user_id: @user.id).destroy_all
+    @user_reviews = @user.reviews
 
     respond_to do |format|
       format.html { redirect_to @movie }
