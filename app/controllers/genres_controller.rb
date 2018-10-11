@@ -2,6 +2,7 @@ class GenresController < ApplicationController
   before_action :authenticate_user!
   before_action :set_genre, only: [:show, :edit, :update, :destroy]
   before_action :set_user
+  before_action :set_user_reviews, only: [:show]
   before_action :require_admin, only: [:index, :new, :create, :edit, :destroy, :update]
 
   # GET /genres
@@ -13,7 +14,8 @@ class GenresController < ApplicationController
   # GET /genres/1
   # GET /genres/1.json
   def show
-    @pagy, @movies = pagy(@genre.movies.all.order(created_at: :asc), items: 99)
+    @per_page = params[:per_page] || 30
+    @pagy, @movies = pagy(@genre.movies.all, items: @per_page)
   end
 
   # GET /genres/new
