@@ -56,6 +56,12 @@ class ApplicationController < ActionController::Base
     @user = current_user
   end
 
+  def set_user_reviews
+    return @user_reviews if defined? @user_reviews
+
+    @user_reviews = @user.reviews
+  end
+
   private
 
   # Its important that the location is NOT stored if:
