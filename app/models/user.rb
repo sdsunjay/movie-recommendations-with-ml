@@ -28,7 +28,7 @@ class User < ApplicationRecord
   def self.from_omniauth(auth)
     user = User.where(provider: auth.provider, uid: auth.uid).first
     if user.blank?
-      create_new_user
+      create_new_user(auth)
     else
       # check access_token
       user.access_token
@@ -36,7 +36,7 @@ class User < ApplicationRecord
     user
   end
 
-  def self.create_new_user
+  def self.create_new_user(auth)
     # immediately get 60 day auth token
     oauth = Koala::Facebook::OAuth.new(
       ENV['FACEBOOK_APP_ID'], ENV['FACEBOOK_SECRET']
@@ -74,10 +74,14 @@ class User < ApplicationRecord
     user.save(validate: false)
   end
 
+    # TODO - this doesn't work anymore..
   def add_movies
-    @facebook ||= client
-    @movies = @facebook.get_object('me/movies/', {}, api_version: 'v3.1')
-    puts @movies
+    # @facebook ||= client
+    @graph = Koala::Facebook::API.new(access_token)
+    # movies = @graph.get_object("me", "movies?fields=name")
+    # @movies = @graph.get_object("/me/movies?fields=name")
+    @movies = @graph.get_object('/me/movies/', {}, api_version: 'v3.1')
+    logger.debug "movies are present: #{@movies}"
     loop do
       break if @movies.blank?
 
@@ -86,10 +90,11 @@ class User < ApplicationRecord
     end
   end
 
+  # TODO - this doesn't work anymore..
   def add_friends
     @facebook ||= client
     @friends = @facebook.get_connections('me', 'friends')
-    puts @friends
+    logger.debug "Friends are present: #{@friends}"
     loop do
       break if @friends.blank?
 
