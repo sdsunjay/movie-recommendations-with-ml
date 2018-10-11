@@ -11,7 +11,7 @@ class UsersController < ApplicationController
   def show
     @friends = Friendship.where(user_id: @user).order(created_at: :desc)
 
-    @pagy_reviews, @reviews = pagy(Review.includes(:movie).where(user_id: @user).order(created_at: :desc), items: 33)
+    @pagy_reviews, @reviews = pagy(Review.includes(:movie).where(user_id: current_user.id).order(created_at: :desc), items: 33)
     @friends_count = if @friends.blank?
                        0
                      else
