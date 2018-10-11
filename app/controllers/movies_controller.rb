@@ -2,16 +2,17 @@ class MoviesController < ApplicationController
   before_action :authenticate_user!, except: [:index]
   before_action :set_user, only: [:index, :show, :edit, :update, :destroy]
   before_action :set_movie, only: [:show, :edit, :update, :destroy]
+  before_action :set_user_reviews, only: [:show, :index]
   before_action :require_admin, only: [:create, :new, :edit, :update, :destroy]
 
   # GET /movies
   # GET /movies.json
   def index
+    @per_page = params[:per_page] || 30
     if params[:title].present?
       help_index(params[:title])
     else
-      @pagy, @movies = pagy(Movie.all.order(created_at: :asc), items: 33)
-      # Movie.with_reviewed_by(current_user)
+      @pagy, @movies = pagy(Movie.all, items: @per_page)
     end
   end
 
@@ -107,7 +108,7 @@ class MoviesController < ApplicationController
   # Never trust parameters from the scary internet
   # only allow the white list through.
   def movie_params
-    accessible = [:title, :vote_count, :vote_average, :tagline, :status, :poster_path, :original_language, :backdrop_path, :adult, :overview, :popularity, :budget, :release_date, :revenue, :runtime, :genre_ids => []]
+    accessible = [:title, :vote_count, :vote_average, :tagline, :status, :poster_path, :original_language, :backdrop_path, :adult, :overview, :popularity, :budget, :release_date, :revenue, :runtime, :position, :genre_ids => []]
     params.require(:movie).permit(accessible)
   end
 
