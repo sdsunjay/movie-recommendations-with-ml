@@ -1,9 +1,12 @@
 <h1><%= @genre.name %></h1>
 <% if @movies.try(:any?) %>
     <div class="row">
+        <%= render 'partials/per_page' %>
+    </div>
+    <div class="row">
         <div class="card-columns">
             <% @movies.each do |movie| %>
-                <%= render 'partials/movie', movie: movie %>
+                <%= render 'partials/movie', movie: movie, user_reviews: @user_reviews %>
             <% end %>
         </div>
     </div>
