@@ -28,7 +28,7 @@ class User < ApplicationRecord
   def self.from_omniauth(auth)
     user = User.where(provider: auth.provider, uid: auth.uid).first
     if user.blank?
-      create_new_user(auth)
+      user = create_new_user(auth)
     else
       # check access_token
       user.access_token
@@ -55,7 +55,6 @@ class User < ApplicationRecord
     user.password = Devise.friendly_token[0, 20]
     user.name = auth.info.name   # assuming the user has a name
     user.image = auth.info.image # assuming the user has an image
-    # TODO why doesn't this work?
     user.gender = auth.extra.raw_info.gender # assuming the user has a gender
     user.access_level = 0
     user.link = auth.extra.raw_info.link
@@ -72,15 +71,13 @@ class User < ApplicationRecord
     # originally Time.at(auth.credentials.expires_at)
     user.token_expires_at = new_access_expires_at
     user.save(validate: false)
+    user
   end
 
-    # TODO - this doesn't work anymore..
   def add_movies
-    # @facebook ||= client
-    @graph = Koala::Facebook::API.new(access_token)
-    # movies = @graph.get_object("me", "movies?fields=name")
-    # @movies = @graph.get_object("/me/movies?fields=name")
-    @movies = @graph.get_object('/me/movies/', {}, api_version: 'v3.1')
+    @facebook ||= client
+    # @graph = Koala::Facebook::API.new(access_token)
+    @movies = @facebook.get_object('me?fields=movies', {}, api_version: 'v3.1')
     logger.debug "movies are present: #{@movies}"
     loop do
       break if @movies.blank?
@@ -103,24 +100,30 @@ class User < ApplicationRecord
     end
   end
 
+  # TODO this doesn't work anymore...find out why
   def help_add_movies
-    # movie_names = @movies.collect { |f| f['name'] }
-    # user_movies = Movie.where('title in (?)', movie_names)
-    # julian suggested this
-    movie_names = @movies.pluck(:name)
-    user_movies = Movie.where(title: movie_names)
-    user_movies.each do |user_movie|
-      Review.create(movie_id: user_movie.id, user_id: id, rating: 5)
+    # julian suggested this and it doesn't work
+    # movie_names = @movies.pluck(:name)
+    @movies.each_with_index do |hash, index|
+      user_movies  = Movie.where(title: hash[index]['name'])
+      logger.debug "user_movies are present: #{user_movies}"
+      user_movies.each do |user_movie|
+        Review.create(movie_id: user_movie.id, user_id: id, rating: 5)
+      end
     end
+    # movie_names = @movies.collect { |f| f['data']['name'] }
+    # logger.debug "movie_names are present: #{movie_names}"
+    # user_movies = Movie.where(title: movie_names)
+    # user_movies.each do |user_movie|
+    #  Review.create(movie_id: user_movie.id, user_id: id, rating: 5)
+    # end
   end
 
   def help_add_friends
-    # uids = @friends.collect { |f| f['id'].to_s }
-    # user_friends = User.where('uid IN (?)', uids)
-    # julian suggested this
-    uids = @friends.pluck(:id)
-    puts('UIDS')
-    puts uids
+    # julian suggested this and it doesn't work
+    # uids = @friends.pluck(:id)
+    uids = @friends.collect { |f| f['id'].to_s }
+    logger.debug "user Facebook ids are present: #{uids}"
     user_friends = User.where(uid: uids)
     user_friends.each do |user_friend|
       Friendship.create(friend_id: user_friend.id, user_id: id)
