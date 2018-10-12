@@ -74,11 +74,14 @@ class User < ApplicationRecord
     user
   end
 
+  # TODO paging does not work anymore
   def add_movies
-    @facebook ||= client
-    # @graph = Koala::Facebook::API.new(access_token)
-    @movies = @facebook.get_object('me?fields=movies', {}, api_version: 'v3.1')
-    logger.debug "movies are present: #{@movies}"
+    # @facebook ||= client
+    @graph = Koala::Facebook::API.new(access_token)
+    @movies = @graph.get_object('me?fields=movies', {}, api_version: 'v3.1')
+    # puts @movies
+    # @movies = @graph.get_object('me?fields=movies')
+    # logger.debug "movies are present: #{@movies['data']}"
     loop do
       break if @movies.blank?
 
@@ -87,7 +90,6 @@ class User < ApplicationRecord
     end
   end
 
-  # TODO - this doesn't work anymore..
   def add_friends
     @facebook ||= client
     @friends = @facebook.get_connections('me', 'friends')
@@ -100,23 +102,17 @@ class User < ApplicationRecord
     end
   end
 
-  # TODO this doesn't work anymore...find out why
   def help_add_movies
+
     # julian suggested this and it doesn't work
-    # movie_names = @movies.pluck(:name)
-    @movies.each_with_index do |hash, index|
-      user_movies  = Movie.where(title: hash[index]['name'])
-      logger.debug "user_movies are present: #{user_movies}"
-      user_movies.each do |user_movie|
-        Review.create(movie_id: user_movie.id, user_id: id, rating: 5)
-      end
-    end
-    # movie_names = @movies.collect { |f| f['data']['name'] }
+    # movie_names = @movies["movies"]["data"].pluck(:name)
+    movie_names = @movies["movies"]["data"].collect { |f| f['name'] }
+    # puts movie_names
     # logger.debug "movie_names are present: #{movie_names}"
-    # user_movies = Movie.where(title: movie_names)
-    # user_movies.each do |user_movie|
-    #  Review.create(movie_id: user_movie.id, user_id: id, rating: 5)
-    # end
+		user_movies = Movie.where(title: movie_names)
+		user_movies.each do |user_movie|
+		  Review.create(movie_id: user_movie.id, user_id: id, rating: 5)
+		end
   end
 
   def help_add_friends
