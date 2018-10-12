@@ -147,10 +147,13 @@
                       <div class="row">
                         <div class="card-columns">
                             <% @reviews.each do |review| %>
-                                <%= render 'partials/movie', movie: review.movie %>
+                                <%= render 'partials/movie', movie: review.movie, user_reviews: @reviews %>
                             <% end %>
                         </div>
                       </div>
+                    <div class="row">
+                      <%= pagy_nav_compact_bootstrap(@pagy_reviews).html_safe %>
+                    </div>
                     <% else %>
                       <section class="single-from-blog" style="margin-bottom: 0; border: 1px solid #f0f0f0;">
                         <div class="blog-title">
@@ -158,9 +161,6 @@
                         </div>
                       </section>
                     <% end %>
-                    <div class="row">
-                      <%= pagy_nav_compact_bootstrap(@pagy_reviews).html_safe %>
-                    </div>
                   </div>
                   <!-- End of My Reviews -->
 
