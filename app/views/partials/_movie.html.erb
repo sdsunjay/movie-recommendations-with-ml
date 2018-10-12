@@ -4,7 +4,7 @@
                 <%= image_tag('http://image.tmdb.org/t/p/w300_and_h450_bestv2/' + movie.poster_path, alt: "#{movie.title}", class:"card-img-top img-fluid") %>
             <% end %>
             <div id="movie_<%= movie.id %>">
-                <%= render 'partials/review', movie: movie %>
+                <%= render 'partials/review', movie: movie, user_reviews: user_reviews %>
             </div>
         </div>
 <% end %>
