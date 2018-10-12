@@ -11,6 +11,10 @@
         <h3>Movie Info:
         </h3>
         <ul>
+            <li>
+              <strong>Position:
+              </strong><%= @movie.position %>
+        </li>
           <% unless @movie.tagline.blank? %>
             <li>
               <strong>Tagline:
@@ -54,7 +58,7 @@
             </strong>
           </li>
             <div id="movie_<%= @movie.id %>">
-            <%= render 'partials/review', movie: @movie %>
+            <%= render 'partials/review', movie: @movie, user_reviews: @user_reviews %>
             </div>
           </ul>
         </div>
