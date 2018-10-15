@@ -18,9 +18,9 @@ class User < ApplicationRecord
 
   def self.new_with_session(params, session)
     super.tap do |user|
-      if data = session['devise.facebook_data'] &&
-                session['devise.facebook_data']['extra']['raw_info']
-        user.email = data['email'] if user.email.blank?
+      if session['devise.facebook_data'] &&
+         session['devise.facebook_data']['extra']['raw_info']
+        user.email = session['devise.facebook_data']['email'] if user.email.blank?
       end
     end
   end
@@ -58,6 +58,8 @@ class User < ApplicationRecord
     user.gender = auth.extra.raw_info.gender # assuming the user has a gender
     user.access_level = 0
     user.link = auth.extra.raw_info.link
+    # TODO: Add permission for age_rage
+    # user.age_range = auth.extra.raw_info.age_range
     unless auth.extra.raw_info.location.nil?
       # assuming the user has a location
       user.location = auth.extra.raw_info.location['name']
@@ -70,22 +72,26 @@ class User < ApplicationRecord
     user.token = new_access_token
     # originally Time.at(auth.credentials.expires_at)
     user.token_expires_at = new_access_expires_at
-    user.save(validate: false)
-    user
+    if user.save(validate: false)
+      user
+    else
+      logger.debug "User did not save: #{user}"
+      # throw error
+    end
   end
 
-  # TODO paging does not work anymore
+  # TODO: paging does not work anymore
   def add_movies
     # @facebook ||= client
     @graph = Koala::Facebook::API.new(access_token)
     @movies = @graph.get_object('me?fields=movies', {}, api_version: 'v3.1')
-    # puts @movies
+    puts @movies
     # @movies = @graph.get_object('me?fields=movies')
     # logger.debug "movies are present: #{@movies['data']}"
     loop do
       break if @movies.blank?
 
-      help_add_movies
+      # help_add_movies
       @movies = @movies.next_page
     end
   end
@@ -103,16 +109,16 @@ class User < ApplicationRecord
   end
 
   def help_add_movies
-
     # julian suggested this and it doesn't work
     # movie_names = @movies["movies"]["data"].pluck(:name)
-    movie_names = @movies["movies"]["data"].collect { |f| f['name'] }
+    movie_names = @movies['movies']['data'].collect { |f| f['name'] }
     # puts movie_names
     # logger.debug "movie_names are present: #{movie_names}"
-		user_movies = Movie.where(title: movie_names)
-		user_movies.each do |user_movie|
-		  Review.create(movie_id: user_movie.id, user_id: id, rating: 5)
-		end
+    user_movies = Movie.where(title: movie_names)
+    # puts user_movies
+    # user_movies.each do |user_movie|
+    #  Review.create(movie_id: user_movie.id, user_id: id, rating: 5)
+    # end
   end
 
   def help_add_friends
@@ -139,12 +145,12 @@ class User < ApplicationRecord
     Koala::Facebook::API.new(access_token)
   rescue Koala::Facebook::APIError => exception
     if exception.fb_error_type == 190
-      # TODO - Add some logging here
+      # TODO: - Add some logging here
       puts exception
       # password reset - redirect to auth dialog
     else
       raise "Facebook Error: #{exception.fb_error_type}"
-      # TODO - Add some logging here
+      # TODO: Add some logging here
     end
   end
 
@@ -170,8 +176,8 @@ class User < ApplicationRecord
   end
 
   # Post to user's wall
-  # TODO manage_pages and publish_pages permission needed
-  # TODO actually test this
+  # TODO: manage_pages and publish_pages permission needed
+  # TODO: actually test this
   def put_wall_post(message)
     title = message
     page_link = 'https://google.com'
