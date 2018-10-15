@@ -1,0 +1,47 @@
+version: '3'
+volumes:
+  redis:
+  postgres:
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ./docker/app/DockerFile
+    depends_on:
+      - db
+      - redis
+  db:
+    image: 'postgres:10.3-alpine'
+    restart: always
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    env_file:
+      - '.env'
+    ports:
+      - '5432:5432'
+  redis:
+    image: 'redis:4.0-alpine'
+    command: redis-server --requirepass yourpassword
+    volumes:
+      - 'redis:/data'
+    ports:
+      - '6379:6379'
+  web:
+    build:
+      context: .
+      dockerfile: ./docker/web/DockerFile
+    depends_on:
+      - app
+    ports:
+      - 80:80
+
+  sidekiq:
+    depends_on:
+      - db
+      - redis
+    build: .
+    command: bundle exec sidekiq -C config/sidekiq.yml
+    volumes:
+      - '.:/app'
+    env_file:
+      - '.env'
