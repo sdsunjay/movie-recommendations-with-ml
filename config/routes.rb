@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   get '/about', to: 'static_pages#about'
   get '/privacy', to: 'static_pages#privacy'
   get '/terms', to: 'static_pages#terms'
+  get  'facebook/subscription', to: 'facebook_realtime_updates#subscription', as: 'facebook_subscription', via: [:get,:post]
 
   devise_scope :user do
     get '/sign-in', to: 'devise/sessions#new', as: :signin
