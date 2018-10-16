@@ -8,4 +8,9 @@ default: &default
 
 development:
   <<: *default
-  database: app_name_development
+  database: movierecommendationswithml_development
+
+production:
+  <<: *default
+  database: movierecommendationswithml_production
+
