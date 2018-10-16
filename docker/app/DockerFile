@@ -10,8 +10,8 @@ RUN mkdir -p $RAILS_ROOT
 # Set working directory within container
 WORKDIR $RAILS_ROOT
 # Setting env up
-ENV RAILS_ENV='production'
-ENV RACK_ENV='production'
+ENV RAILS_ENV production
+ENV RACK_ENV production
 # Adding gems
 COPY Gemfile Gemfile
 COPY Gemfile.lock Gemfile.lock

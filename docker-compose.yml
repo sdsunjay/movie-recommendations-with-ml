@@ -11,7 +11,7 @@ services:
       - db
       - redis
   db:
-    image: 'postgres:10.3-alpine'
+    image: 'postgres:11-alpine'
     restart: always
     volumes:
       - postgres:/var/lib/postgresql/data
@@ -20,10 +20,11 @@ services:
     ports:
       - '5432:5432'
   redis:
-    image: 'redis:4.0-alpine'
-    command: redis-server --requirepass yourpassword
+    image: 'redis:4-alpine'
+    command: redis-server /usr/local/etc/redis/redis.conf
     volumes:
       - 'redis:/data'
+      - './docker/redis/redis.conf:/usr/local/etc/redis/redis.conf'
     ports:
       - '6379:6379'
   web:
@@ -34,6 +35,7 @@ services:
       - app
     ports:
       - 80:80
+      - 443:443
 
   sidekiq:
     depends_on:
