@@ -1,22 +1,15 @@
 version: '3'
 
 services:
-  app:
-    build:
-      context: .
-      dockerfile: ./docker/app/DockerFile
-    depends_on:
-      - db
-      - sidekiq
   db:
     image: 'postgres:11-alpine'
     restart: always
     volumes:
-      - postgres:/var/lib/postgresql/data
-    env_file:
-      - '.env'
+      - 'postgres:/var/lib/postgresql/data'
     ports:
       - '5432:5432'
+    env_file:
+      - '.env'
   redis:
     image: 'redis:4-alpine'
     command: redis-server /usr/local/etc/redis/redis.conf
@@ -25,25 +18,32 @@ services:
       - './docker/redis/redis.conf:/usr/local/etc/redis/redis.conf'
     ports:
       - '6379:6379'
-  web:
-    build:
-      context: .
-      dockerfile: ./docker/web/DockerFile
-    depends_on:
-      - app
-    ports:
-      - 80:80
-      - 443:443
-
   sidekiq:
     depends_on:
-      - redis
+      - 'db'
+      - 'redis'
     build: .
     command: bundle exec sidekiq -C config/sidekiq.yml
     volumes:
       - '.:/app'
     env_file:
       - '.env'
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - 'db'
+      - 'sidekiq'
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile-nginx
+    depends_on:
+      - 'app'
+    ports:
+      - 80:80
+      - 443:443
 
 volumes:
   redis:
