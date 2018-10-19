@@ -1,6 +1,4 @@
 if Rails.env.development?
-
-
   REDIS_URL = Rails.application.credentials.development[:redis_url]
   REDIS_PASSWORD = Rails.application.credentials.development[:redis_password]
 
