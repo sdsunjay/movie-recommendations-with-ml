@@ -36,8 +36,11 @@ $ bundle exec puma -C config/puma.rb
 To release to production with Docker
 ```
 $ docker-compose build
-$ docker-compose run app rake db:create
-$ docker-compose run app rake db:migrate db:seed:users db:seed:genres db:seed:movies db:seed:categorizations db:seed:reviews
+$ docker-compose run app rake db:create db:migrate
+$ docker-compose run app rake db:seed:users db:seed:genres
+$ docker-compose run app rake db:seed:movies db:seed:categorizations
+# Optional
+# $ docker-compose run app rake db:seed:reviews
 $ docker-compose up
 $ docker ps
 ```
@@ -47,9 +50,8 @@ Remove all containers
 # bash/zsh
 $ docker volume prune
 $ docker volume ls
-$ docker rm $(docker ps -a -q) -f
 $ docker-compose rm -f
-$ docker rm $(docker ps -a -q)
+$ docker rm $(docker ps -a -q) -f
 $ docker rmi $(docker images -q)
 
 # fish
