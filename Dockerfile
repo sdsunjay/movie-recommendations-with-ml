@@ -29,7 +29,7 @@ WORKDIR $RAILS_ROOT
 # Adding gems
 COPY Gemfile Gemfile
 COPY Gemfile.lock Gemfile.lock
-
+COPY db/seeds db/seeds
 
 # RUN apk add --virtual build-deps build-base openssl-dev postgresql-dev libc-dev linux-headers libxml2-dev libxslt-dev readline-dev
 # RUN gem install bundler && bundle install --jobs 20 --retry 5
