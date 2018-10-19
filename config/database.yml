@@ -10,6 +10,6 @@ development:
 production:
   <<: *default
   database: movierecommendationswithml_production
-  username: <%= ENV['POSTGRES_USER'] %>
-  password: <%= ENV['POSTGRES_PASSWORD'] %>
-  host: '' 
+  username: postgres
+  password: password
+  host: db
