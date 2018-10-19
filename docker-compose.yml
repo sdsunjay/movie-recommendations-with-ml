@@ -11,14 +11,13 @@ services:
     environment:
       - POSTGRES_PASSWORD:'password'
       - POSTGRES_DB:'db'
+   
   redis:
-    image: 'redis:4-alpine'
-    command: redis-server /usr/local/etc/redis/redis.conf
+    image: 'redis:4.0-alpine'
+    command: redis-server --requirepass yourpassword
     volumes:
       - 'redis:/data'
-      - './docker/redis/redis.conf:/usr/local/etc/redis/redis.conf'
-    ports:
-      - '6379:6379'
+
   sidekiq:
     depends_on:
       - 'db'
