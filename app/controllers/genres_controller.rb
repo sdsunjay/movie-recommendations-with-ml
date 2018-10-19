@@ -4,10 +4,12 @@ class GenresController < ApplicationController
   before_action :set_user
   before_action :set_user_reviews, only: [:show]
   before_action :require_admin, only: [:index, :new, :create, :edit, :destroy, :update]
+  caches_action :index
 
   # GET /genres
   # GET /genres.json
   def index
+    @page_title = 'Genres'
     @genres = Genre.all.order(created_at: :desc)
   end
 
@@ -15,6 +17,7 @@ class GenresController < ApplicationController
   # GET /genres/1.json
   def show
     @per_page = params[:per_page] || 30
+    @page_title = @genre.name
     @pagy, @movies = pagy(@genre.movies.all, items: @per_page)
   end
 
@@ -25,6 +28,7 @@ class GenresController < ApplicationController
 
   # GET /genres/1/edit
   def edit
+    @page_title = 'Edit Genre'
     @movies = Movie.all
     @movies_the_genre_includes = @genre.movies.pluck(:id)
   end
