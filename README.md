@@ -37,7 +37,7 @@ To release to production with Docker
 ```
 $ docker-compose build
 $ docker-compose run app rake db:create
-$ docker-compose run app rake db:migrate genres:seed_genres rake users:seed_users movies:seed_movies
+$ docker-compose run app rake db:migrate genres:seed_genres users:seed_users movies:seed_movies
 $ docker-compose up
 $ docker ps
 ```
@@ -45,12 +45,16 @@ $ docker ps
 Remove all containers
 ```
 # bash/zsh
-docker rm $(docker ps -a -q)
-docker rmi $(docker images -q)
+$ docker volume prune
+$ docker volume ls
+$ docker rm $(docker ps -a -q) -f
+$ docker-compose rm -f
+$ docker rm $(docker ps -a -q)
+$ docker rmi $(docker images -q)
 
 # fish
-docker rm (docker ps -a -q)
-docker rmi (docker images -q)
+$ docker rm (docker ps -a -q)
+$ docker rmi (docker images -q)
 ```
 
 ### Technologies used
