@@ -2,8 +2,9 @@
 
 # a top level comment
 class Review < ApplicationRecord
+  default_scope { order(created_at: :desc) }
   # user will review many movies
-  belongs_to :user
+  belongs_to :user, touch: true
   # movie will have many reviews
   belongs_to :movie
   validates :user_id,
