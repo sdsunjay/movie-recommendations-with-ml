@@ -115,8 +115,7 @@ if [ "$1" = 'postgres' ]; then
 			-o "-c listen_addresses=''" \
 			-w start
 
-		file_env 'POSTGRES_DB' "$POSTGRES_USER"
-
+    file_env 'POSTGRES_DB' "$POSTGRES_USER"
 		export PGPASSWORD="${PGPASSWORD:-$POSTGRES_PASSWORD}"
 		psql=( psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --no-password )
 
