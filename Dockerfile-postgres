@@ -1,4 +1,5 @@
 # vim:set ft=dockerfile:
+# source: https://github.com/docker-library/postgres
 FROM alpine:3.8
 
 # alpine includes "postgres" user/group in base install

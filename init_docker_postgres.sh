@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# source: https://stackoverflow.com/questions/29600369/starting-and-populating-a-postgres-container-in-docker
 # this script is run when the docker container is built
 # it imports the base database structure and create the database for the tests
 
