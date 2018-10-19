@@ -54,7 +54,7 @@ gem 'sidekiq', '>= 5.2.2'
 # analytics
 gem 'ahoy_matey'
 gem 'blazer'
-
+gem 'puma_worker_killer'
 # caching
 gem 'actionpack-action_caching'
 
