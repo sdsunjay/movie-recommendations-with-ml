@@ -1,17 +1,22 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_user, only: [:show, :edit, :update]
+  before_action :set_user, only: [:show, :edit, :update, :destroy]
   before_action :require_admin, only: [:destroy, :index]
+  caches_action :index, :show
 
+  # GET /users
+  # GET /users.json
   def index
+    @page_title = 'Users'
     @pagy, @users = pagy(User.all.order(created_at: :desc), items: 99)
   end
 
   # GET /users/:id.:format
   def show
+    @page_title = 'Account'
     @friends = Friendship.where(user_id: @user).order(created_at: :desc)
 
-    @pagy_reviews, @reviews = pagy(Review.includes(:movie).where(user_id: current_user.id).order(created_at: :desc), items: 33)
+    @pagy_reviews, @reviews = pagy(Review.includes(:movie).where(user_id: current_user.id), items: 33)
     @friends_count = if @friends.blank?
                        0
                      else
@@ -53,7 +58,6 @@ class UsersController < ApplicationController
   def destroy
     # authorize! :delete, @user
 
-    @user = User.destroy(params[:id])
     @user.reviews.each(&:destroy)
     @user.friendships.each(&:destroy)
     @user.movies.each(&:destroy)
