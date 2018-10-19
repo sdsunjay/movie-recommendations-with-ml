@@ -2,16 +2,9 @@ version: '3'
 
 services:
   db:
-    image: 'postgres:11-alpine'
-    restart: always
-    volumes:
-      - 'postgres:/var/lib/postgresql/data'
-    ports:
-      - '5432:5432'
-    environment:
-      - POSTGRES_PASSWORD:'password'
-      - POSTGRES_DB:'db'
-   
+    build:
+      context: .
+      dockerfile: Dockerfile-postgres
   redis:
     image: 'redis:4.0-alpine'
     command: redis-server --requirepass yourpassword
