@@ -31,7 +31,7 @@ services:
   app:
     build:
       context: .
-      dockerfile: ./docker/app/Dockerfile
+      dockerfile: Dockerfile
     depends_on:
       - 'db'
       - 'sidekiq'
@@ -40,7 +40,7 @@ services:
   web:
     build:
       context: .
-      dockerfile: ./docker/web/Dockerfile
+      dockerfile: Dockerfile-nginx
     depends_on:
       - 'app'
     ports:
