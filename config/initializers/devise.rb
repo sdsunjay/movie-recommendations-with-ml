@@ -2,9 +2,18 @@
 
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
-FACEBOOK_APP_ID = Rails.application.credentials.development[:facebook_app_id]
-FACEBOOK_SECRET = Rails.application.credentials.development[:facebook_secret]
-FACEBOOK_CALLBACK_URL = Rails.application.credentials.development[:facebook_callback_url]
+if Rails.env.development?
+  FACEBOOK_APP_ID = Rails.application.credentials.development[:facebook_app_id]
+  FACEBOOK_SECRET = Rails.application.credentials.development[:facebook_secret]
+  FACEBOOK_CALLBACK_URL = Rails.application.credentials.development[:facebook_callback_url]
+end
+
+if Rails.env.production?
+  FACEBOOK_APP_ID = Rails.application.credentials.production[:facebook_app_id]
+  FACEBOOK_SECRET = Rails.application.credentials.production[:facebook_secret]
+  FACEBOOK_CALLBACK_URL = Rails.application.credentials.production[:facebook_callback_url]
+end
+
 Devise.setup do |config|
   # The secret key used by Devise. Devise uses this key to generate
   # random tokens. Changing this key will render invalid all existing
