@@ -8,8 +8,9 @@ services:
       - 'postgres:/var/lib/postgresql/data'
     ports:
       - '5432:5432'
-    env_file:
-      - '.env'
+    environment:
+      - POSTGRES_PASSWORD:'password'
+      - POSTGRES_DB:'db'
   redis:
     image: 'redis:4-alpine'
     command: redis-server /usr/local/etc/redis/redis.conf
@@ -35,6 +36,8 @@ services:
     depends_on:
       - 'db'
       - 'sidekiq'
+    links:
+      - 'db'
   web:
     build:
       context: .
@@ -42,8 +45,8 @@ services:
     depends_on:
       - 'app'
     ports:
-      - 80:80
-      - 443:443
+      - '80:80'
+      - '443:443'
 
 volumes:
   redis:
