@@ -28,3 +28,4 @@
 /config/secrets.yml
 .env
 /db/seeds
+.docker
