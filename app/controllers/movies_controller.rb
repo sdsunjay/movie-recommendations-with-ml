@@ -10,15 +10,19 @@ class MoviesController < ApplicationController
   def index
     @per_page = params[:per_page] || 30
     if params[:title].present?
+      @page_title = params[:title]
       help_index(params[:title])
     else
+      @page_title = 'Movies'
       @pagy, @movies = pagy(Movie.all, items: @per_page)
     end
   end
 
   # GET /movies/1
   # GET /movies/1.json
-  def show; end
+  def show
+  @page_title = 'Movie'
+  end
 
   # GET /movies/new
   def new
@@ -28,6 +32,8 @@ class MoviesController < ApplicationController
 
   # GET /movies/1/edit
   def edit
+    @page_title = 'Edit Movie'
+    @genres = Genre.all.map{|g| [ g.name, g.id ] }
     # get_genres
   end
 
