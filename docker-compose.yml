@@ -1,7 +1,5 @@
 version: '3'
-volumes:
-  redis:
-  postgres:
+
 services:
   app:
     build:
@@ -9,7 +7,7 @@ services:
       dockerfile: ./docker/app/DockerFile
     depends_on:
       - db
-      - redis
+      - sidekiq
   db:
     image: 'postgres:11-alpine'
     restart: always
@@ -39,7 +37,6 @@ services:
 
   sidekiq:
     depends_on:
-      - db
       - redis
     build: .
     command: bundle exec sidekiq -C config/sidekiq.yml
@@ -47,3 +44,7 @@ services:
       - '.:/app'
     env_file:
       - '.env'
+
+volumes:
+  redis:
+  postgres:
