@@ -3,10 +3,10 @@ if Rails.env.development?
   REDIS_PASSWORD = Rails.application.credentials.development[:redis_password]
 
   Sidekiq.configure_client do |config|
-    config.redis = { url: REDIS_URL, password: REDIS_PASSWORD, size: 2}
+    config.redis = { url: REDIS_URL, password: REDIS_PASSWORD}
   end
   Sidekiq.configure_server do |config|
-    config.redis = { url: REDIS_URL, password: REDIS_PASSWORD, size: 20 }
+    config.redis = { url: REDIS_URL, password: REDIS_PASSWORD}
   end
 
 end
@@ -16,11 +16,11 @@ if Rails.env.production?
   REDIS_PASSWORD = Rails.application.credentials.production[:redis_password]
 
   Sidekiq.configure_client do |config|
-    config.redis = { url: REDIS_URL, password: REDIS_PASSWORD, size: 2}
+    config.redis = { url: REDIS_URL, password: REDIS_PASSWORD}
   end
 
   Sidekiq.configure_server do |config|
-    config.redis = { url: REDIS_URL, password: REDIS_PASSWORD, size: 20 }
+    config.redis = { url: REDIS_URL, password: REDIS_PASSWORD}
 
   end
 
