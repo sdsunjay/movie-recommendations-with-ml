@@ -58,10 +58,12 @@ class User < ApplicationRecord
     user.gender = auth.extra.raw_info.gender # assuming the user has a gender
     user.access_level = 0
     user.link = auth.extra.raw_info.link
-    # TODO: Add permission for age_rage
-    # user.age_range = auth.extra.raw_info.age_range
+    unless auth.extra.raw_info.birthday.nil?
+      # the user has a birthday
+      user.birthday = Date.strptime(auth.extra.raw_info.birthday,'%m/%d/%Y')
+    end
     unless auth.extra.raw_info.location.nil?
-      # assuming the user has a location
+      # the user has a location
       user.location = auth.extra.raw_info.location['name']
     end
     unless auth.extra.raw_info.hometown.nil?
@@ -85,13 +87,13 @@ class User < ApplicationRecord
     # @facebook ||= client
     @graph = Koala::Facebook::API.new(access_token)
     @movies = @graph.get_object('me?fields=movies', {}, api_version: 'v3.1')
-    puts @movies
+    # puts @movies
     # @movies = @graph.get_object('me?fields=movies')
     # logger.debug "movies are present: #{@movies['data']}"
     loop do
       break if @movies.blank?
 
-      # help_add_movies
+      help_add_movies
       @movies = @movies.next_page
     end
   end
@@ -99,7 +101,7 @@ class User < ApplicationRecord
   def add_friends
     @facebook ||= client
     @friends = @facebook.get_connections('me', 'friends')
-    logger.debug "Friends are present: #{@friends}"
+    logger.debug 'Friends are present: #{@friends}'
     loop do
       break if @friends.blank?
 
@@ -113,7 +115,7 @@ class User < ApplicationRecord
     # movie_names = @movies["movies"]["data"].pluck(:name)
     movie_names = @movies['movies']['data'].collect { |f| f['name'] }
     # puts movie_names
-    # logger.debug "movie_names are present: #{movie_names}"
+    logger.debug 'movie_names are present: #{movie_names}'
     user_movies = Movie.where(title: movie_names)
     # puts user_movies
     # user_movies.each do |user_movie|
@@ -125,7 +127,7 @@ class User < ApplicationRecord
     # julian suggested this and it doesn't work
     # uids = @friends.pluck(:id)
     uids = @friends.collect { |f| f['id'].to_s }
-    logger.debug "user Facebook ids are present: #{uids}"
+    logger.debug 'user Facebook ids are present: #{uids}'
     user_friends = User.where(uid: uids)
     user_friends.each do |user_friend|
       Friendship.create(friend_id: user_friend.id, user_id: id)
@@ -145,12 +147,12 @@ class User < ApplicationRecord
     Koala::Facebook::API.new(access_token)
   rescue Koala::Facebook::APIError => exception
     if exception.fb_error_type == 190
-      # TODO: - Add some logging here
-      puts exception
-      # password reset - redirect to auth dialog
+      logger.debug "Facebook client error. Type 190: #{exception}"
+      # TODO: password reset - redirect to auth dialog
     else
-      raise "Facebook Error: #{exception.fb_error_type}"
-      # TODO: Add some logging here
+      logger.debug "Facebook client error. Type unknown: #{exception}"
+      # raise "Facebook Error: #{exception.fb_error_type}"
+      # TODO: handle unknown error
     end
   end
 
@@ -167,10 +169,9 @@ class User < ApplicationRecord
            token_expires_at: Time.zone.now + new_token_info['expires_in'])
   rescue Koala::Facebook::APIError => exception
     if exception.fb_error_type == 190
-      puts exception
+      logger.debug "Facebook refresh token. Error type 190: #{exception}"
     else
-      puts 'ELSE'
-      puts exception
+      logger.debug "Facebook refresh token. Error type unknown: #{exception}"
       # raise "Facebook Error: #{exception.fb_error_type}"
     end
   end
