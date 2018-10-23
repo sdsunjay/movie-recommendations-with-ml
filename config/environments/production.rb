@@ -88,6 +88,12 @@ Rails.application.configure do
     logger.formatter = config.log_formatter
     config.logger    = ActiveSupport::TaggedLogging.new(logger)
   end
+  if ENV["RAILS_LOG_TO_FD"].present?
+    logger           = ActiveSupport::Logger.new(STDOUT)
+    logger.formatter = config.log_formatter
+    config.logger = Logger.new('/proc/1/fd/1')
+  end
+
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
