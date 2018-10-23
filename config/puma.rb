@@ -24,7 +24,7 @@ else
   workers Integer(ENV["WEB_CONCURRENCY"] ||  1) # this should be upped in prod as it's using 3 for 1x dyno, 6 for 2x
   # bind "ssl://127.0.0.1:#{ENV['SSL_PORT'] || 3001}?key=#{ENV['SSL_KEY']}&cert=#{ENV['SSL_CERT']}"
   # Deamonize puma server to run in background
-  daemonize
+  # daemonize
   # Set up puma to listen on unix socket location(instead of tcp)
   #bind "unix://#{shared_dir}/sockets/rev1.sock?umask=0111"
   port ENV["PORT"] ||  3000
