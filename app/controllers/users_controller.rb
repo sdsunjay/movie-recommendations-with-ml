@@ -74,7 +74,7 @@ class UsersController < ApplicationController
 
   def user_params
     # extend with your own params
-    accessible = %i[name email gender hometown location education]
+    accessible = %i[name email gender hometown location education birthday]
     params.require(:user).permit(accessible)
   end
 end
