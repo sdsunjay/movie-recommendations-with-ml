@@ -12,4 +12,5 @@ ENV POSTGRES_USER=postgres
 # COPY structure.sql /docker-entrypoint-initdb.d/
 # EXPOSE 5432
 # CMD ["postgres"]
+# source: https://github.com/docker-library/postgres
 
