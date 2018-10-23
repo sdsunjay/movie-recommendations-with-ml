@@ -30,3 +30,6 @@
 /db/seeds
 .docker
 structure.sql
+fullchain.pem
+privkey.pem
+*.sql
