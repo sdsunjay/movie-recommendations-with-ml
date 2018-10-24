@@ -38,8 +38,14 @@
                           <% end %>
                         <% end %>
                       </h5>
+                    <h5>
+                      <% if @user.birthday? %>
+                        <i class="fa fa-birthday-cake" aria-hidden="true" style="color: #00d999;"></i>
+                        <%= @user.birthday.strftime("%B %d, %Y") %>
+                      <% end %>
+                      </h5>
                       <h5>
-                        <i class="fa fa-users" aria-hidden="true"></i>
+                        <i class="fa fa-users" aria-hidden="true" style="color: #00d999;"></i>
                         (<%= @friends_count %>)
                       </h5>
                       <hr>
