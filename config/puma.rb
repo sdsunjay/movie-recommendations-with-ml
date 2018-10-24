@@ -42,7 +42,6 @@ rackup DefaultRackup
  # pidfile "shared/pids/rev1.pid"
   #state_path "shared/pids/rev1.state"
   #activate_control_app
-end
 
 # Allow puma to be restarted by `rails restart` command.
 plugin :tmp_restart
