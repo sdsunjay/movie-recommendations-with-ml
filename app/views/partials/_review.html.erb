@@ -5,13 +5,13 @@
         <% else %>
             <div class="col" id="rating">
                 <%= link_to movie_reviews_path(movie, rating: 5), class: 'tooltip-link', 'data-original-title': 'Like', 'data-toggle': 'tooltip', method: :post, remote: true do %>
-                    <%= fa_icon "thumbs-up" %>
+                  <%= fa_icon "thumbs-up", class: "rating-not-present" %>
                     <strong>Like</strong>
                 <% end  %>
             </div>
             <div class="col" id="rating">
                 <%= link_to movie_reviews_path(movie, rating: 1), class: 'tooltip-link', 'data-original-title': 'Like', 'data-toggle': 'tooltip', method: :post, remote: true do %>
-                    <%= fa_icon "thumbs-down" %>
+                  <%= fa_icon "thumbs-down", class: "rating-not-present" %>
                     <strong>Dislike</strong>
                 <% end  %>
             </div>
