@@ -78,6 +78,7 @@ class User < ApplicationRecord
       user
     else
       logger.debug "User did not save: #{user}"
+       nil
       # throw error
     end
   end
@@ -85,17 +86,18 @@ class User < ApplicationRecord
   # TODO: paging does not work anymore
   def add_movies
     # @facebook ||= client
-    @graph = Koala::Facebook::API.new(access_token)
-    @movies = @graph.get_object('me?fields=movies', {}, api_version: 'v3.1')
-    # puts @movies
+    # @graph = Koala::Facebook::API.new(access_token)
+    # @movies = @graph.get_object('me?fields=movies', {}, api_version: 'v3.1')
     # @movies = @graph.get_object('me?fields=movies')
     # logger.debug "movies are present: #{@movies['data']}"
-    loop do
-      break if @movies.blank?
-
+    @facebook ||= client
+    @movies = @facebook.get_object('me?fields=movies.limit(500)')
+    unless @movies.nil?
       help_add_movies
-      @movies = @movies.next_page
     end
+    rescue Koala::Facebook::APIError => exception
+      logger.debug "Facebook client error. Type unknown: #{exception}"
+      nil
   end
 
   def add_friends
@@ -118,9 +120,9 @@ class User < ApplicationRecord
     logger.debug 'movie_names are present: #{movie_names}'
     user_movies = Movie.where(title: movie_names)
     # puts user_movies
-    # user_movies.each do |user_movie|
-    #  Review.create(movie_id: user_movie.id, user_id: id, rating: 5)
-    # end
+    user_movies.each do |user_movie|
+      Review.create(movie_id: user_movie.id, user_id: id, rating: 5)
+    end
   end
 
   def help_add_friends
@@ -148,9 +150,11 @@ class User < ApplicationRecord
   rescue Koala::Facebook::APIError => exception
     if exception.fb_error_type == 190
       logger.debug "Facebook client error. Type 190: #{exception}"
+      nil
       # TODO: password reset - redirect to auth dialog
     else
       logger.debug "Facebook client error. Type unknown: #{exception}"
+      nil
       # raise "Facebook Error: #{exception.fb_error_type}"
       # TODO: handle unknown error
     end
@@ -170,8 +174,10 @@ class User < ApplicationRecord
   rescue Koala::Facebook::APIError => exception
     if exception.fb_error_type == 190
       logger.debug "Facebook refresh token. Error type 190: #{exception}"
+      nil
     else
       logger.debug "Facebook refresh token. Error type unknown: #{exception}"
+      nil
       # raise "Facebook Error: #{exception.fb_error_type}"
     end
   end
@@ -187,6 +193,7 @@ class User < ApplicationRecord
     image_url = 'https://www.google.com/logos/2010/pacman10-hp.png'
     @facebook ||= client
     # put_wall_post is method to post an article to the pages
+    # @graph.put_connections("me", "feed", message: "I am writing on my wall!")
     post_info = @facebook.put_wall_post(title,
                                         name: link_name,
                                         description: description,
