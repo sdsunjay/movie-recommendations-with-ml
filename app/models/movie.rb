@@ -8,10 +8,10 @@ class Movie < ApplicationRecord
   has_many :categorizations, dependent: :delete_all
   has_many :genres, ->{ select(:name, :id) }, through: :categorizations
 
-  validates :title, presence: true
-  validates :overview, presence: true
-  validates :poster_path, presence: true
-  validates :release_date, presence: true
+  # validates :title, presence: true
+  # validates :overview, presence: true
+  # validates :poster_path, presence: true
+  # validates :release_date, presence: true
 
   accepts_nested_attributes_for :categorizations,
                                 reject_if: :all_blank, allow_destroy: true
