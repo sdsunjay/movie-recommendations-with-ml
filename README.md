@@ -37,8 +37,14 @@ To release to production with Docker
 ```
 $ docker-compose build
 $ docker-compose run app rake db:create db:migrate
-$ docker-compose run app rake db:seed:users db:seed:genres
-$ docker-compose run app rake db:seed:movies db:seed:categorizations
+$ docker-compose run app rake users:seed_users
+$ docker-compose run app rake genres:seed_genres
+$ docker-compose run app rake db:seed:movies1
+$ docker-compose run app rake db:seed:movies2
+$ docker-compose run app rake db:seed:movies3
+$ docker-compose run app rake db:seed:categorizations1
+$ docker-compose run app rake db:seed:categorizations2
+
 # Optional
 # $ docker-compose run app rake db:seed:reviews
 $ docker-compose up
