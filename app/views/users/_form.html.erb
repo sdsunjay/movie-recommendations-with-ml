@@ -15,15 +15,18 @@
 
         <div class="form-label-group">
             <%= f.text_field :education, placeholder: 'Education', class: 'form-control' %>
-            <label for="inputEmail">Education </label>
+            <label for="inputEducation">Education </label>
+        </div>
+        <div class="form-label-group">
+            <%= f.date_select :birthday, :start_year=>1900, class: 'form-control' %>
         </div>
         <div class="form-label-group">
             <%= f.text_field :hometown, placeholder: 'Hometown', class: 'form-control' %>
-            <label for="inputEmail">Hometown</label>
+            <label for="inputHometown">Hometown</label>
         </div>
         <div class="form-label-group">
             <%= f.text_field :location, placeholder: 'location', class: 'form-control' %>
-            <label for="inputEmail">Location</label>
+            <label for="inputLocation">Location</label>
         </div>
 
             <div class='col-sm-12'>

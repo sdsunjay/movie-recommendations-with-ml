@@ -1,8 +1,8 @@
-$input-btn-focus-box-shadow: none;
 @import 'bootstrap';
-@import 'card.scss';
 @import 'font-awesome';
-@import 'footer.scss';
-@import 'style.scss';
-@import 'sign_in.scss';
-@import 'movies.scss';
+@import 'footer';
+@import 'style';
+@import 'sign_in';
+@import 'movies';
+$input-btn-focus-box-shadow: none;
+@import 'card';
