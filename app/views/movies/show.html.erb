@@ -1,4 +1,5 @@
 <div id="movies-show">
+  <% cache @movie do %>
 
   <h2><%= @movie.title %></h2>
   <div class='row'>
@@ -33,7 +34,14 @@
           <% end %>
           <li>
             <strong>Release Date:
-            </strong><%= @movie.release_date.strftime('%B %e %Y') %></li>
+            </strong><%= @movie.release_date.strftime('%B %e %Y') %>
+          </li>
+
+          <% unless @movie.status.blank? %>
+            <li>
+              <strong>Status:</strong>
+              <%= @movie.status.humanize %></li>
+          <% end %>
           <% unless @movie.budget.blank? %>
             <li>
               <strong>Budget:
@@ -75,4 +83,6 @@
       |
       <%= link_to 'Delete', movie_path(@movie), method: :delete, class: "btn btn-danger btn-sm", data: { confirm: "Are you sure?" } %>
     <% end %>
-  </div>
+  <% end %>
+</div>
+

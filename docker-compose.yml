@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+  db:
+    build:
+      context: .
+      dockerfile: Dockerfile-postgres
+  redis:
+    image: 'redis:4.0-alpine'
+    command: redis-server --requirepass wsciAqNwgG9D7cF^gVXi9NivbUXGzZ1qDia4bQ
+    volumes:
+      - 'redis:/data'
+
+  sidekiq:
+    build: .
+    command: bundle exec sidekiq -C config/sidekiq.yml
+    volumes:
+      - '.:/app'
+    links:
+      - 'db'
+      - 'redis'
+    env_file:
+      - '.env'
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - 'db'
+      - 'sidekiq'
+      - 'web'
+    links:
+      - 'db'
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile-nginx
+    ports:
+      - '80:80'
+      - '443:443'
+
+volumes:
+  redis:
+  postgres:
