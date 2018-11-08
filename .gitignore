@@ -27,3 +27,10 @@
 /config/master.key
 /config/secrets.yml
 .env
+/db/seeds
+.docker
+structure.sql
+fullchain.pem
+privkey.pem
+*.sql
+.DS_Store
