@@ -9,6 +9,7 @@ class StaticPagesController < ApplicationController
 
   def about
    @page_title = 'About'
+   @contact = Contact.new
   end
 
   def terms
