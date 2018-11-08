@@ -48,7 +48,8 @@ gem 'jquery-rails'
 gem 'koala'
 gem 'seed_dump'
 gem 'rubyzip', '~> 1.2.2'
-
+gem 'simple_form'
+gem 'loofah', '>= 2.2.3'
 # background jobs
 gem 'sidekiq', '>= 5.2.2'
 # analytics
