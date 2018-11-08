@@ -28,14 +28,13 @@ services:
     depends_on:
       - 'db'
       - 'sidekiq'
+      - 'web'
     links:
       - 'db'
   web:
     build:
       context: .
       dockerfile: Dockerfile-nginx
-    depends_on:
-      - 'app'
     ports:
       - '80:80'
       - '443:443'
