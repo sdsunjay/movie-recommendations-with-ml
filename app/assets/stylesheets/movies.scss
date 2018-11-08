@@ -2,20 +2,52 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 .rating-exists {
-    color: #E52727;
+    //color: #E52727;
+    color: #2E73FE;
+   -webkit-text-stroke-width: 1px;
+   -webkit-text-stroke-color: #E52727;
 
     //text-shadow: 1px 1px 1px #ccc;
     //font-size: 1.5em;
 }
-.fa-thumbs-up:hover {
-    color: #2E73FE;
+.rating-exists.fa.fa-thumbs-up{
+   -webkit-text-stroke-color: #2E73FE;
+ }
+.rating-exists.fa.fa-thumbs-down{
+   -webkit-text-stroke-color: #2E73FE;
+ }
+.rating-exists.fa.fa-thumbs-up:hover {
+    color:transparent;;
+    -webkit-text-stroke-color: blue;
 }
-.fa-thumbs-down:hover {
+.rating-exists.fa.fa-thumbs-down:hover {
+    color:transparent;;
+    -webkit-text-stroke-color: blue;
+}
+.fa.fa-thumbs-up:hover {
     color: #2E73FE;
+    //color: #E52727;
+}
+.fa.fa-thumbs-down:hover {
+    color: #2E73FE;
+    //color: #E52727;
 }
 .fa-thumbs-down {
     font-size: 25px;
 }
 .fa-thumbs-up {
     font-size: 25px;
+}
+.fa.fa-thumbs-down{
+   -webkit-text-stroke-width: 1px;
+   -webkit-text-stroke-color: blue;
+ }
+.fa.fa-thumbs-up{
+   -webkit-text-stroke-width: 1px;
+   -webkit-text-stroke-color: blue;
+ }
+.fa.rating-not-present{
+ //font-size:12em;
+ -webkit-text-stroke-color: blue;
+ color:transparent;
 }

@@ -38,8 +38,14 @@
                           <% end %>
                         <% end %>
                       </h5>
+                    <h5>
+                      <% if @user.birthday? %>
+                        <i class="fa fa-birthday-cake" aria-hidden="true" style="color: #00d999;"></i>
+                        <%= @user.birthday.strftime("%B %d, %Y") %>
+                      <% end %>
+                      </h5>
                       <h5>
-                        <i class="fa fa-users" aria-hidden="true"></i>
+                        <i class="fa fa-users" aria-hidden="true" style="color: #00d999;"></i>
                         (<%= @friends_count %>)
                       </h5>
                       <hr>
@@ -147,7 +153,7 @@
                       <div class="row">
                         <div class="card-columns">
                             <% @reviews.each do |review| %>
-                                <%= render 'partials/movie', movie: review.movie, user_reviews: @reviews %>
+                                <%= render 'partials/movie', movie: review.movie, user_reviews: @reviews, cached: true %>
                             <% end %>
                         </div>
                       </div>
@@ -168,7 +174,7 @@
                     <% if @friends.try(:any?) %>
                       <div class="row">
                         <div class="card-columns">
-                          <%= render 'partials/friends', friends: @friends %>
+                          <%= render 'partials/friends', friends: @friends, cached: true %>
                         </div>
                       </div>
                     <% else %>

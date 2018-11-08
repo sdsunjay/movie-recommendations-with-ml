@@ -1,89 +1,88 @@
 <%= form_for @movie, html: {class: "form-horizontal"} do |f| %>
-    <% if movie.errors.any? %>
-        <div id="error_explanation">
-            <h2><%= pluralize(movie.errors.count, "error") %> prohibited this movie from being saved:</h2>
-
-            <ul>
-                <% movie.errors.full_messages.each do |message| %>
-                    <li><%= message %></li>
-                <% end %>
-            </ul>
-        </div>
-    <% end %>
-
-    <fieldset id="movie-meta">
-        <ol>
-            <li class="control-group">
-                <%= f.label :title, "Movie Title", class: "control-label" %>
-                <div class="controls"><%= f.text_field :title %></div>
-            </li>
-        </ol>
-    </fieldset>
-    <li class="control-group">
-        <%= f.label :tagline, "A tagline for this movie", class: "control-label" %>
-        <div class="controls"><%= f.text_field :tagline %></div>
-    </li>
-    <li class="control-group">
-        <%= f.label :vote_count, "Vote count for this movie", class: "control-label" %>
-        <div class="controls"><%= f.number_field :vote_count %></div>
-    </li>
-    <li class="control-group">
-        <%= f.label :vote_average, "Vote average for this movie", class: "control-label" %>
-        <div class="controls"><%= f.number_field :vote_average %></div>
-    </li>
-    <% if @genres %>
-        <li class="control-group">
-        <%= f.label :genre_ids, "Genres for this movie", class: "control-label" %>
-        <div class="controls"><%= f.select(:genre_ids, @genres, {}, {multiple: true}) %></div>
-      </li>
-    <% else %>
-    <p> No Genres exist yet</p>
-    <% end %>
-    <li class="control-group">
-        <%= f.label :poster_path, "Movie Poster URL", class: "control-label" %>
-        <div class="controls"><%= f.text_field :poster_path %></div>
-    </li>
-    <li class="control-group">
-        <%= f.label :backdrop_path, "Movie Poster Backdrop URL", class: "control-label" %>
-        <div class="controls"><%= f.text_field :backdrop_path %></div>
-      </li>
-    <li class="control-group">
-        <%= f.label :adult, "Adult Movie", class: "control-label" %>
-        <div class="controls"><%= f.check_box :adult %></div>
-      </li>
-    <li class="control-group">
-        <%= f.label :release_date, "Movie Release Date", class: "control-label" %>
-        <div class="controls"><%= f.datetime_select :release_date %></div>
-    </li>
-    <li class="control-group">
-        <%= f.label :popularity, "Movie Popularity", class: "control-label" %>
-        <div class="controls"><%= f.number_field :popularity %></div>
-    </li>
-    <li class="control-group">
-        <%= f.label :overview, "Movie Overview", class: "control-label" %>
-        <div class="controls"><%= f.text_area :overview %></div>
-    </li>
-    <li class="control-group">
-        <%= f.label :status, "Movie Status", class: "control-label" %>
-        <div class="controls"><%= f.number_field :status %></div>
-    </li>
-
-    <li class="control-group">
-        <%= f.label :budget, "Movie Budget", class: "control-label" %>
-        <div class="controls"><%= f.number_field :budget %></div>
-    </li>
-    <li class="control-group">
-        <%= f.label :revenue, "Movie Revenue", class: "control-label" %>
-        <div class="controls"><%= f.text_field :revenue %></div>
-    </li>
-    <li class="control-group">
-        <%= f.label :runtime, "Movie Runtime", class: "control-label" %>
-        <div class="controls"><%= f.number_field :runtime %></div>
-    </li>
-    <li class="control-group">
-        <%= f.label :position, "Position", class: "control-label" %>
-        <div class="controls"><%= f.number_field :position %></div>
-    </li>
-    <%= f.submit %>
+  <% if movie.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(movie.errors.count, "error") %> prohibited this movie from being saved:</h2>
+      <ul>
+        <% movie.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
     </div>
+  <% end %>
+
+  <fieldset id="movie-meta">
+    <ol>
+      <li class="control-group">
+        <%= f.label :title, "Movie Title", class: "control-label" %>
+        <div class="controls"><%= f.text_field :title %></div>
+      </li>
+    </ol>
+  </fieldset>
+  <li class="control-group">
+    <%= f.label :tagline, "A tagline for this movie", class: "control-label" %>
+    <div class="controls"><%= f.text_field :tagline %></div>
+  </li>
+  <li class="control-group">
+    <%= f.label :vote_count, "Vote count for this movie", class: "control-label" %>
+    <div class="controls"><%= f.number_field :vote_count %></div>
+  </li>
+  <li class="control-group">
+    <%= f.label :vote_average, "Vote average for this movie", class: "control-label" %>
+    <div class="controls"><%= f.number_field :vote_average %></div>
+  </li>
+  <% if @genres %>
+    <li class="control-group">
+      <%= f.label :genre_ids, "Genres for this movie", class: "control-label" %>
+      <div class="controls"><%= f.select(:genre_ids, @genres, {}, {multiple: true}) %></div>
+    </li>
+  <% else %>
+    <p> No Genres exist yet</p>
+  <% end %>
+  <li class="control-group">
+    <%= f.label :poster_path, "Movie Poster URL", class: "control-label" %>
+    <div class="controls"><%= f.text_field :poster_path %></div>
+  </li>
+  <li class="control-group">
+    <%= f.label :backdrop_path, "Movie Poster Backdrop URL", class: "control-label" %>
+    <div class="controls"><%= f.text_field :backdrop_path %></div>
+  </li>
+  <li class="control-group">
+    <%= f.label :adult, "Adult Movie", class: "control-label" %>
+    <div class="controls"><%= f.check_box :adult %></div>
+  </li>
+  <li class="control-group">
+    <%= f.label :release_date, "Movie Release Date", class: "control-label" %>
+    <div class="controls"><%= f.datetime_select :release_date %></div>
+  </li>
+  <li class="control-group">
+    <%= f.label :popularity, "Movie Popularity", class: "control-label" %>
+    <div class="controls"><%= f.number_field :popularity %></div>
+  </li>
+  <li class="control-group">
+    <%= f.label :overview, "Movie Overview", class: "control-label" %>
+    <div class="controls"><%= f.text_area :overview %></div>
+  </li>
+  <li class="control-group">
+    <%= f.label :status, "Movie Status", class: "control-label" %>
+    <div class="controls"><%= select_tag :status, options_for_select(Movie.statuses.map {|k, v| [k.humanize.capitalize, v]}) %></div>
+  </li>
+
+  <li class="control-group">
+    <%= f.label :budget, "Movie Budget", class: "control-label" %>
+    <div class="controls"><%= f.number_field :budget %></div>
+  </li>
+  <li class="control-group">
+    <%= f.label :revenue, "Movie Revenue", class: "control-label" %>
+    <div class="controls"><%= f.text_field :revenue %></div>
+  </li>
+  <li class="control-group">
+    <%= f.label :runtime, "Movie Runtime", class: "control-label" %>
+    <div class="controls"><%= f.number_field :runtime %></div>
+  </li>
+  <li class="control-group">
+    <%= f.label :position, "Position", class: "control-label" %>
+    <div class="controls"><%= f.number_field :position %></div>
+  </li>
+  <%= f.submit %>
+  </div>
 <% end %>
