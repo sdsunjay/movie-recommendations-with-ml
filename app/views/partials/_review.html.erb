@@ -1,16 +1,20 @@
-<% if current_user.reviewed?(movie) %>
-  <%= render 'partials/rating', review: movie.movie_review(current_user.id, movie.id)%>
-<% else %>
-  <div class="col-xs-6 col-md-6" id="rating">
-    <%= link_to movie_reviews_path(movie, rating: 5), class: 'tooltip-link', 'data-original-title': 'Like', 'data-toggle': 'tooltip', method: :post, remote: true do %>
-    <%= fa_icon "thumbs-up" %>
-    <strong>Like</strong>
-  <% end  %>
+<div class="rating">
+    <div class="row">
+        <%if user_reviews.find{ |r| r.movie_id == movie.id  } %>
+            <%= render 'partials/rating', review: user_reviews.find{ |r| r.movie_id == movie.id  }, movie: movie %>
+        <% else %>
+            <div class="col" id="rating">
+                <%= link_to movie_reviews_path(movie, rating: 5), class: 'tooltip-link', 'data-original-title': 'Like', 'data-toggle': 'tooltip', method: :post, remote: true do %>
+                  <%= fa_icon "thumbs-up", class: "rating-not-present" %>
+                    <strong>Like</strong>
+                <% end  %>
+            </div>
+            <div class="col" id="rating">
+                <%= link_to movie_reviews_path(movie, rating: 1), class: 'tooltip-link', 'data-original-title': 'Like', 'data-toggle': 'tooltip', method: :post, remote: true do %>
+                  <%= fa_icon "thumbs-down", class: "rating-not-present" %>
+                    <strong>Dislike</strong>
+                <% end  %>
+            </div>
+        <% end %>
+    </div>
 </div>
-<div class="col-xs-6 col-md-6" id="rating">
-  <%= link_to movie_reviews_path(movie, rating: 1), class: 'tooltip-link', 'data-original-title': 'Like', 'data-toggle': 'tooltip', method: :post, remote: true do %>
-  <%= fa_icon "thumbs-down" %>
-  <strong>Dislike</strong>
-<% end  %>
-</div>
-<% end %>

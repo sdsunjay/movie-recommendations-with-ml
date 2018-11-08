@@ -2,19 +2,23 @@ class GenresController < ApplicationController
   before_action :authenticate_user!
   before_action :set_genre, only: [:show, :edit, :update, :destroy]
   before_action :set_user
+  before_action :set_user_reviews, only: [:show]
   before_action :require_admin, only: [:index, :new, :create, :edit, :destroy, :update]
+  caches_action :index
 
   # GET /genres
   # GET /genres.json
   def index
+    @page_title = 'Genres'
     @genres = Genre.all.order(created_at: :desc)
   end
 
   # GET /genres/1
   # GET /genres/1.json
   def show
-    @pagy, @movies = pagy(@genre.movies.all.order(created_at: :asc), items: 99)
-    @reviews = @user.reviews.order(created_at: :desc)
+    @per_page = params[:per_page] || 30
+    @page_title = @genre.name
+    @pagy, @movies = pagy(@genre.movies.all, items: @per_page)
   end
 
   # GET /genres/new
@@ -24,6 +28,7 @@ class GenresController < ApplicationController
 
   # GET /genres/1/edit
   def edit
+    @page_title = 'Edit Genre'
     @movies = Movie.all
     @movies_the_genre_includes = @genre.movies.pluck(:id)
   end
@@ -70,7 +75,7 @@ class GenresController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_genre
-    @genre = Genre.find(params[:id])
+    @genre ||= Genre.find(params[:id])
   end
 
   # Never trust parameters from the scary internet

@@ -867,6 +867,18 @@ img{
 	font-family: "Raleway",sans-serif;
 }
 
+#tips{
+	display: inline;
+	padding: 70px 0px;
+	float: left;
+	width: 100%;
+}
+#faq{
+	display: inline;
+	padding: 70px 0px;
+	float: left;
+	width: 100%;
+}
 /*--------------------*/
 /* SERVICE */
 /*--------------------*/
@@ -1636,121 +1648,6 @@ img{
 	display: inline;
 	float: left;
 	width: 100%;
-}
-
-/*--------------------*/
-/* FOOTER */
-/*--------------------*/
-
-#footer{
-	background-color: #242424;
-	display: inline;
-	float: left;
-	margin-top: -6px;
-	width: 100%;
-}
-.footer-top {
-	display: inline;
-	float: left;
-	width: 100%;
-}
-.footer-top-area{
-	display: inline;
-	float: left;
-	text-align: center;
-	width: 100%;
-}
-.footer-logo{
-	display: inline-block;
-}
-.footer-social{
-	display: inline;
-	float: left;
-	margin: 40px 0px;
-	width: 100%;
-}
-.footer-social a {
-	border: 1px solid #505050;
-	border-radius: 50%;
-	color: #b8b8b8;
-	display: inline-block;
-	font-size: 18px;
-	height: 47px;
-	line-height: 47px;
-	margin: 0 9px;
-	text-align: center;
-	width: 47px;
-	-webkit-transition: all 0.5s;
-	-moz-transition: all 0.5s;
-	-ms-transition: all 0.5s;
-	-o-transition: all 0.5s;
-	transition: all 0.5s;
-}
-.footer-social a.facebook:hover{
-	background-color: #3b5998;
-	border-color: #3b5998;
-	color: #fff;
-}
-.footer-social a.twitter:hover{
-	color: #fff;
-	background-color: #00aced;
-	border-color: #00aced;
-}
-.footer-social a.google-plus:hover{
-	color: #fff;
-	background-color: #dd4b39;
-	border-color: #dd4b39;
-}
-.footer-social a.youtube:hover{
-	color: #fff;
-	background-color: #bb0000;
-	border-color: #bb0000;
-}
-.footer-social a.linkedin:hover{
-	color: #fff;
-	background-color: #007bb5;
-	border-color: #007bb5;
-}
-.footer-social a.dribbble:hover{
-	color: #fff;
-	background-color: #ea4c89;
-	border-color: #ea4c89;
-}
-.footer-bottom{
-	display: inline;
-	border-top: 1px solid #434343;
-	float: left;
-	padding: 40px 0;
-	width: 100%;
-	text-align: center;
-}
-.footer-bottom p{
-	color: #fff;
-	font-size: 14px;
-	margin-bottom: 0px;
-}
-.footer-top-area p{
-	text-align: left;
-}
-.footer-top-area h4{
-	color: #fff;
-	text-align: left;
-}
-.footer-left h3 {
-    color: #fff;
-    font: normal 36px 'Cookie', cursive;
-    margin: 0;
-}
-.footer-left .footer-links {
-    color: #fff;
-    margin: 20px 0 12px;
-    padding: 0;
-}
-.footer-left p a {
-    color: #fff;
-}
-.footer-left h3 span {
-    color: #00d999;
 }
 /*--------------------*/
 /* BLOG PAGE */
@@ -3259,21 +3156,6 @@ footer {
   float: right;
   margin-right: 25px;
   width: 90%;
-}
-.card {
-    float:left;
-    // width:33.333%;
-    padding:.50rem;
-    //margin-bottom: 2rem;
-    border:0;
-    position:relative;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -ms-flex-direction: column;
-    flex-direction: column;
-    background-color: #fff;
-    border-radius: .25rem;
 }
 .rating{
     padding-left: 1em;

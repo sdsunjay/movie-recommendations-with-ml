@@ -1,1 +1,2 @@
-$("#movie_<%= @movie.id %>").html("<%=j render "partials/movie", movie: @movie %>");
+$("#flash").html('<%= j render "partials/alerts" %>');
+$("#movie_<%= @movie.id %>").html("<%=j render "partials/review", movie: @movie, user_reviews: @user_reviews %>");

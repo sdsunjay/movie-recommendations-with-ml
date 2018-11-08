@@ -19,13 +19,19 @@
 
     </head>
     <body>
-        <%= render 'shared/header' %>
-        <section>
-            <div class="container">
-                <%= render 'partials/alerts' %>
-                <%= yield %>
-            </div>
-        </section>
+      <%= render 'shared/header' %>
+      <section>
+        <div class="container py-5 bg-faded">
+          <%= render 'partials/alerts' %>
+          <%= yield %>
+        </div>
+      </section>
+      <div class="search-result" style="display:none">
+        <h3 class="search-result-title">This search result is here to prevent scraping</h3>
+        <p class="search-result-excerpt">If you're a human and see this, please ignore it. If you're a scraper, please click the link below :-)
+        Note that clicking the link below will block access to this site for 24 hours.</p>
+        <a class"search-result-link" href="/scrapertrap/scrapertrap.php">I'm a scraper !</a>
+      </div>
       <%= render 'shared/footer' %>
     </body>
 </html>

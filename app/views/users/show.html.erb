@@ -38,8 +38,14 @@
                           <% end %>
                         <% end %>
                       </h5>
+                    <h5>
+                      <% if @user.birthday? %>
+                        <i class="fa fa-birthday-cake" aria-hidden="true" style="color: #00d999;"></i>
+                        <%= @user.birthday.strftime("%B %d, %Y") %>
+                      <% end %>
+                      </h5>
                       <h5>
-                        <i class="fa fa-users" aria-hidden="true"></i>
+                        <i class="fa fa-users" aria-hidden="true" style="color: #00d999;"></i>
                         (<%= @friends_count %>)
                       </h5>
                       <hr>
@@ -145,8 +151,15 @@
                     <!-- <div id="reviews-given-tab" class="tab-pane fade in active" > -->
                     <% if @reviews.try(:any?) %>
                       <div class="row">
-                        <%= render 'partials/reviews', reviews: @reviews %>
+                        <div class="card-columns">
+                            <% @reviews.each do |review| %>
+                                <%= render 'partials/movie', movie: review.movie, user_reviews: @reviews, cached: true %>
+                            <% end %>
+                        </div>
                       </div>
+                    <div class="row">
+                      <%= pagy_nav_compact_bootstrap(@pagy_reviews).html_safe %>
+                    </div>
                     <% else %>
                       <section class="single-from-blog" style="margin-bottom: 0; border: 1px solid #f0f0f0;">
                         <div class="blog-title">
@@ -154,16 +167,15 @@
                         </div>
                       </section>
                     <% end %>
-                    <div class="row">
-                      <%= pagy_nav_compact_bootstrap(@pagy_reviews).html_safe %>
-                    </div>
                   </div>
                   <!-- End of My Reviews -->
 
                   <div class="tab-pane fade show" id="friends" role="tabpanel" aria-labelledby="friends-tab">
                     <% if @friends.try(:any?) %>
                       <div class="row">
-                        <%= render 'partials/friends', friends: @friends %>
+                        <div class="card-columns">
+                          <%= render 'partials/friends', friends: @friends, cached: true %>
+                        </div>
                       </div>
                     <% else %>
                       <section class="single-from-blog" style="margin-bottom: 0; border: 1px solid #f0f0f0;">

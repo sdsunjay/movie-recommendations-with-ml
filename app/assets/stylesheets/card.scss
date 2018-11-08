@@ -1,0 +1,47 @@
+.card {
+    position: relative;
+    display: flex;
+    min-width: 0px;
+    overflow-wrap: break-word;
+    background-color: rgb(255, 255, 255);
+    background-clip: border-box;
+    border:0;
+    //border-width: 0px;
+    //border-style: solid;
+    //border-color: rgba(0, 0, 0, 0.125);
+    //border-image: initial;
+    //border-radius: 0.01rem;
+    //float:left;
+    // width:33.333%;
+    //padding:.50rem;
+    //margin-bottom: 2rem;
+    //border:0;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    background-color: #fff;
+    //border-radius: .25rem;
+}
+.card-columns {
+  @include media-breakpoint-only(xl) {
+    column-count: 6;
+    -webkit-column-count: 6;
+    }
+  @include media-breakpoint-only(lg) {
+    column-count: 6;
+    -webkit-column-count: 6;
+  }
+  @include media-breakpoint-only(md) {
+    column-count: 3;
+    -webkit-column-count: 3;
+  }
+  @include media-breakpoint-only(sm) {
+    column-count: 1;
+    -webkit-column-count: 1;
+  }
+  @include media-breakpoint-only(sm) {
+    column-count: 1;
+    -webkit-column-count: 1;
+  }
+}
