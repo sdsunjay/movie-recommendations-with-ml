@@ -1,4 +1,4 @@
-<% @friends.each_with_index do |friend, index| %>
+<% friends.each do |friend| %>
     <div class="card">
         <%= link_to user_path(friend.friendship.id) do %>
             <%= image_tag(friend.friendship.image) %>

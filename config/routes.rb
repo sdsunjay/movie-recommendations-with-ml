@@ -6,10 +6,12 @@ Rails.application.routes.draw do
   get '/about', to: 'static_pages#about'
   get '/privacy', to: 'static_pages#privacy'
   get '/terms', to: 'static_pages#terms'
+  get  'facebook/subscription', to: 'facebook_realtime_updates#subscription', as: 'facebook_subscription', via: [:get,:post]
 
   devise_scope :user do
     get '/sign-in', to: 'devise/sessions#new', as: :signin
     get '/sign-up', to: 'devise/registrations#new', as: :signup
+    resources :contacts, only: [:new, :create]
     authenticated :user do
       resources :users, only: [:index, :show, :edit, :destroy, :update]
       resources :friendships, only: [:new, :create, :index, :show, :edit, :destroy, :update]
@@ -20,10 +22,12 @@ Rails.application.routes.draw do
       resources :movies, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
         resources :reviews, only: [:new, :create, :edit, :update, :destroy]
       end
+      resources :contacts, only:[:index]
     end
 
     unauthenticated do
       root to: 'devise/registrations#new', as: :unauthenticated_root
+      resources :movies, only: [:index]
     end
 
     # TODO - why doesn't this work???

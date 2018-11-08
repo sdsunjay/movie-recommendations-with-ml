@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_02_070048) do
+ActiveRecord::Schema.define(version: 2018_11_08_040233) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -116,6 +116,15 @@ ActiveRecord::Schema.define(version: 2018_10_02_070048) do
     t.index ["movie_id"], name: "index_categorizations_on_movie_id"
   end
 
+  create_table "contacts", force: :cascade do |t|
+    t.string "name"
+    t.string "email"
+    t.text "message", null: false
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "friendships", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
@@ -151,6 +160,7 @@ ActiveRecord::Schema.define(version: 2018_10_02_070048) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "position", default: 0, null: false
+    t.integer "page_number", limit: 2, default: 0, null: false
     t.index ["title"], name: "index_movies_on_title"
     t.index ["user_id"], name: "index_movies_on_user_id"
   end
@@ -192,6 +202,7 @@ ActiveRecord::Schema.define(version: 2018_10_02_070048) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "token_expires_at"
+    t.date "birthday"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["provider", "uid"], name: "index_users_on_provider_and_uid"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

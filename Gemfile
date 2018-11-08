@@ -32,7 +32,8 @@ gem 'jbuilder', '~> 2.5'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
-
+# find slow queries
+gem 'bullet', group: :development
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'cocoon'
@@ -47,12 +48,16 @@ gem 'jquery-rails'
 gem 'koala'
 gem 'seed_dump'
 gem 'rubyzip', '~> 1.2.2'
-
+gem 'simple_form'
+gem 'loofah', '>= 2.2.3'
 # background jobs
 gem 'sidekiq', '>= 5.2.2'
 # analytics
 gem 'ahoy_matey'
 gem 'blazer'
+gem 'puma_worker_killer'
+# caching
+gem 'actionpack-action_caching'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

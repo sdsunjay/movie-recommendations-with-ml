@@ -1,9 +1,10 @@
 <div id="movies-show">
+  <% cache @movie do %>
 
   <h2><%= @movie.title %></h2>
   <div class='row'>
     <div class="col-md-6 col-sm-6 col-xs-6">
-      <%= image_tag('https://image.tmdb.org/t/p/w500/'+@movie.poster_path, class: "card-img")%>
+      <%= image_tag('https://image.tmdb.org/t/p/w500/'+@movie.poster_path, alt: "#{@movie.title}", class:"card-img-top img-fluid") %>
     </div>
     <!-- end col-sm-6 -->
     <div class="col-md-6 col-sm-6 col-xs-6">
@@ -11,6 +12,10 @@
         <h3>Movie Info:
         </h3>
         <ul>
+            <li>
+              <strong>Position:
+              </strong><%= @movie.position %>
+        </li>
           <% unless @movie.tagline.blank? %>
             <li>
               <strong>Tagline:
@@ -19,9 +24,7 @@
           <li>
             <strong>Genres:
             </strong>
-            <% @movie.categorizations.each do |categorization| %>
-              <%= link_to categorization.genre.name, genre_path(categorization.genre) %>,
-            <% end %>
+            <%= @genres.map { |genre| link_to(genre.name, genre_path(genre)) }.join(', ').html_safe %>
           </li>
           <% unless @movie.runtime.blank? %>
             <li>
@@ -31,7 +34,14 @@
           <% end %>
           <li>
             <strong>Release Date:
-            </strong><%= @movie.release_date.strftime('%B %e %Y') %></li>
+            </strong><%= @movie.release_date.strftime('%B %e %Y') %>
+          </li>
+
+          <% unless @movie.status.blank? %>
+            <li>
+              <strong>Status:</strong>
+              <%= @movie.status.humanize %></li>
+          <% end %>
           <% unless @movie.budget.blank? %>
             <li>
               <strong>Budget:
@@ -55,14 +65,9 @@
             <strong>My Rating:
             </strong>
           </li>
-          <% # TODO(Sunjay) repaint the page when the user reviews the movie or deletes their review %>
-            <%= render 'partials/review', movie: @movie %>
-            <% if current_user.reviewed?(@movie) %>
-              <div id="edit_review">
-                <li id="review-edit-partial"><%= link_to 'Edit Review', edit_movie_review_path(@movie, @movie_review), class: 'btn btn-primary', remote: true %></li>
-              </div>
-              <li><%= link_to 'Delete', movie_review_path(@movie, @movie_review), class: 'btn btn-danger', method: :delete, data: { confirm: "Are you sure?" } %></li>
-            <% end %>
+            <div id="movie_<%= @movie.id %>">
+            <%= render 'partials/review', movie: @movie, user_reviews: @user_reviews %>
+            </div>
           </ul>
         </div>
         <!-- closes col-sm-6 -->
@@ -78,4 +83,6 @@
       |
       <%= link_to 'Delete', movie_path(@movie), method: :delete, class: "btn btn-danger btn-sm", data: { confirm: "Are you sure?" } %>
     <% end %>
-  </div>
+  <% end %>
+</div>
+

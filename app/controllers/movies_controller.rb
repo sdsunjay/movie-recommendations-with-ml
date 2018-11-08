@@ -1,34 +1,40 @@
 class MoviesController < ApplicationController
-  before_action :authenticate_user!, except: [:index]
+  before_action :authenticate_user!
   before_action :set_user, only: [:index, :show, :edit, :update, :destroy]
   before_action :set_movie, only: [:show, :edit, :update, :destroy]
-  before_action :set_movie_review, only: [:show, :edit, :update, :destroy]
+  before_action :set_user_reviews, only: [:show, :index]
   before_action :require_admin, only: [:create, :new, :edit, :update, :destroy]
 
   # GET /movies
   # GET /movies.json
   def index
-    @review = Review.new
+    @per_page = params[:per_page] || 30
     if params[:title].present?
+      @page_title = params[:title]
       help_index(params[:title])
     else
-      @pagy, @movies = pagy(Movie.all.order(created_at: :asc), items: 33)
+      @page_title = 'Movies'
+      @pagy, @movies = pagy(Movie.all, items: @per_page)
     end
   end
 
   # GET /movies/1
   # GET /movies/1.json
-  def show; end
+  def show
+  @page_title = 'Movie'
+  end
 
   # GET /movies/new
   def new
     @movie = current_user.movies.build
-    genres
+    @genres = Genre.all.map{|g| [ g.name, g.id ] }
   end
 
   # GET /movies/1/edit
   def edit
-    get_genres
+    @page_title = 'Edit Movie'
+    @genres = Genre.all.map{|g| [ g.name, g.id ] }
+    # get_genres
   end
 
   # POST /movies
@@ -77,7 +83,7 @@ class MoviesController < ApplicationController
   def help_index(movie_title)
     ahoy.track 'Searched movie', title: movie_title
     @pagy, @movies = pagy(Movie.search(movie_title), items: 33)
-    return unless @movies.blank?
+    return unless !@movies.exists?
 
     ahoy.track 'Movie not found'
     flash[:alert] = movie_title + ' not found'
@@ -99,20 +105,16 @@ class MoviesController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_movie
-    @movie = Movie.find(params[:id])
+    @movie ||= Movie.find(params[:id])
+    @review = Review.where(movie_id: params[:id], user_id: current_user.id)
+    @genres  = @movie.genres
   end
 
-  def set_movie_review
-    @reviews = @user.reviews
-    # Aaron said this was better, so we believe him
-    @movie_review = @reviews.find_by(movie_id: @movie.id)
-    # @movie_review = @reviews.where(movie_id: @movie.id).first
-  end
 
   # Never trust parameters from the scary internet
   # only allow the white list through.
   def movie_params
-    accessible = %i[title vote_count vote_average tagline status poster_path original_language backdrop_path adult overview popularity budget release_date revenue runtime genre_ids: []]
+    accessible = [:title, :vote_count, :vote_average, :tagline, :status, :poster_path, :original_language, :backdrop_path, :adult, :overview, :popularity, :budget, :release_date, :revenue, :runtime, :position, :genre_ids => []]
     params.require(:movie).permit(accessible)
   end
 
