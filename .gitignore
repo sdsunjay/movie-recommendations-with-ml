@@ -33,3 +33,4 @@ structure.sql
 fullchain.pem
 privkey.pem
 *.sql
+.DS_Store
