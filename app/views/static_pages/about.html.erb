@@ -104,15 +104,15 @@
               <p>FAQ tittle line</p>
 					</div>
 	<div class="team-content wow fadeInUp">
-<h2>What is Movix</h2>
-<p>Movix is a movie recommendation service based on artificial intelligence and Deep Learning. Click movies and tags         you like and the system will do the rest — in a few clicks, Movix adapts to your preferences and gives you movies worth watching.</p>
-<h2>How is this           different from other recommedation engines</h2>
-<p>Unlike other services, we don't require registration or long history of films you have watched before.       Your taste, mood and preferences change every day and we understand that — so every recommendation is completely new! Just click a few movies you would         like to watch right now and we will find your movie.</p>
+<h2>What is Movie Recommendations with ML</h2>
+<p>Movie Recommendations with ML is a movie recommendation service based on <a href="http://psl.linqs.org">Probabilistic Soft Logic (PSL)</a>, which is a machine learning framework for developing probabilistic models. In order to get started simply <%= link_to 'Sign Up with Facebook', new_user_registration_path %> and start rating movies. Once you have rated a sufficient number of movies and there are enough users on the site, we will start giving you recommendations.</p>
+<h2>How is this different from other recommedation engines</h2>
+<p>Unlike other services, we have the most up-to-date selection of movies. We are also constantly adding new ones. While we do require that you register and rate some movies, we know this is an essential part of getting recommendations right! We care deeply about making accurate recommendations. Your taste, mood and preferences change every day and we understand that, we have made it easy to remove your rating from a movie. Simply click the  <%= fa_icon "thumbs-up" %> or the <%= fa_icon "thumbs-down" %> on any movie you have already rated and the rating goes away. It will really help if you have at least one or two friends using the platform, but we understand not everyone can be here, so don't worry if you don't. <%= link_to 'Sign Up with Facebook', new_user_registration_path %> and get started!</p>
 <h2>What's inside</h2>
-<p>We have designed our own custom Neural Network architecture based on         LSTM. It’s built on top of Ternsorflow framework from Google and runs on GPU. Unlike other engines, we have no precalculated recommendations — every click      is being processed on our servers.</p>
-<h2>Why we started Movix</h2>
-<p>Here at <a href="https://deepsystems.io" target="_blank">Deep Systems</a> we are a      big fans of artificial intelligence and good cinema. After some evenings looking for a nice movie to watch, we decieded to create a service we would like       and use.</p>
-<p>We hope, you would love Movix too!</p>
+<p>As already mentioned, we are leveraging <a href="http://psl.linqs.org">PSL</a>, which has &quot;produced state-of-the-art results in many areas, such as recommendation systems&quot;. While it will be a few weeks before we can start giving recommendations, we encourage you to continue to rate movies and ask you to share this website with your friends and family.</p>
+<h2>Why we started Movie Recommendations with ML</h2>
+<p>We are big fans of ML and good movies. We wanted to merge the two. Thus Movie Recommendations with ML was born. With so many movies being produced these days, its impossible to keep up. Why watch movies you don't like, when you can be certain you will see something you enjoy? Researchers at UC Santa Cruz have demonstrated PSL can be used to make social recommendations, lets leverage their research and make highly accurate movie recommendations!</p>
+<p>We hope, you would love Movie Recommendations with ML! If you don't, <a href='#contact'>please let me know</a></p>
 </div>
 </div>
 </div>
@@ -131,16 +131,16 @@
               <p>Tips tittle line</p>
 					</div>
 	<div class="team-content wow fadeInUp">
-  <h2>I want to upload my ratings for every movie i have watched</h2>
-  <p>When we designed Movix, we tried to make our service give awesome recommedations even if you don't rate tons of movies. Try to enter a few movies, that      are similar to what you want to watch right know —      it's the best way to interact with Movix. But you can still save your ratings in <a href="/collections"      class="">Collections</a>.</p>
+  <h2>I want to upload my ratings for every movie I have watched</h2>
+  <p>When we designed Movie Recommendations with ML, we tried to make our service give awesome recommedations even if you don't rate tons of movies. There is no API currently and no way to mass upload ratings. If this is a highly requested feature, <a href='#contact'>please let me know</a> and we will get make it happen.</p>
   <h2>I look for rare films</h2>
-  <p>If you want to see less popular movies, just search for tag "Rare". You can also use tags       "Not popular" and "Very popular".</p>
+  <p>We dont have a lot of rare films currently, but we are adding movies constantly. If you dont see something you want, please let me know and I will add it.</p>
   <h2>I look for old movies</h2>
-  <p>It is possible to filter recommedations by year of release. Select interesting          decades on the right side under label "Years". You can select multiple decades.</p>
+  <p>We are working on the ability to filter by year. This work in still in development</p>
   <h2>The order of movies is important</h2>
-  <p>Our neural network             consider movies and tags in input more important, if they are placed closer to the end. If you want to change priority, just drap and drop movie in input.      </p>
-  <h2>I don't interested in superheroes movies. Can i drop them?</h2>
-  <p>Yes. If don't want to see some movies, dislike tag that describes film the          best. The opposite is possible too — like tags if want to see more movies on that topic.</p>
+  <p>The order is not important at this particular time.</p>
+  <h2>I'm not interested in superheroes movies. What should I do?</h2>
+  <p>Simply rate them as 'Dislike'.</p>
 </div>
 </div>
 </div>
