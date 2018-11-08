@@ -1,5 +1,5 @@
 class MoviesController < ApplicationController
-  before_action :authenticate_user!, except: [:index]
+  before_action :authenticate_user!
   before_action :set_user, only: [:index, :show, :edit, :update, :destroy]
   before_action :set_movie, only: [:show, :edit, :update, :destroy]
   before_action :set_user_reviews, only: [:show, :index]
