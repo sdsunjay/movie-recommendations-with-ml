@@ -29,6 +29,8 @@ WORKDIR $RAILS_ROOT
 # Adding gems
 COPY Gemfile Gemfile
 COPY Gemfile.lock Gemfile.lock
+# if you are downloading this repo and are NOT Sunjay
+# You must comment out the line below as this directory doesn't exist in the repo
 COPY db/seeds db/seeds
 
 # RUN apk add --virtual build-deps build-base openssl-dev postgresql-dev libc-dev linux-headers libxml2-dev libxslt-dev readline-dev
