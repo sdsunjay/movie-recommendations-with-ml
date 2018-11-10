@@ -5,9 +5,11 @@
     </div>
     <div class="row">
         <div class="card-columns">
-            <% @movies.each do |movie| %>
-                <%= render 'partials/movie', movie: movie, user_reviews: @user_reviews, cache: Proc.new{|movie| [movie]}%>
+          <% @movies.each do |movie| %>
+            <% cache movie do %>
+              <%= render 'partials/movie', movie: movie, user_reviews: @user_reviews %>
             <% end %>
+          <% end %>
         </div>
     </div>
     <div class="row">
