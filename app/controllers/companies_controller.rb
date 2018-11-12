@@ -16,11 +16,10 @@ class CompaniesController < ApplicationController
   # GET /companiess/1
   # GET /companies/1.json
   def show
-    @page_title = 'Company'
     @per_page = params[:per_page] || 30
     @page_title = @company.name
     @movies = Movie.first(30)
-    # @pagy, @movies = pagy(Movie.first(30), items: @per_page)
+    @pagy, @movies = pagy(@company.movies, items: @per_page)
   end
 
   # GET /companies/new
@@ -84,6 +83,8 @@ class CompaniesController < ApplicationController
   # Never trust parameters from the scary internet
   # only allow the white list through.
   def company_params
-    params.require(:company).permit(:name, :description, :homepage, :logo_path, :origin_country, :parent_company_id)
+    # extend with your own params
+    accessible = %i[name description homepage logo_path origin_country parent_company_id]
+    params.require(:company).permit(accessible)
   end
 end
