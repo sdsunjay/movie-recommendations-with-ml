@@ -1,0 +1,26 @@
+<h1><%= @company.name %></h1>
+<% if @movies.try(:any?) %>
+  <div class="row">
+    <div class="card-columns">
+      <% @movies.each do |movie| %>
+        <% cache movie do %>
+          <%= render 'partials/movie', movie: movie, user_reviews: @user_reviews %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+<% else %>
+  <article class="single-from-blog">
+    <div class="blog-title">
+      <h2>No movies available yet</h2>
+    </div>
+  </article>
+<% end %>
+
+<% if @user.super_admin? %>
+  <div class="row">
+    <%= link_to 'Edit', edit_company_path(@company) %>
+    |
+    <%= link_to 'Back', companies_path %>
+  </div>
+<% end %>
