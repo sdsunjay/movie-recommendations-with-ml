@@ -9,6 +9,9 @@ services:
     image: 'redis:4.0-alpine'
     command: redis-server --requirepass wsciAqNwgG9D7cF^gVXi9NivbUXGzZ1qDia4bQ
     volumes:
+      - '/home/deploy/pgdata/etc:/etc/postgresql'
+      - '/home/deploy/pgdata/log:/var/log/postgresql'
+      - '/home/deploy/pgdata/data:/var/lib/postgresql/data'
       - 'redis:/data'
 
   sidekiq:
@@ -22,6 +25,7 @@ services:
     env_file:
       - '.env'
   app:
+    entrypoint: [bin/entry]
     build:
       context: .
       dockerfile: Dockerfile
