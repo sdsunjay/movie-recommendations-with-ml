@@ -28,6 +28,7 @@ class FacebookRealtimeUpdatesController < ApplicationController
 
   def subscription
     return unless realtime_request?(request)
+
     case request.method
     when 'GET'
       # Koala::Facebook::RealtimeUpdates.meet_challenge(@params) do |token|
@@ -45,6 +46,5 @@ class FacebookRealtimeUpdatesController < ApplicationController
         render plain: 'Thanks for the update'
       end
     end
-
   end
 end
