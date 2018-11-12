@@ -1,13 +1,13 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
-  before_action :require_admin, only: [:destroy, :index]
-  caches_action :index, :show
+  before_action :set_user, only: %i[show edit update destroy]
+  before_action :require_admin, only: %i[destroy index]
+  caches_action :index
 
   # GET /users
   # GET /users.json
   def index
-    @page_title = 'Users'
+    @page_title = 'Accounts'
     @pagy, @users = pagy(User.all.order(created_at: :desc), items: 99)
   end
 
@@ -16,7 +16,8 @@ class UsersController < ApplicationController
     @page_title = 'Account'
     @friends = Friendship.where(user_id: @user).order(created_at: :desc)
 
-    @pagy_reviews, @reviews = pagy(Review.includes(:movie).where(user_id: current_user.id), items: 33)
+    @pagy_reviews, @reviews = pagy(@user.reviews.includes(:movie).order(created_at: :desc), items: 33)
+    @pagy_recommendations, @recommendations = pagy(@user.movie_user_recommendations.includes(:movie).order(created_at: :desc), items: 33)
     @friends_count = if @friends.blank?
                        0
                      else
@@ -36,7 +37,9 @@ class UsersController < ApplicationController
   end
 
   # GET /users/:id/edit
-  def edit; end
+  def edit
+    @page_title = 'Edit Account'
+  end
 
   # PATCH/PUT /users/:id.:format
   def update
@@ -45,7 +48,7 @@ class UsersController < ApplicationController
       if @user.update(user_params)
         # Sign in the user bypassing validation
         bypass_sign_in(@user)
-        format.html { redirect_to user_path, notice: 'Your profile was successfully updated.'}
+        format.html { redirect_to user_path, notice: 'Your profile was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }
@@ -60,6 +63,7 @@ class UsersController < ApplicationController
 
     @user.reviews.each(&:destroy)
     @user.friendships.each(&:destroy)
+    @user.movie_user_recommendtions.each(&:destroy)
     @user.movies.each(&:destroy)
 
     if @user.destroy
@@ -74,7 +78,7 @@ class UsersController < ApplicationController
 
   def user_params
     # extend with your own params
-    accessible = %i[name email gender hometown location education birthday]
+    accessible = %i[name email gender hometown location education birthday link]
     params.require(:user).permit(accessible)
   end
 end
