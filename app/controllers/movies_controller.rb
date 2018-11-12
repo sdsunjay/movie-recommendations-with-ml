@@ -21,20 +21,18 @@ class MoviesController < ApplicationController
   # GET /movies/1
   # GET /movies/1.json
   def show
-  @page_title = 'Movie'
+    @page_title = 'Movie'
   end
 
   # GET /movies/new
   def new
     @movie = current_user.movies.build
-    @genres = Genre.all.map{|g| [ g.name, g.id ] }
+    @genres = Genre.all
   end
 
   # GET /movies/1/edit
   def edit
     @page_title = 'Edit Movie'
-    @genres = Genre.all.map{|g| [ g.name, g.id ] }
-    # get_genres
   end
 
   # POST /movies
@@ -107,9 +105,8 @@ class MoviesController < ApplicationController
   def set_movie
     @movie ||= Movie.find(params[:id])
     @review = Review.where(movie_id: params[:id], user_id: current_user.id)
-    @genres  = @movie.genres
+    @genres = Genre.all
   end
-
 
   # Never trust parameters from the scary internet
   # only allow the white list through.
