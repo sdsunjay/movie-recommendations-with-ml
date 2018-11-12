@@ -7,6 +7,7 @@ class Genre < ApplicationRecord
 
   validates :name, presence: true
 
+  default_scope { order(name: :desc) }
   accepts_nested_attributes_for :categorizations, reject_if: :all_blank, allow_destroy: true
   accepts_nested_attributes_for :movies
 end
