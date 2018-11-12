@@ -1,0 +1,6 @@
+<% recommendations.each do |recommendation| %>
+  <% cache recommendation.movie do %>
+    <%= render 'partials/movie', movie: recommendation.movie, user_reviews: reviews %>
+  <% end %>
+<% end %>
+
