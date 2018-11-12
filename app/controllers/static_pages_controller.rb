@@ -1,4 +1,5 @@
 class StaticPagesController < ApplicationController
+  caches_action :home, :about, :terms, :privacy
   def home
     @page_title = 'Home'
   end
