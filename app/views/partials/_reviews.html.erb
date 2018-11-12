@@ -1,0 +1,5 @@
+<% @reviews.each do |review| %>
+  <% cache review.movie do %>
+    <%= render 'partials/movie', movie: review.movie, user_reviews: reviews %>
+  <% end %>
+<% end %>
