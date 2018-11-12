@@ -7,20 +7,26 @@ class FriendshipsController < ApplicationController
   # GET /friendships
   # GET /friendships.json
   def index
+    @page_title = 'Friendships'
     @pagy, @friends = pagy(Friendship.includes(:user).all.order(created_at: :desc), items: 99)
   end
 
   # GET /friendships/1
   # GET /friendships/1.json
-  def show; end
+  def show
+    @page_title = 'Friendship'
+  end
 
   # GET /friendships/new
   def new
+    @page_title = 'New Friendship'
     @friendship = Friendship.new
   end
 
   # GET /friendships/1/edit
-  def edit; end
+  def edit
+    @page_title = 'Edit Friendship'
+  end
 
   # POST /friendships
   # POST /friendships.json
