@@ -1,5 +1,6 @@
 class ContactsController < ApplicationController
-    before_action :require_admin, only: [:index]
+    before_action :require_admin, only: [:index, :show]
+    before_action :set_contact, only: [:show]
 
     def new
       @contact = Contact.new
@@ -33,9 +34,19 @@ class ContactsController < ApplicationController
     end
     def index
        @page_title = 'Comments'
-        @contacts = Contact.all.order(created_at: :desc)
+       @contacts = Contact.all.includes(:user).order(created_at: :desc)
     end
+
+    def show
+       @page_title = 'Comment'
+       @count = Contact.distinct.count('id')
+    end
+
     private
+    # Use callbacks to share common setup or constraints between actions.
+    def set_contact
+      @contact ||= Contact.find(params[:id])
+    end
 
     def contact_params
         params.require(:contact).permit(:name, :email, :message)
