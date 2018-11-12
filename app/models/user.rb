@@ -8,10 +8,11 @@ class User < ApplicationRecord
          :rememberable, :trackable, :validatable, :omniauthable,
          omniauth_providers: [:facebook]
 
-  has_many :friendships
+  has_many :friendships, -> { order(created_at: :desc) }
   has_many :users, through: :friendships, dependent: :destroy
-  has_many :reviews, dependent: :destroy
-  has_many :movies, dependent: :destroy
+  has_many :movie_user_recommendations, -> { order(created_at: :desc) }
+  has_many :movies, through: :movie_user_recommendations, dependent: :destroy
+  has_many :reviews, -> { order(created_at: :desc) }, dependent: :destroy
   has_many :visits, class_name: 'Ahoy::Visit'
   validates_uniqueness_of :email
   enum access_level: %i[user admin super_admin]
