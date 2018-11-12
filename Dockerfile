@@ -43,6 +43,7 @@ ENV WEB_CONCURRENCY 4
 ENV MAX_THREADS 2
 ENV PORT 3000
 RUN bundle install --jobs 20 --retry 5 --without development test
+
 # development/production differs in bundle install
 #RUN if [[ "$RAILS_ENV" == "production" ]]; then\
 # RUN bundle install --jobs 20 --retry 5 --without development test
