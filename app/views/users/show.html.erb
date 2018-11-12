@@ -142,28 +142,23 @@
                 </ul>
                 <div class="tab-content" id="myTabContent">
                   <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-                    <p>
-                      Welcome home!
-                    </p>
+                    <p>Welcome home!</p>
                   </div>
                   <!-- Beginning of My reviews -->
                   <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
-                    <!-- <div id="reviews-given-tab" class="tab-pane fade in active" > -->
                     <% if @reviews.try(:any?) %>
                       <div class="row">
                         <div class="card-columns">
-                            <% @reviews.each do |review| %>
-                                <%= render 'partials/movie', movie: review.movie, user_reviews: @reviews, cached: true %>
-                            <% end %>
+                          <%= render 'partials/reviews', reviews: @reviews %>
                         </div>
                       </div>
-                    <div class="row">
-                      <%= pagy_nav_compact_bootstrap(@pagy_reviews).html_safe %>
-                    </div>
+                      <div class="row">
+                        <%= pagy_nav_compact_bootstrap(@pagy_reviews).html_safe %>
+                      </div>
                     <% else %>
                       <section class="single-from-blog" style="margin-bottom: 0; border: 1px solid #f0f0f0;">
                         <div class="blog-title">
-                          <h2>No movies reviewed yet</h2>
+                          <h2>No reviews yet</h2>
                         </div>
                       </section>
                     <% end %>
@@ -189,24 +184,35 @@
 
                   <!-- Beginning of My Recommendations -->
                   <div class="tab-pane fade" id="recommendations" role="tabpanel" aria-labelledby="recommendations-tab">
-                    <section class="single-from-blog" style="margin-bottom: 0; border: 1px solid #f0f0f0;">
-                      <div class="blog-title">
-                        <h2>No movie recommendations yet</h2>
+                    <% if @recommendations.try(:any?) %>
+                      <div class="row">
+                        <div class="card-columns">
+                          <%= render 'partials/recommendations', recommendations: @recommendations, reviews: @reviews %>
+                        </div>
                       </div>
-                    </section>
+                      <div class="row">
+                        <%= pagy_nav_compact_bootstrap(@pagy_recommendations).html_safe %>
+                      </div>
+                    <% else %>
+                      <section class="single-from-blog" style="margin-bottom: 0; border: 1px solid #f0f0f0;">
+                        <div class="blog-title">
+                          <h2>No recomendations yet</h2>
+                        </div>
+                      </section>
+                    <% end %>
                   </div>
                   <!-- End of My Recommendations -->
                 </div>
                 <!-- End of tab-content -->
               </article>
               <!-- End of single-from-blog -->
-            </div>
-            <!-- End of blog-area -->
-          </div>
-          <!-- End of col-lg-8 col-md-7 col-sm-12 -->
         </div>
-        <!-- End of row -->
-        <%= render "shared/sidebar" %>
-      <% else %>
-        <h4>You do not have permission to view this user's profile</h4>
-      <% end %>
+        <!-- End of blog-area -->
+      </div>
+      <!-- End of col-lg-8 col-md-7 col-sm-12 -->
+    </div>
+    <!-- End of row -->
+    <%= render "shared/sidebar" %>
+  <% else %>
+    <h4>You do not have permission to view this user's profile</h4>
+  <% end %>
