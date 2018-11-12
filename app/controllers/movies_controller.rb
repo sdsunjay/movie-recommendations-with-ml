@@ -105,7 +105,7 @@ class MoviesController < ApplicationController
   def set_movie
     @movie ||= Movie.find(params[:id])
     @review = Review.where(movie_id: params[:id], user_id: current_user.id)
-    @genres = Genre.all
+    @genres = @movie.genres
   end
 
   # Never trust parameters from the scary internet
