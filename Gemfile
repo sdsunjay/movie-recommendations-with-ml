@@ -49,6 +49,7 @@ gem 'koala'
 gem 'seed_dump'
 gem 'rubyzip', '~> 1.2.2'
 gem 'simple_form'
+gem 'country_select', require: 'country_select_without_sort_alphabetical'
 gem 'loofah', '>= 2.2.3'
 # background jobs
 gem 'sidekiq', '>= 5.2.2'
