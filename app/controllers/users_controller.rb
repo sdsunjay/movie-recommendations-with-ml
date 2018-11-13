@@ -28,13 +28,21 @@ class UsersController < ApplicationController
       @number_of_reviews = 0
       @number_of_liked_movies = 0
       @number_of_disliked_movies = 0
+
     else
       @number_of_reviews = @user.reviews.count
       @avg_review = @user.reviews.average(:rating).round(2)
       @number_of_liked_movies = Review.where(user_id: @user, rating: 5).count
       @number_of_disliked_movies = Review.where(user_id: @user, rating: 1).count
+
+    end
+    if @recommendations.blank?
+      @number_of_recommendations = 0
+    else
+      @number_of_recommendations = @recommendations.count
     end
   end
+
 
   # GET /users/:id/edit
   def edit
