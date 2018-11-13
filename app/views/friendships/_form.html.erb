@@ -4,8 +4,8 @@
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
   <div class="form-inputs">
-    <%= f.input :user_id, placeholder: 'User ID', error: 'User ID is mandatory, please specify one' %>
-    <%= f.input :friend_id, placeholder: 'Friend ID', error: 'Friend ID is mandatory, please specify one' %>
+    <%= f.input :user_id, label: false, placeholder: 'User ID', error: 'User ID is mandatory, please specify one' %>
+    <%= f.input :friend_id, label: false, placeholder: 'Friend ID', error: 'Friend ID is mandatory, please specify one' %>
   </div>
 
   <div class="form-actions">

@@ -5,12 +5,12 @@
 
   <div class="form-inputs">
 
-  <%= f.input :name, placeholder: 'Company Name', error: 'Name is mandatory, please specify one' %>
-  <%= f.input :description %>
-  <%= f.input :headquarters, placeholder: 'Culver City, California, United States' %>
-  <%= f.input :homepage, placeholder: 'https://www.sony.com' %>
-  <%= f.input :logo_path, placeholder: '/GagSvqWlyPdkFHMfQ3pNq6ix9P.png' %>
-  <%= f.input :origin_country, priority: [ "US" ], collection: [ "US", "GB", "NZ"] %>
+  <%= f.input :name, label: false, placeholder: 'Company Name', error: 'Name is mandatory, please specify one' %>
+  <%= f.input :description, label: false, placeholder:'Description' %>
+  <%= f.input :headquarters, label: false, placeholder: 'Culver City, California, United States' %>
+  <%= f.input :homepage, label: false, placeholder: 'https://www.sony.com' %>
+  <%= f.input :logo_path, label: false, placeholder: '/GagSvqWlyPdkFHMfQ3pNq6ix9P.png' %>
+  <%= f.input :origin_country, label: false, as: :select, prompt: "Select origin country", priority: [ "US" ], collection: [ "US", "GB", "NZ"] %>
   </div>
   <div class="form-actions">
     <%= f.button :submit %>
