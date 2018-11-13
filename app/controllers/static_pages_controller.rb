@@ -6,15 +6,15 @@ class StaticPagesController < ApplicationController
   end
 
   def about
-   @page_title = 'About'
-   @contact = Contact.new
+    @page_title = 'About'
+    @contact = Contact.new
   end
 
   def terms
-   @page_title = 'Terms'
+    @page_title = 'Terms'
   end
 
   def privacy
-   @page_title = 'Privacy'
+    @page_title = 'Privacy'
   end
 end
