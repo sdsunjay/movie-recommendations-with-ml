@@ -2,26 +2,32 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 .rating-exists {
-    //color: #E52727;
-    color: #2E73FE;
-   -webkit-text-stroke-width: 1px;
-   -webkit-text-stroke-color: #E52727;
-
-    //text-shadow: 1px 1px 1px #ccc;
-    //font-size: 1.5em;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: #E52727;
+  background: 2E73FE;
+  border-radius: 50%;
+  height: 1em;
+  width: 1em;
 }
+
 .rating-exists.fa.fa-thumbs-up{
-   -webkit-text-stroke-color: #2E73FE;
+  -webkit-text-stroke-color: #2E73FE;
+  color: #0800ff;
+ -webkit-text-stroke-width: 1px;
+
  }
+
 .rating-exists.fa.fa-thumbs-down{
-   -webkit-text-stroke-color: #2E73FE;
+  -webkit-text-stroke-color: #2E73FE;
+  color: #0800ff;
+ -webkit-text-stroke-width: 1px;
  }
 .rating-exists.fa.fa-thumbs-up:hover {
-    color:transparent;;
+    color:transparent;
     -webkit-text-stroke-color: blue;
 }
 .rating-exists.fa.fa-thumbs-down:hover {
-    color:transparent;;
+    color:transparent;
     -webkit-text-stroke-color: blue;
 }
 .fa.fa-thumbs-up:hover {
@@ -40,11 +46,11 @@
 }
 .fa.fa-thumbs-down{
    -webkit-text-stroke-width: 1px;
-   -webkit-text-stroke-color: blue;
+   -webkit-text-stroke-color: grey;
  }
 .fa.fa-thumbs-up{
    -webkit-text-stroke-width: 1px;
-   -webkit-text-stroke-color: blue;
+   -webkit-text-stroke-color: grey;
  }
 .fa.rating-not-present{
  //font-size:12em;
