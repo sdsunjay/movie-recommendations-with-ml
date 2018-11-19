@@ -185,31 +185,31 @@
 	float: left;
 	width: 100%;
 }
-.fa.fa-thumbs-up:hover {
+.fa.fa-thumbs-o-up:hover {
     color: #2E73FE;
     //color: #E52727;
 }
-.fa.fa-thumbs-down:hover {
+.fa.fa-thumbs-o-down:hover {
     color: #2E73FE;
     //color: #E52727;
 }
-.fa-thumbs-down {
+.fa-thumbs-o-down {
     font-size: 25px;
 }
-.fa-thumbs-up {
+.fa-thumbs-o-up {
     font-size: 25px;
 }
-.fa.fa-thumbs-down{
+.fa.fa-thumbs-o-down{
   -webkit-text-stroke-width: 1px;
   -webkit-text-stroke-color: grey;
   padding: 0;
-  color: white;
+  color: grey;
   text-align:center;
  }
-.fa.fa-thumbs-up{
+.fa.fa-thumbs-o-up{
    -webkit-text-stroke-width: 1px;
    -webkit-text-stroke-color: grey;
    padding: 0;
-   color: white;
+   color: grey;
    text-align:center;
  }
