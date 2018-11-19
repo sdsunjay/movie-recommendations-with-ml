@@ -1,8 +1,8 @@
 class ReviewsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_movie, only: [:create, :new, :show, :edit, :update, :destroy]
-  before_action :set_review, only: [:show, :update, :destroy]
-  before_action :set_user, only: [:create, :edit, :update, :destroy]
+  before_action :set_movie, only: %i[create new show edit update destroy]
+  before_action :set_review, only: %i[show update destroy]
+  before_action :set_user, only: %i[create edit update destroy]
   before_action :require_admin, only: [:index]
 
   # GET /reviews
@@ -25,17 +25,18 @@ class ReviewsController < ApplicationController
   def create
     @user_reviews = @user.reviews
     return unless params[:rating].present?
+
     if !@movie.released?
       respond_to do |format|
         format.html { redirect_to movies_path }
-        format.js { flash[:alert] = 'Not Released Yet'}
+        format.js { flash[:alert] = 'Not Released Yet' }
         format.json { render json: @review.errors, status: :unprocessable_entity }
       end
     else
       @movie.reviews.where(user_id: @user.id, rating: params[:rating]).first_or_create
       respond_to do |format|
-        format.html {redirect_to movies_path}
-        format.js { flash[:notice] = 'Review added'}
+        format.html { redirect_to movies_path }
+        format.js { flash[:notice] = 'Review added' }
       end
     end
   end
@@ -61,13 +62,13 @@ class ReviewsController < ApplicationController
       @user_reviews = @user.reviews
 
       respond_to do |format|
-        format.js {  flash[:notice] = 'Review was successfully destroyed'}
+        format.js {  flash[:notice] = 'Review was successfully destroyed' }
         format.html { redirect_to @movie, notice: 'Review was successfully destroyed.' }
         format.json { head :no_content }
       end
     else
       respond_to do |format|
-        format.js {  flash[:alert] = 'Review was not destroyed'}
+        format.js {  flash[:alert] = 'Review was not destroyed' }
         format.html { redirect_to @movie, alert: 'Review was not destroyed.' }
         format.json { head :no_content }
       end
@@ -89,5 +90,4 @@ class ReviewsController < ApplicationController
       .require(:review)
       .permit(:rating, :movie_id)
   end
-
 end
