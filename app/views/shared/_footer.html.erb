@@ -10,19 +10,17 @@
         <div class="col-sm-4">
           Proudly made for research by <a href="https://sunjaydhama.com/about.html" target="_blank">Sunjay Dhama</a>
           <br>
-          <%= link_to about_path + "#faq", class: "ui-button-text button-text", title: "Frequently Asked Questions" do  %>
-          <i class="fa fa-angle-double-right"></i>FAQ
-          <% end %>
+          <%= link_to 'About', about_path, class: "router-link-exact-active router-link-active", title: "About" %>
           <span class="delim">&nbsp;|&nbsp;</span>
-          <%= link_to about_path + "#contact", class: "ui-button-text button-text", title: "Feedback" do  %>
-            <i class="fa fa-angle-double-right"></i>Feedback
-          <% end %>
+          <%= link_to 'FAQ', about_path + "#faq", class: "ui-button-text button-text", title: "Frequently Asked Questions" %>
           <span class="delim">&nbsp;|&nbsp;</span>
-          <%= link_to about_path, class: "router-link-exact-active router-link-active", title: "About" do  %>
-            <i class="fa fa-angle-double-right"></i>About
-          <% end %>
+          <%= link_to 'Contact', about_path + "#contact", class: "ui-button-text button-text", title: "Feedback" %>
+          <span class="delim">&nbsp;|&nbsp;</span>
+          <%= link_to 'Terms', terms_path, class: "ui-button-text button-text", title: "Terms" %>
+          <span class="delim">&nbsp;|&nbsp;</span>
+          <%= link_to 'Privacy' , privacy_path,class: "ui-button-text button-text", title: "Privacy" %>
       </div><!-- closes column -->
-      <div class="col-sm-4">
+      <div class="col-sm-4 footer-social">
         <a href="javascript:void();"><%= fa_icon "facebook"%></a>
         <a href="javascript:void();"><%= fa_icon "twitter"%></a>
         <a href="javascript:void();"><%= fa_icon "instagram"%></a>
@@ -30,7 +28,6 @@
       <div class="col-sm-4">
         Special thanks to <a href="https://developers.facebook.com/" target="_blank">Facebook</a> and <a href="https://www.themoviedb.org/" target="_blank">TMDb</a>
       </div>
-      <a class="survery-btn"><i class="zmdi zmdi-comments"></i></a>
         </div> <!-- closer row -->
       </div><!-- closes container -->
 </section>
