@@ -28,10 +28,10 @@
                       <% if @user.gender? %>
                         <% if @user.gender == 'female' %>
                           <i class="fa fa-female" aria-hidden="true" style="color: #00d999;"></i>
-                          (<%= @user.gender %>)
+                          (Female)
                           <% elsif @user.gender == 'male' %>
                             <i class="fa fa-male" aria-hidden="true" style="color: #00d999;"></i>
-                            (<%= @user.gender %>)
+                            (Male)
                           <% else %>
                             <i class="fa fa-superpowers" aria-hidden="true" style="color: #00d999;"></i>
                             (<%= @user.gender %>)
@@ -64,14 +64,19 @@
                         <% end %>
                       </h5>
                       <h5>
-                        <i class="fa fa-thumbs-up" style="color: blue;"></i>
+                        <i class="fa fa-thumbs-o-up" style="color: blue"></i>
                         (<%= @number_of_liked_movies%>
                         Movies Liked)
                       </h5>
                       <h5>
-                        <i class="fa fa-thumbs-down" style="color: blue;"></i>
+                        <i class="fa fa-thumbs-o-down" style="color: blue"></i>
                         (<%= @number_of_disliked_movies%>
                         Movies Disliked)
+                      </h5>
+                      <h5>
+                        <i class="fa fa-lightbulb-o" aria-hidden="true"></i>
+                        (<%= @number_of_recommendations %>
+                        Movie Recommendations)
                       </h5>
                       <hr>
 
@@ -144,27 +149,29 @@
                   <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                     <p>Welcome home!</p>
                   </div>
+
                   <!-- Beginning of My reviews -->
                   <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
                     <% if @reviews.try(:any?) %>
                       <div class="row">
                         <div class="card-columns">
-                          <%= render 'partials/reviews', reviews: @reviews %>
+                            <%= render 'partials/reviews', reviews: @reviews %>
                         </div>
                       </div>
-                      <div class="row">
-                        <%= pagy_nav_compact_bootstrap(@pagy_reviews).html_safe %>
-                      </div>
+                    <div class="row">
+                      <%= pagy_nav_compact_bootstrap(@pagy_reviews).html_safe %>
+                    </div>
                     <% else %>
                       <section class="single-from-blog" style="margin-bottom: 0; border: 1px solid #f0f0f0;">
                         <div class="blog-title">
-                          <h2>No reviews yet</h2>
+                          <h2>No movie reviews yet</h2>
                         </div>
                       </section>
                     <% end %>
                   </div>
                   <!-- End of My Reviews -->
 
+                    <!-- Beginning of My Friends -->
                   <div class="tab-pane fade show" id="friends" role="tabpanel" aria-labelledby="friends-tab">
                     <% if @friends.try(:any?) %>
                       <div class="row">
