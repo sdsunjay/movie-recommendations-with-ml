@@ -7,31 +7,31 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <% if user_signed_in? %>
-      <li class=" <%= params[:controller] == 'movies' ? 'nav-item active' : 'nav-item'%>"><%= link_to 'Home', movies_path, class: "nav-link" %></li>
-      <%= render 'shared/genres-dropdown' %>
-      <li class=" <%= params[:controller] == 'users' ? 'nav-item active' : 'nav-item'%>"><%= link_to 'Account', user_path(current_user), class: "nav-link" %></li>
-      <li class="nav-item"><%= link_to('Logout', destroy_user_session_path, class: "nav-link") %></li>
-        <% else %>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#">Home</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#">Account</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link disabled" href="#">Genres</a>
-            </li>
-            <li class="nav-item" ><%= link_to "Sign Up", signup_path, class: "nav-link" %></li>
-            <li class="nav-item" ><%= link_to "Sign In", signin_path, class: "nav-link" %></li>
+        <li class=" <%= params[:controller] == 'movies' ? 'nav-item active' : 'nav-item'%>"><%= link_to 'Home', movies_path, class: "nav-link" %></li>
+        <%= render 'shared/genres-dropdown' %>
+        <li class=" <%= params[:controller] == 'users' ? 'nav-item active' : 'nav-item'%>"><%= link_to 'Account', user_path(current_user), class: "nav-link" %></li>
+        <li class="nav-item"><%= link_to('Logout', destroy_user_session_path, class: "nav-link") %></li>
+      <% else %>
+        <li class="nav-item">
+          <a class="nav-link disabled" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled" href="#">Account</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled" href="#">Genres</a>
+        </li>
+        <li class="nav-item"><%= link_to "Sign Up", signup_path, class: "nav-link" %></li>
+        <li class="nav-item"><%= link_to "Sign In", signin_path, class: "nav-link" %></li>
       <% end %>
     </ul>
-        <% if user_signed_in? %>
-      <%= form_tag movies_path, method: :get, class: "form-inline my-2 my-lg-0 navbar-form navbar-right", role: "search" do %>
-          <p>
-          <%= text_field_tag :title, params[:title], placeholder: 'Movie Title', class: "form-control mr-sm-2" %>
-          <%= submit_tag "Search", name: nil, class: "btn btn-outline-success my-2 my-sm-0" %>
-          </p>
-      <% end %>
-      <% end %>
+    <% if user_signed_in? %>
+    <%= form_tag movies_path, method: :get, class: "form-inline my-2 my-lg-0 navbar-form navbar-right", role: "search" do %>
+            <p>
+            <%= text_field_tag :title, params[:title], placeholder: 'Movie Title', required: true, class: "form-control mr-sm-2" %>
+            <%= submit_tag "Search", name: nil, class: "btn btn-outline-success my-2 my-sm-0" %>
+            </p>
+        <% end %>
+    <% end %>
   </div>
 </nav>
