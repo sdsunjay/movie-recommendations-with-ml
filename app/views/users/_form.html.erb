@@ -2,17 +2,16 @@
           <%= f.error_notification %>
           <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
-          <div class="form-inputs">
+          <div class="form-signin">
 
-          <%= f.input :name, placeholder: 'Name', error: 'Name is mandatory, please specify one', html5: true %>
-          <%= f.input :email, required: true, placeholder: 'E-mail', html5: true %>
-          <%# TODO: Fix gender %>
-          <%= f.input :gender, as: :select, collection: [ "Male", "Female", "Other"], html5: true %>
-          <%= f.input :education, placeholder: 'Education', html5: true %>
-          <%= f.input :birthday, as: :date, html5: true %>
-          <%= f.input :hometown, placeholder: 'Hometown', html5: true %>
-          <%= f.input :location, placeholder: 'Current Location', html5: true %>
-          <%= f.input :link, placeholder: 'Facebook Link', html5: true %>
+          <%= f.input :name, label: false, placeholder: 'Name', error: 'Name is mandatory, please specify one', html5: true, class: 'form-control', id: 'inputName' %>
+          <%= f.input :email, label: false, required: true, placeholder: 'E-mail', html5: true, class: 'form-control', id: 'inputEmail'%>
+          <%= f.input :gender, label: false, as: :select, collection: [ "male", "female", "other" ], selected: :gender, html5: true, class: 'form-control' %>
+          <%= f.input :education, label: false, placeholder: 'Education', html5: true %>
+          <%= f.input :birthday, label: false, as: :date, html5: true %>
+          <%= f.input :hometown, label: false, placeholder: 'Hometown', html5: true %>
+          <%= f.input :location, label: false, placeholder: 'Current Location', html5: true %>
+          <%= f.input :link, label: false, placeholder: 'Facebook Link', html5: true %>
           </div>
           <div class="form-actions">
             <%= f.button :submit %>
