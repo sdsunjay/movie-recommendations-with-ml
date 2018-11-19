@@ -28,8 +28,8 @@
 /config/secrets.yml
 .env
 /db/seeds
+/db/backups
 .docker
-structure.sql
 fullchain.pem
 privkey.pem
 *.sql
