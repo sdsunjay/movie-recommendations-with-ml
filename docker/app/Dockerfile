@@ -21,6 +21,7 @@ RUN apk update && apk add --update --no-cache --virtual build-dependency build-b
 
 # Set an environment variable where the Rails app is installed to inside of Docker image
 ENV RAILS_ROOT /var/www/movierecommendationswithml
+ENV pattern 20181119181841
 # make a new directory where our project will be copied
 RUN mkdir -p $RAILS_ROOT
 # Set working directory within container
