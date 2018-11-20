@@ -129,29 +129,29 @@
                     </div>
                   </div>
                 </div>
-              </article>
+          </article>
               <article class='single-from-blog wow fadeInLeft'>
                 <ul class="nav nav-tabs" id="myTab" role="tablist" style="background-color:#f8f8f8">
                   <li class="nav-item">
-                    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Home</a>
+                    <a class="nav-link <%= 'active' if params[:active_tab] == 'home-tab' %>" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Home</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" id="reviews-tab" data-toggle="tab" href="#reviews" role="tab" aria-controls="reviews" aria-selected="false">My Reviews</a>
+                    <a class="nav-link <%= 'active' if params[:active_tab] == 'reviews-tab' %>" id="reviews-tab" data-toggle="tab" href="#reviews" role="tab" aria-controls="reviews" aria-selected="false">My Reviews</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" id="friends-tab" data-toggle="tab" href="#friends" role="tab" aria-controls="friends" aria-selected="false">My Friends</a>
+                    <a class="nav-link <%= 'active' if params[:active_tab] == 'friends-tab' %>" id="friends-tab" data-toggle="tab" href="#friends" role="tab" aria-controls="friends" aria-selected="false">My Friends</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" id="recommendations-tab" data-toggle="tab" href="#recommendations" role="tab" aria-controls="recommendations" aria-selected="false">My Recommendations</a>
+                    <a class="nav-link <%= 'active' if params[:active_tab] == 'recommendations-tab' %>" id="recommendations-tab" data-toggle="tab" href="#recommendations" role="tab" aria-controls="recommendations" aria-selected="false">My Recommendations</a>
                   </li>
                 </ul>
                 <div class="tab-content" id="myTabContent">
-                  <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                  <div class="tab-pane fade <%= 'show active' if params[:active_tab] == 'home-tab' %>" id="home" role="tabpanel" aria-labelledby="home-tab">
                     <p>Welcome home!</p>
                   </div>
 
                   <!-- Beginning of My reviews -->
-                  <div class="tab-pane fade" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
+                  <div class="tab-pane fade <%= 'show active' if params[:active_tab] == 'reviews-tab' %>" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
                     <% if @reviews.try(:any?) %>
                       <div class="row">
                         <div class="card-columns">
@@ -172,12 +172,15 @@
                   <!-- End of My Reviews -->
 
                     <!-- Beginning of My Friends -->
-                  <div class="tab-pane fade show" id="friends" role="tabpanel" aria-labelledby="friends-tab">
+                  <div class="tab-pane fade <%= 'show active' if params[:active_tab] == 'friends-tab' %>" id="friends" role="tabpanel" aria-labelledby="friends-tab">
                     <% if @friends.try(:any?) %>
                       <div class="row">
                         <div class="card-columns">
                           <%= render 'partials/friends', friends: @friends, cached: true %>
                         </div>
+                      </div>
+                      <div class="row">
+                        <%= pagy_nav_compact_bootstrap(@pagy_friends).html_safe %>
                       </div>
                     <% else %>
                       <section class="single-from-blog" style="margin-bottom: 0; border: 1px solid #f0f0f0;">
@@ -190,7 +193,7 @@
                   <!-- End of My Friends -->
 
                   <!-- Beginning of My Recommendations -->
-                  <div class="tab-pane fade" id="recommendations" role="tabpanel" aria-labelledby="recommendations-tab">
+                  <div class="tab-pane fade <%= 'show active' if params[:active_tab] == 'recommendations-tab' %>"  id="recommendations" role="tabpanel" aria-labelledby="recommendations-tab">
                     <% if @recommendations.try(:any?) %>
                       <div class="row">
                         <div class="card-columns">
