@@ -6,7 +6,7 @@ class Review < ApplicationRecord
   # user will review many movies
   belongs_to :user, touch: true
   # movie will have many reviews
-  belongs_to :movie, touch: true
+  belongs_to :movie, -> { order(created_at: :desc) }, touch: true
   validates :user_id,
             presence: { message: 'Your review must belong to a user' }
   validates :movie_id,

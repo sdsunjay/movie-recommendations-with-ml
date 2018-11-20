@@ -1,9 +1,9 @@
 class MoviesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_user, only: [:index, :show, :edit, :update, :destroy]
-  before_action :set_movie, only: [:show, :edit, :update, :destroy]
-  before_action :set_user_reviews, only: [:show, :index]
-  before_action :require_admin, only: [:create, :new, :edit, :update, :destroy]
+  before_action :set_user, only: %i[index show edit update destroy]
+  before_action :set_movie, only: %i[show edit update destroy]
+  before_action :set_user_reviews, only: %i[show index]
+  before_action :require_admin, only: %i[create new edit update destroy]
 
   # GET /movies
   # GET /movies.json
@@ -21,20 +21,18 @@ class MoviesController < ApplicationController
   # GET /movies/1
   # GET /movies/1.json
   def show
-  @page_title = 'Movie'
+    @page_title = 'Movie'
   end
 
   # GET /movies/new
   def new
     @movie = current_user.movies.build
-    @genres = Genre.all.map{|g| [ g.name, g.id ] }
+    @genres = Genre.all
   end
 
   # GET /movies/1/edit
   def edit
     @page_title = 'Edit Movie'
-    @genres = Genre.all.map{|g| [ g.name, g.id ] }
-    # get_genres
   end
 
   # POST /movies
@@ -83,7 +81,7 @@ class MoviesController < ApplicationController
   def help_index(movie_title)
     ahoy.track 'Searched movie', title: movie_title
     @pagy, @movies = pagy(Movie.search(movie_title), items: 33)
-    return unless !@movies.exists?
+    return if @movies.exists?
 
     ahoy.track 'Movie not found'
     flash[:alert] = movie_title + ' not found'
@@ -107,14 +105,14 @@ class MoviesController < ApplicationController
   def set_movie
     @movie ||= Movie.find(params[:id])
     @review = Review.where(movie_id: params[:id], user_id: current_user.id)
-    @genres  = @movie.genres
+    @genres = @movie.genres
+    @companies = @movie.companies
   end
-
 
   # Never trust parameters from the scary internet
   # only allow the white list through.
   def movie_params
-    accessible = [:title, :vote_count, :vote_average, :tagline, :status, :poster_path, :original_language, :backdrop_path, :adult, :overview, :popularity, :budget, :release_date, :revenue, :runtime, :position, :genre_ids => []]
+    accessible = [:title, :vote_count, :vote_average, :tagline, :status, :poster_path, :original_language, :backdrop_path, :adult, :overview, :popularity, :budget, :release_date, :revenue, :runtime, :position, genre_ids: []]
     params.require(:movie).permit(accessible)
   end
 

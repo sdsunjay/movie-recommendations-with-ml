@@ -24,7 +24,12 @@
                           <th scope="row"><%= link_to contact.name, user_path(contact.user_id) %></th>
                           <td><%= contact.user.email %></td>
                       <% end %>
-                    <td><%= contact.message %></td>
+                      <td>
+                        <%=truncate(contact.message, :length => 200,  :separator => ' ') do
+                          link_to "See More", contact_path(contact), id: "message", class: "message"
+                        end
+                        %>
+                       </td>
                     <td><%= contact.created_at.to_time.strftime('%B %e %H:%M' ) %></td>
                 </tr>
             <% end %>

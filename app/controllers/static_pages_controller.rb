@@ -1,22 +1,20 @@
 class StaticPagesController < ApplicationController
-  def home
-    @page_title = 'Home'
-  end
+  caches_action :about, :terms, :privacy
 
   def help
     @page_title = 'Help'
   end
 
   def about
-   @page_title = 'About'
-   @contact = Contact.new
+    @page_title = 'About'
+    @contact = Contact.new
   end
 
   def terms
-   @page_title = 'Terms'
+    @page_title = 'Terms'
   end
 
   def privacy
-   @page_title = 'Privacy'
+    @page_title = 'Privacy'
   end
 end

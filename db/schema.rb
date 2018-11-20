@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_11_08_040233) do
+ActiveRecord::Schema.define(version: 2018_11_20_010401) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -116,6 +116,19 @@ ActiveRecord::Schema.define(version: 2018_11_08_040233) do
     t.index ["movie_id"], name: "index_categorizations_on_movie_id"
   end
 
+  create_table "companies", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "description"
+    t.string "headquarters"
+    t.string "homepage"
+    t.string "logo_path"
+    t.string "origin_country"
+    t.bigint "company_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_companies_on_company_id"
+  end
+
   create_table "contacts", force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -140,8 +153,27 @@ ActiveRecord::Schema.define(version: 2018_11_08_040233) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "movies", force: :cascade do |t|
+  create_table "movie_production_companies", force: :cascade do |t|
+    t.bigint "movie_id", null: false
+    t.bigint "company_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["company_id"], name: "index_movie_production_companies_on_company_id"
+    t.index ["movie_id"], name: "index_movie_production_companies_on_movie_id"
+  end
+
+  create_table "movie_user_recommendations", force: :cascade do |t|
+    t.bigint "movie_id", null: false
     t.bigint "user_id", null: false
+    t.decimal "confidence", precision: 15, scale: 15
+    t.integer "user_rating", limit: 2
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["movie_id"], name: "index_movie_user_recommendations_on_movie_id"
+    t.index ["user_id"], name: "index_movie_user_recommendations_on_user_id"
+  end
+
+  create_table "movies", force: :cascade do |t|
     t.integer "vote_count"
     t.decimal "vote_average", precision: 5, scale: 2
     t.string "title", null: false
@@ -162,7 +194,6 @@ ActiveRecord::Schema.define(version: 2018_11_08_040233) do
     t.integer "position", default: 0, null: false
     t.integer "page_number", limit: 2, default: 0, null: false
     t.index ["title"], name: "index_movies_on_title"
-    t.index ["user_id"], name: "index_movies_on_user_id"
   end
 
   create_table "reviews", force: :cascade do |t|
@@ -186,7 +217,6 @@ ActiveRecord::Schema.define(version: 2018_11_08_040233) do
     t.text "image"
     t.string "link"
     t.integer "access_level"
-    t.text "friends"
     t.string "education"
     t.string "provider"
     t.string "uid"
@@ -210,9 +240,13 @@ ActiveRecord::Schema.define(version: 2018_11_08_040233) do
 
   add_foreign_key "categorizations", "genres"
   add_foreign_key "categorizations", "movies"
+  add_foreign_key "companies", "companies"
   add_foreign_key "friendships", "users"
   add_foreign_key "friendships", "users", column: "friend_id", on_delete: :cascade
-  add_foreign_key "movies", "users"
+  add_foreign_key "movie_production_companies", "companies"
+  add_foreign_key "movie_production_companies", "movies"
+  add_foreign_key "movie_user_recommendations", "movies"
+  add_foreign_key "movie_user_recommendations", "users"
   add_foreign_key "reviews", "movies"
   add_foreign_key "reviews", "users"
 end

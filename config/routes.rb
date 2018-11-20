@@ -1,12 +1,11 @@
 Rails.application.routes.draw do
   devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks', registrations: 'users/registrations' }
   # static pages
-  get '/home', to: 'static_pages#home'
   get '/help', to: 'static_pages#help'
   get '/about', to: 'static_pages#about'
   get '/privacy', to: 'static_pages#privacy'
   get '/terms', to: 'static_pages#terms'
-  get  'facebook/subscription', to: 'facebook_realtime_updates#subscription', as: 'facebook_subscription', via: [:get,:post]
+  get 'facebook/subscription', to: 'facebook_realtime_updates#subscription', as: 'facebook_subscription', via: [:get,:post]
 
   devise_scope :user do
     get '/sign-in', to: 'devise/sessions#new', as: :signin
@@ -17,12 +16,14 @@ Rails.application.routes.draw do
       resources :friendships, only: [:new, :create, :index, :show, :edit, :destroy, :update]
       root to: 'movies#index', as: :authenticated_root
       resources :genres, only: [:show, :index, :new, :create, :edit, :destroy, :update]
+      resources :companies, only: [:show, :index, :new, :create, :edit, :destroy, :update]
       get 'movies/:movie_id/reviews/create', to: 'reviews#create', via: :post
       resources :reviews, only: [:index]
+      resources :movie_user_recommendations, only: [:new, :create, :index, :show, :edit, :destroy, :update]
       resources :movies, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
         resources :reviews, only: [:new, :create, :edit, :update, :destroy]
       end
-      resources :contacts, only:[:index]
+      resources :contacts, only: [:index, :show]
     end
 
     unauthenticated do
@@ -30,7 +31,7 @@ Rails.application.routes.draw do
       resources :movies, only: [:index]
     end
 
-    # TODO - why doesn't this work???
+    # TODO - why doesn't this work?
     authenticate :user, ->(user) { user.super_admin? } do
       mount Blazer::Engine, at: 'blazer'
     end

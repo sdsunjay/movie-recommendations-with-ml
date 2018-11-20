@@ -3,12 +3,16 @@
 # a top level comment
 class Movie < ApplicationRecord
   default_scope { order(position: :asc) }
-  belongs_to :user
-  has_many :reviews, ->{ select(:rating, :id, :created_at)},  dependent: :delete_all
+  has_many :movie_user_recommendations, dependent: :delete_all
+  has_many :users, -> { select(:name, :id) }, through: :movie_user_recommendations
+  has_many :reviews, -> { select(:rating, :id, :created_at).order(created_at: :desc) }, dependent: :delete_all
   has_many :categorizations, dependent: :delete_all
-  has_many :genres, ->{ select(:name, :id) }, through: :categorizations
+  has_many :genres, -> { select(:name, :id) }, through: :categorizations
 
-  # validates :title, presence: true
+  has_many :movie_production_companies, -> { select(:created_at, :confidence) }, dependent: :delete_all
+  has_many :companies, -> { select(:name, :id) }, through: :movie_production_companies
+
+  validates :title, presence: true
   # validates :overview, presence: true
   # validates :poster_path, presence: true
   # validates :release_date, presence: true
