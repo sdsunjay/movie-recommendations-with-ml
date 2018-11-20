@@ -26,6 +26,11 @@
             </strong>
             <%= @genres.map { |genre| link_to(genre.name, genre_path(genre)) }.join(', ').html_safe %>
           </li>
+          <li>
+            <strong>Companies:
+            </strong>
+            <%= @companies.map { |company| link_to(company.name, company_path(company)) }.join(', ').html_safe %>
+          </li>
           <% unless @movie.runtime.blank? %>
             <li>
               <strong>Runtime:
