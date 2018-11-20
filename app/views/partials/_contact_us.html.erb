@@ -1,21 +1,23 @@
 <%= simple_form_for @contact, html: {class: 'contact-form', id: :contact_form} do |f| %>
+<%= f.error_notification %>
+<%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
     <div class='form-inputs'>
         <div class='form-group'>
             <% if user_signed_in? %>
-                <%= f.text_field :name, value: current_user.name, class: 'form-control' %>
+                <%= f.text_field :name, required: true, label: false, value: current_user.name, class: 'form-control' %>
             <% else %>
-                <%= f.text_field :name, placeholder: 'Name', required: true, class: 'form-control' %>
+                <%= f.text_field :name, required: true, label: false, placeholder: 'Name', class: 'form-control' %>
             <% end %>
         </div>
         <div class='form-group'>
             <% if user_signed_in? %>
-                <%= f.email_field :email, value: current_user.email, class: 'form-control' %>
+                <%= f.email_field :email, required: true, label: false, value: current_user.email, class: 'form-control' %>
             <% else %>
-                <%= f.email_field :email, placeholder: 'Email Address', required: true, class: 'form-control' %>
+                <%= f.email_field :email, required: true, label: false, placeholder: 'Email Address', class: 'form-control' %>
             <% end %>
         </div>
         <div class='form-group'>
-            <%= f.text_area :message, placeholder: 'Questions or Comments', error: 'Please enter a question, comment, or concern', required: true, class: 'form-control' %>
+            <%= f.text_area :message, required: true, label: false, placeholder: 'Questions or Comments', error: 'Please enter a question, comment, or concern', class: 'form-control' %>
         </div>
     </div><!-- closes form-inputs -->
     <%= f.button :button, class:'button button-default', 'data-text': 'SUBMIT' do %>

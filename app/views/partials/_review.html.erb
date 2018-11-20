@@ -1,6 +1,6 @@
 <div class="rating">
   <div class="row">
-    <% if user_reviews.find{ |r| r.movie_id == movie.id  } %>
+    <% if user_reviews.present? and user_reviews.find{ |r| r.movie_id == movie.id  } %>
           <% cache [movie, user_reviews.find{ |r| r.movie_id == movie.id  } ] do %>
             <%= render 'partials/rating', movie: movie, review: user_reviews.find{ |r| r.movie_id == movie.id  } %>
           <% end %>

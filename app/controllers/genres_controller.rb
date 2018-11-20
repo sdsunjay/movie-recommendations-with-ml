@@ -10,7 +10,7 @@ class GenresController < ApplicationController
   # GET /genres.json
   def index
     @page_title = 'Genres'
-    @genres = Genre.all.order(created_at: :desc)
+    @genres = Genre.all
   end
 
   # GET /genres/1

@@ -1,0 +1,34 @@
+<h1>companys</h1>
+    <%= link_to 'New company', new_company_path %>
+<% if @companies.any? %>
+    <table class="table table-striped table-sm">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Name </th>
+                <th scope="col">Homepage </th>
+                <th scope="col">Show </th>
+                <th scope="col">Edit </th>
+                <th scope="col">Delete </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <% @companies.each do |company| %>
+                <tr>
+                    <th scope="row"><%= company.id %></th>
+                    <td><%= link_to company.name, company_path(company) %></td>
+                    <td><%= company.homepage %></td>
+                    <td><%= link_to 'Show', company %></td>
+                    <td><%= link_to 'Edit', edit_company_path(company) %></td>
+                    <td><%= link_to 'Destroy', company, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+    <% else %>
+        <p>There are no companys!</p>
+    <% end %>
+
+    <br>
+

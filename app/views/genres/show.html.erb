@@ -1,24 +1,26 @@
 <h1><%= @genre.name %></h1>
 <% if @movies.try(:any?) %>
-    <div class="row">
-        <%= render 'partials/per_page' %>
+  <div class="row">
+    <%= render 'partials/per_page' %>
+  </div>
+  <div class="row">
+    <div class="card-columns">
+      <% @movies.each do |movie| %>
+        <% cache movie do %>
+          <%= render 'partials/movie', movie: movie, user_reviews: @user_reviews %>
+        <% end %>
+      <% end %>
     </div>
-    <div class="row">
-        <div class="card-columns">
-            <% @movies.each do |movie| %>
-                <%= render 'partials/movie', movie: movie, user_reviews: @user_reviews, cached: true %>
-            <% end %>
-        </div>
-    </div>
-    <div class="row">
-        <%= pagy_nav_compact_bootstrap(@pagy).html_safe %>
-    </div>
+  </div>
+  <div class="row">
+    <%= pagy_nav_compact_bootstrap(@pagy).html_safe %>
+  </div>
 <% else %>
-    <article class="single-from-blog">
-        <div class="blog-title">
-            <h2>No movies available yet</h2>
-        </div>
-    </article>
+  <article class="single-from-blog">
+    <div class="blog-title">
+      <h2>No movies available yet</h2>
+    </div>
+  </article>
 <% end %>
 
 <% if @user.super_admin? %>
