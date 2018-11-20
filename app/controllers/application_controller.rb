@@ -58,7 +58,6 @@ class ApplicationController < ActionController::Base
 
   def set_user_reviews
     return @user_reviews if defined? @user_reviews
-
     @user_reviews = @user.reviews
   end
 
