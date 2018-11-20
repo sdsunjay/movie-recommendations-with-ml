@@ -1,5 +1,5 @@
 # source: https://gist.github.com/mzaidannas/ee6b6b9bdb795816d4c2006a37d45dde
-FROM ruby:2.5.1-alpine
+FROM ruby:2.5.3-alpine
 # Set local timezone
 RUN apk add --no-cache tzdata
 ENV TZ America/Los_Angeles
