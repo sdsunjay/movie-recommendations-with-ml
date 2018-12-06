@@ -21,7 +21,7 @@ class MoviesController < ApplicationController
   # GET /movies/1
   # GET /movies/1.json
   def show
-    @page_title = 'Movie'
+    @page_title = @movie.title
   end
 
   # GET /movies/new
@@ -112,7 +112,7 @@ class MoviesController < ApplicationController
   # Never trust parameters from the scary internet
   # only allow the white list through.
   def movie_params
-    accessible = [:title, :vote_count, :vote_average, :tagline, :status, :poster_path, :original_language, :backdrop_path, :adult, :overview, :popularity, :budget, :release_date, :revenue, :runtime, :position, genre_ids: []]
+    accessible = [:title, :vote_count, :vote_average, :tagline, :status, :poster_path, :original_language, :backdrop_path, :adult, :overview, :popularity, :budget, :release_date, :revenue, :runtime, genre_ids: []]
     params.require(:movie).permit(accessible)
   end
 

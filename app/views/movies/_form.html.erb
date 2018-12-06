@@ -11,14 +11,11 @@
   <%= f.input :adult, inline_label: 'Yes, Adult Film' %>
   <%= f.input :release_date, label: false, as: :date, html5: true %>
   <%= f.input :overview, label: false, placeholder: 'When Eddie Brock acquires the powers of a symbiote, he will have to release his alter-ego \"Venom\" to save his life.' %>
-
   <%#=   TODO FIX THIS f.input :status, collection: Movie.statuses.map {|k, v| [k.humanize.capitalize, v]} %>
-
   <%= f.input :status, label: false, as: :select, prompt: "Select status", collection: Movie.statuses.keys %>
   <%= f.input :budget, label: false, placeholder: 'Budget', html5: true %>
   <%= f.input :revenue, label: false, placeholder: 'Revenue', html5: true %>
   <%= f.input :runtime, label: false, placeholder: 'Runtime', html5: true %>
-  <%= f.input :position, label: false, placeholder: 'position', html5: true %>
   <%= f.input :popularity, label: false, placeholder: 'Popularity', html5: true %>
   <%= f.input :vote_count, label: false, placeholder:'Vote Count', html5: true %>
   <%= f.input :vote_average, label: false, placeholder: 'Vote Average', html5: true %>

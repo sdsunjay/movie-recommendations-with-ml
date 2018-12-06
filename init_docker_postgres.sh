@@ -38,5 +38,4 @@ sed -e '$a\' -i "$DB_DUMP_LOCATION"
 # import sql_dump
 gosu postgres postgres --single "$DATABASE_NAME" < "$DB_DUMP_LOCATION";
 
-
 echo "*** DATABASE CREATED! ***"
