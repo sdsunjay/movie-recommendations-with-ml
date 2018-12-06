@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  include Pagy::Frontend
   before_action :authenticate_user!
   before_action :set_user, only: %i[show edit update destroy]
   before_action :require_admin, only: %i[destroy index]
@@ -14,10 +15,9 @@ class UsersController < ApplicationController
   # GET /users/:id.:format
   def show
     @page_title = 'Account'
-    @friends = Friendship.where(user_id: @user).order(created_at: :desc)
-
-    @pagy_reviews, @reviews = pagy(@user.reviews.includes(:movie).order(created_at: :desc), items: 33)
-    @pagy_recommendations, @recommendations = pagy(@user.movie_user_recommendations.includes(:movie).order(created_at: :desc), items: 33)
+    @pagy_friends, @friends = pagy(Friendship.where(user_id: @user).order(created_at: :desc), page_params: :page_friends, params: { active_tab: 'friends-tab' } )
+    @pagy_reviews, @reviews = pagy(@user.reviews.includes(:movie).order(created_at: :desc), page_param: :page_reviews, params: { active_tab: 'reviews-tab' })
+    @pagy_recommendations, @recommendations = pagy(@user.movie_user_recommendations.includes(:movie).order(created_at: :desc), page_params: :page_recommendations, params: { active_tab: 'recommendations-tab' })
     @friends_count = if @friends.blank?
                        0
                      else

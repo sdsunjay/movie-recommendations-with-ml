@@ -10,7 +10,8 @@ class CompaniesController < ApplicationController
   # GET /companies.json
   def index
     @page_title = 'Companies'
-    @companies = Company.all.order(created_at: :desc)
+    @per_page = params[:per_page] || 30
+    @pagy, @companies = pagy(Company.all.order(created_at: :desc), items: @per_page)
   end
 
   # GET /companiess/1

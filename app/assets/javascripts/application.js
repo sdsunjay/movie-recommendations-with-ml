@@ -16,5 +16,6 @@
 //= require activestorage
 //= require turbolinks
 //= require bootstrap
+//= require pagy
 //= require cocoon
 //= require_tree .
