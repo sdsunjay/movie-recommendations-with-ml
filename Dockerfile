@@ -26,10 +26,13 @@ RUN mkdir -p $RAILS_ROOT
 # Set working directory within container
 WORKDIR $RAILS_ROOT
 
+# Do not install gem documentation
+RUN echo 'gem: --no-ri --no-rdoc' > ~/.gemrc
 # Adding gems
 COPY Gemfile Gemfile
 COPY Gemfile.lock Gemfile.lock
 COPY db/seeds db/seeds
+COPY lib/docker-entrypoint.sh lib/docker-entrypoint.sh
 
 # RUN apk add --virtual build-deps build-base openssl-dev postgresql-dev libc-dev linux-headers libxml2-dev libxslt-dev readline-dev
 # RUN gem install bundler && bundle install --jobs 20 --retry 5
@@ -58,5 +61,9 @@ RUN apk add --update mariadb-client-libs postgresql-client postgresql-libs sqlit
 # Adding project files
 COPY . .
 RUN bundle exec rake assets:precompile
+# This scripts runs `rake db:create` and `rake db:migrate` before
+# running the command given 
+ENTRYPOINT ["lib/support/docker-entrypoint.sh"]
 EXPOSE 3000
+ENTRYPOINT ["lib/docker-entrypoint.sh"]
 CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
