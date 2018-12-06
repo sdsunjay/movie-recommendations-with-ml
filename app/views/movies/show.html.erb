@@ -15,17 +15,29 @@
           <% unless @movie.tagline.blank? %>
             <li>
               <strong>Tagline:
-              </strong><%= @movie.tagline %></li>
+              </strong><%= @movie.tagline %>
+          </li>
           <% end %>
           <li>
             <strong>Genres:
             </strong>
             <%= @genres.map { |genre| link_to(genre.name, genre_path(genre)) }.join(', ').html_safe %>
           </li>
+          <% unless @companies.blank? %>
           <li>
             <strong>Companies:
             </strong>
             <%= @companies.map { |company| link_to(company.name, company_path(company)) }.join(', ').html_safe %>
+          </li>
+          <% end %>
+          <% unless @movie.status.blank? %>
+            <li>
+              <strong>Status:</strong>
+              <%= @movie.status.humanize %></li>
+          <% end %>
+          <li>
+            <strong>Release Date:
+            </strong><%= @movie.release_date.strftime('%B %e %Y') %>
           </li>
           <% unless @movie.runtime.blank? %>
             <li>
@@ -33,34 +45,27 @@
               </strong><%= @movie.runtime %>
               mins</li>
           <% end %>
-          <li>
-            <strong>Release Date:
-            </strong><%= @movie.release_date.strftime('%B %e %Y') %>
-          </li>
-
-          <% unless @movie.status.blank? %>
-            <li>
-              <strong>Status:</strong>
-              <%= @movie.status.humanize %></li>
-          <% end %>
-          <% unless @movie.budget.blank? %>
+          <% unless @movie.budget.blank? or @movie.budget == 0 %>
             <li>
               <strong>Budget:
-              </strong><%= @movie.budget %></li>
+              </strong>$<%= number_to_human(@movie.budget) %></li>
           <% end %>
-          <% unless @movie.revenue.blank? %>
+          <%-# TODO: Revenue still shows if it is 0 -%>
+          <% unless @movie.revenue.blank? or @movie.revenue == 0 %>
             <li>
               <strong>Revenue:
-              </strong><%= @movie.revenue %></li>
+              </strong>$<%= number_to_human(@movie.revenue) %></li>
           <% end %>
           <% unless @movie.popularity.blank? %>
             <li>
               <strong>Popularity:
               </strong><%= @movie.popularity %></li>
           <% end %>
+          <% unless @movie.overview.blank? %>
           <li>
             <strong>Overview:
             </strong><%= @movie.overview %></li>
+          <% end %>
           <li>&nbsp;</li>
           <li>
             <strong>My Rating:
@@ -86,4 +91,3 @@
     <% end %>
   <% end %>
 </div>
-
