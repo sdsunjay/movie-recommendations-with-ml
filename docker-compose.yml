@@ -5,13 +5,15 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-postgres
+    volumes:
+      - 'postgres-data:/var/lib/postgresql/data'
+      - '/home/deploy/pgdata/etc:/etc/postgresql'
+      - '/home/deploy/pgdata/log:/var/log/postgresql'
+      - '/home/deploy/pgdata/data:/var/lib/postgresql/data'
   redis:
     image: 'redis:4.0-alpine'
     command: redis-server --requirepass wsciAqNwgG9D7cF^gVXi9NivbUXGzZ1qDia4bQ
     volumes:
-      - '/home/deploy/pgdata/etc:/etc/postgresql'
-      - '/home/deploy/pgdata/log:/var/log/postgresql'
-      - '/home/deploy/pgdata/data:/var/lib/postgresql/data'
       - 'redis:/data'
 
   sidekiq:
@@ -25,7 +27,6 @@ services:
     env_file:
       - '.env'
   app:
-    entrypoint: [bin/entry]
     build:
       context: .
       dockerfile: Dockerfile
@@ -34,7 +35,14 @@ services:
       - 'sidekiq'
       - 'web'
     links:
-      - 'db'
+      - 'db:db'
+    volumes:
+      # Mounts the app code (".") into the container's "/usr/src/app" folder:
+      - .:/usr/src/app
+      # Mounts a persistable volume in the installed gems folder, so we can add
+      # gems to the app without having to build the development image again:
+      - app-gems:/usr/local/bundle
+
   web:
     build:
       context: .
@@ -45,4 +53,7 @@ services:
 
 volumes:
   redis:
-  postgres:
+  postgres-data:
+    driver: local
+  app-gems:
+    driver: local
