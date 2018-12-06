@@ -21,7 +21,7 @@ class MoviesController < ApplicationController
   # GET /movies/1
   # GET /movies/1.json
   def show
-    @page_title = 'Movie'
+    @page_title = @movie.title
   end
 
   # GET /movies/new
