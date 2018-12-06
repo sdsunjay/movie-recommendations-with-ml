@@ -34,12 +34,20 @@
                     <td><%= user.email %></td>
                     <td><%= user.location %></td>
                     <td><%= user.hometown %></td>
-                    <td><%= user.created_at.to_time.strftime('%B %e %H:%M' ) %></td>
+                    <% if user.created_at.blank? %>
+                      <td>0</td>
+                    <% else %>
+                      <td><%= user.created_at.to_time.strftime('%B %e %H:%M' ) %></td>
+                    <% end %>
                     <% if false %>
                         <td><%= user.current_sign_in_at? ? 'nil' : user.current_sign_in_at.strftime('%B %e at %l:%M %p' ) %></td>
                         <td><%= user.last_sign_in_at? ? 'nil' : user.last_sign_in_at.strftime('%B %e at %l:%M %p' ) %></td>
                     <% end %>
-                    <td><%= user.last_sign_in_at.strftime("%Y-%m-%d") %></td>
+                    <% if user.last_sign_in_at.blank? %>
+                      <td>0</td>
+                    <% else %>
+                      <td><%= user.last_sign_in_at.strftime("%Y-%m-%d") %></td>
+                    <% end %>
                     <td><%= user.sign_in_count %></td>
                     <td><%= link_to 'Edit', edit_user_path(user), class: 'btn btn-primary' %></td>
                     <td><%= link_to 'Delete', user_path(user), class: 'btn btn-danger', method: :delete, data: { confirm: "Are you sure?" } %></td>
