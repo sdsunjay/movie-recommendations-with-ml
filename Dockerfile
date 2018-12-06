@@ -1,5 +1,5 @@
 # source: https://gist.github.com/mzaidannas/ee6b6b9bdb795816d4c2006a37d45dde
-FROM ruby:2.5.1-alpine
+FROM ruby:2.5.3-alpine
 # Set local timezone
 RUN apk add --no-cache tzdata
 ENV TZ America/Los_Angeles
@@ -45,6 +45,7 @@ ENV RACK_ENV production
 ENV WEB_CONCURRENCY 4
 ENV MAX_THREADS 2
 ENV PORT 3000
+ENV pattern 20181205214938
 RUN bundle install --jobs 20 --retry 5 --without development test
 
 # development/production differs in bundle install
@@ -55,7 +56,7 @@ RUN bundle install --jobs 20 --retry 5 --without development test
 
 # Remove build dependencies and install runtime dependencies
 RUN apk del build-dependency
-RUN apk add --update mariadb-client-libs postgresql-client postgresql-libs sqlite-libs nodejs tzdata
+RUN apk add --update mariadb-client postgresql-client postgresql-libs sqlite-libs nodejs tzdata
 
 
 # Adding project files

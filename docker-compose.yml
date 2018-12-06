@@ -36,12 +36,12 @@ services:
       - 'web'
     links:
       - 'db:db'
-    volumes:
+        #volumes:
       # Mounts the app code (".") into the container's "/usr/src/app" folder:
-      - .:/usr/src/app
+      #- .:/usr/src/app
       # Mounts a persistable volume in the installed gems folder, so we can add
       # gems to the app without having to build the development image again:
-      - app-gems:/usr/local/bundle
+      # - app-gems:/usr/local/bundle
 
   web:
     build:
