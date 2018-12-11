@@ -6,7 +6,7 @@ if [ -f /app/tmp/pids/server.pid ]; then
   rm /app/tmp/pids/server.pid
 fi
 
-bundle exec rake db:create 2>/dev/null
+# bundle exec rake db:create 2>/dev/null
 bundle exec rake db:migrate 2>/dev/null
 
 exec bundle exec "$@"
