@@ -1,6 +1,10 @@
 # /app/controllers/search_controller.rb
 class SearchController < ApplicationController
   before_action :force_json, only: :autocomplete
+  before_action :authenticate_user!
+  before_action :set_user
+  before_action :set_user_reviews, only: [:search]
+  
   def autocomplete
     @movies = Movie.ransack(title_cont: params[:title]).result(distinct: true)
     # @directors = Director.ransack(name_cont: params[:q]).result(distinct: true)
@@ -12,20 +16,20 @@ class SearchController < ApplicationController
       }
     end
 
-    # @movies = Movie.order(popularity: :asc).where("title like ?", "%#{params[:title]}%").limit(100)
   end
 
   def search
     @pagy, @movies = pagy(Movie.ransack(title_cont: params[:title]).result(distinct: true), items: 30)
-    # ahoy.track 'Searched movie', title: params[:title]
+
+    ahoy.track 'Searched movie', title: params[:title]
+    @title = params[:title]
     return if @movies.exists?
 
     ahoy.track 'Movie not found'
-    flash[:alert] = movie_title + ' not found'
+    flash[:alert] = @title + ' not found'
     params.delete :title
     redirect_back(fallback_location: movies_path)
     # @directors = Director.ransack(name_cont: params[:q]).result(distinct: true)
 
-    # @movies = Movie.order(popularity: :asc).where("title like ?", "%#{params[:title]}%").limit(100)
   end
 end
