@@ -3,6 +3,7 @@ class EducationsController < ApplicationController
   before_action :set_education, only: [:show, :edit, :update, :destroy]
   before_action :set_user
   before_action :require_admin, only: [:index, :new, :create, :edit, :destroy, :update]
+  before_action :force_json, only: :autocomplete
 
   # GET /educations
   # GET /educations.json
@@ -76,6 +77,16 @@ class EducationsController < ApplicationController
     respond_to do |format|
       format.html  # index.html.erb
       format.json  { render :json => @educations.map(&:name) }
+    end
+  end
+
+  def autocomplete
+    @educations = Education.ransack(name_or_abbreviation_cont: params[:name]).result(distinct: true)
+
+    respond_to do |format|
+      format.json {
+        @educations = @educations.limit(10)
+      }
     end
   end
 
