@@ -212,6 +212,7 @@ class User < ApplicationRecord
     Review.where(movie_id: movie_id, user_id: id).first
   end
 
+
   def education_name
     education.try(:education_name)
   end
