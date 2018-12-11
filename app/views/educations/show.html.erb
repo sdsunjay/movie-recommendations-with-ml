@@ -1,0 +1,62 @@
+
+<% cache @education do %>
+
+  <h2><%= @education.name %></h2>
+  <div class='row'>
+    <!-- end col-sm-6 -->
+    <div class="col-md-6 col-sm-6 col-xs-6">
+      <div class="card-body-right">
+        <h3>University Info:
+        </h3>
+        <ul>
+          <% unless @education.address.blank? %>
+            <li>
+              <strong>Address:</strong>
+              <%= @education.address %>
+            </li>
+          <% end %>
+          <% unless @education.city.blank? %>
+            <li>
+              <strong>City:</strong>
+              <%= @education.city %>
+            </li>
+          <% end %>
+          <% unless @education.state.blank? %>
+            <li>
+              <strong>State:</strong>
+              <%= @education.state %>
+            </li>
+          <% end %>
+          <% unless @education.zipcode.blank? %>
+            <li>
+              <strong>Zipcode:</strong>
+              <%= @education.zipcode %>
+            </li>
+          <% end %>
+          <% unless @education.homepage.blank? %>
+            <li>
+              <strong>Homepage:</strong>
+              <%= @education.homepage %>
+            </li>
+          <% end %>
+          <% unless @education.abbreviation.blank? %>
+            <li>
+              <strong>Abbreviation:</strong>
+              <%= @education.abbreviation %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+      <!-- closes col-sm-6 -->
+    </div>
+    <!-- closes movies-show-right -->
+  </div>
+  <!-- closes row -->
+  <div class="clearfix"></div>
+  <% if @user.super_admin? %>
+    <h3>Admin Functions</h3>
+    <%= link_to 'Edit', edit_education_path(@education) %> |
+    <%= link_to 'Back', educations_path %>
+  <% end %>
+<% end %>
+</div>

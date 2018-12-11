@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_06_022425) do
+ActiveRecord::Schema.define(version: 2018_12_07_184457) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -138,6 +138,18 @@ ActiveRecord::Schema.define(version: 2018_12_06_022425) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "educations", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "address"
+    t.string "city"
+    t.string "state"
+    t.string "zipcode"
+    t.string "homepage"
+    t.string "abbreviation"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "friendships", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
@@ -215,7 +227,6 @@ ActiveRecord::Schema.define(version: 2018_12_06_022425) do
     t.text "image"
     t.string "link"
     t.integer "access_level"
-    t.string "education"
     t.string "provider"
     t.string "uid"
     t.string "token"
@@ -231,6 +242,8 @@ ActiveRecord::Schema.define(version: 2018_12_06_022425) do
     t.datetime "updated_at", null: false
     t.datetime "token_expires_at"
     t.date "birthday"
+    t.bigint "education_id"
+    t.index ["education_id"], name: "index_users_on_education_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["provider", "uid"], name: "index_users_on_provider_and_uid"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
@@ -247,4 +260,5 @@ ActiveRecord::Schema.define(version: 2018_12_06_022425) do
   add_foreign_key "movie_user_recommendations", "users"
   add_foreign_key "reviews", "movies"
   add_foreign_key "reviews", "users"
+  add_foreign_key "users", "educations"
 end
