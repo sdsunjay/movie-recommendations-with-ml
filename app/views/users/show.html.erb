@@ -117,9 +117,9 @@
                         <h5>
                           <i class="fa fa-university" style="color: #00d999;"></i>
                           University:
-                          <% if @user.education? %>
+                          <% if @user.education_id? %>
                             <i class="fa fa-check" style="color: green"></i>
-                            <%= @user.education %>
+                            <%= @user.education.name %>
                           <% else %>
                             <i class="fa fa-times" style="color: red"></i>
                             University Name Not Added
