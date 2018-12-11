@@ -30,7 +30,11 @@ Devise.setup do |config|
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class
   # with default "from" parameter.
+<<<<<<< HEAD
   config.mailer_sender = 'please-change-me-at-config-initializers-devise@example.com'
+=======
+  config.mailer_sender = 'support@movierecommendationswithml.com'
+>>>>>>> c9cd3002478c18678cb1c9005c029fc0682a35cd
 
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'

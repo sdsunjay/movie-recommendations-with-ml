@@ -32,7 +32,7 @@ gem 'jbuilder', '~> 2.5'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 # find slow queries
-gem 'bullet', group: :development
+# gem 'bullet', group: :development
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'cocoon'
@@ -41,9 +41,9 @@ gem 'omniauth-facebook', require: true
 gem 'bootstrap', '~> 4.1.3'
 gem 'popper_js', '~> 1.14.3'
 gem 'font-awesome-rails'
-gem 'themoviedb'
 gem 'pagy', '0.19.4'
 gem 'jquery-rails'
+gem 'jquery-ui-rails'
 gem 'koala'
 gem 'seed_dump'
 gem 'rubyzip', '~> 1.2.2'

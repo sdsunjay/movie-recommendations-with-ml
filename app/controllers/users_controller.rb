@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   include Pagy::Frontend
   before_action :authenticate_user!
-  before_action :set_user, only: %i[show edit update destroy]
+  before_action :set_user, only: %i[show edit update]
   before_action :require_admin, only: %i[destroy index]
   caches_action :index
 
@@ -47,20 +47,30 @@ class UsersController < ApplicationController
   # GET /users/:id/edit
   def edit
     @page_title = 'Edit Account'
+    if current_user.super_admin?
+      @user_edit = User.find(params[:id])
+    else
+      @user_edit = current_user
+    end
   end
 
   # PATCH/PUT /users/:id.:format
   def update
-    # authorize! :update, @user
+    if current_user.super_admin?
+      @user_edit = User.find(params[:id])
+    else
+      @user_edit = current_user
+    end
+    # authorize! :update, @user_edit
     respond_to do |format|
-      if @user.update(user_params)
+      if @user_edit.update(user_params)
         # Sign in the user bypassing validation
-        bypass_sign_in(@user)
+        # bypass_sign_in(@user_edit)
         format.html { redirect_to user_path, notice: 'Your profile was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
+        format.json { render json: @user_edit.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -68,13 +78,13 @@ class UsersController < ApplicationController
   # DELETE /users/:id.:format
   def destroy
     # authorize! :delete, @user
+    @user_destroy = User.find(params[:id])
+    @user_destroy.reviews.each(&:destroy)
+    @user_destroy.friendships.each(&:destroy)
+    @user_destroy.movie_user_recommendations.each(&:destroy)
+    # @user.movies.each(&:destroy)
 
-    @user.reviews.each(&:destroy)
-    @user.friendships.each(&:destroy)
-    @user.movie_user_recommendtions.each(&:destroy)
-    @user.movies.each(&:destroy)
-
-    if @user.destroy
+    if @user_destroy.destroy
       flash[:notice] = 'User Removed'
       redirect_to users_path
     else
@@ -86,7 +96,7 @@ class UsersController < ApplicationController
 
   def user_params
     # extend with your own params
-    accessible = %i[name email gender hometown location education birthday link]
+    accessible = %i[gender hometown location education birthday link]
     params.require(:user).permit(accessible)
   end
 end

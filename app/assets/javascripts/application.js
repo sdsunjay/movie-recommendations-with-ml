@@ -10,8 +10,9 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //= require jquery
-//= require ahoy
+//= require jquery-ui
 //= require jquery_ujs
+//= require ahoy
 //= require popper
 //= require activestorage
 //= require turbolinks
