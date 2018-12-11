@@ -79,14 +79,6 @@ class MoviesController < ApplicationController
   private
 
   def help_index(movie_title)
-    ahoy.track 'Searched movie', title: movie_title
-    @pagy, @movies = pagy(Movie.search(movie_title), items: 33)
-    return if @movies.exists?
-
-    ahoy.track 'Movie not found'
-    flash[:alert] = movie_title + ' not found'
-    params.delete :title
-    redirect_back(fallback_location: movies_path)
   end
 
   def movie_detail
