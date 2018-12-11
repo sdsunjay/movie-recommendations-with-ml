@@ -10,8 +10,8 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //= require jquery
+//= easy-autocomplete
 //= require jquery_ujs
-//= require easy-autocomplete
 //= require ahoy
 //= require popper
 //= require activestorage
