@@ -36,7 +36,7 @@
           <% unless @education.homepage.blank? %>
             <li>
               <strong>Homepage:</strong>
-              <%= @education.homepage %>
+              <%= link_to @education.homepage, "http://#{@education.homepage}" %>
             </li>
           <% end %>
           <% unless @education.abbreviation.blank? %>
