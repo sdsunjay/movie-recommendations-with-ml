@@ -23,13 +23,7 @@
           <tbody>
             <% @users.each do |user| %>
                 <tr>
-                    <th scope="row">
-                        <% if user.link.blank? %>
-                            <%= link_to user.name, user_path(user) %>
-                        <% else %>
-                            <%= link_to (user.name), user.link %>
-                        <% end %>
-                    </th>
+                    <th scope="row"><%= link_to user.name, user_path(user) %></th>
                     <td><%= user.gender %></td>
                     <td><%= user.email %></td>
                     <td><%= user.location %></td>
