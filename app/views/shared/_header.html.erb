@@ -26,12 +26,11 @@
       <% end %>
     </ul>
     <% if user_signed_in? %>
-    <%= form_tag movies_path, method: :get, class: "form-inline my-2 my-lg-0 navbar-form navbar-right", role: "search" do %>
-            <p>
-            <%= text_field_tag :title, params[:title], placeholder: 'Movie Title', required: true, class: "form-control mr-sm-2" %>
-            <%= submit_tag "Search", name: nil, class: "btn btn-outline-success my-2 my-sm-0" %>
-            </p>
-        <% end %>
+      <%= form_with url: search_path, local: true, method: :get, html: { class: "form-inline my-2 my-lg-0 navbar-form navbar-right" } do |form| %>
+        <%= form.text_field :title, placeholder: "Search", data: { behavior: "autocomplete" }, class: "form-control mr-sm-2" %>
+        <%= form.button "Search", class: "btn btn-outline-success my-2 my-sm-0" %>
+      <% end %>
     <% end %>
   </div>
 </nav>
+
