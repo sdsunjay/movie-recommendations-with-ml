@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   include Pagy::Frontend
+  before_action :force_json, only: :autocomplete
   before_action :authenticate_user!
   before_action :set_user, only: %i[show edit update]
   before_action :require_admin, only: %i[destroy index]
@@ -15,6 +16,7 @@ class UsersController < ApplicationController
   # GET /users/:id.:format
   def show
     @page_title = 'Account'
+    # if @user == current_user || @user in current_user.friendships
     @pagy_friends, @friends = pagy(Friendship.where(user_id: @user).order(created_at: :desc), page_params: :page_friends, params: { active_tab: 'friends-tab' } )
     @pagy_reviews, @reviews = pagy(@user.reviews.includes(:movie).order(created_at: :desc), page_param: :page_reviews, params: { active_tab: 'reviews-tab' })
     @pagy_recommendations, @recommendations = pagy(@user.movie_user_recommendations.includes(:movie).order(created_at: :desc), page_params: :page_recommendations, params: { active_tab: 'recommendations-tab' })
@@ -96,7 +98,7 @@ class UsersController < ApplicationController
 
   def user_params
     # extend with your own params
-    accessible = %i[gender hometown location education birthday link]
+    accessible = %i[gender hometown location education_name birthday link]
     params.require(:user).permit(accessible)
   end
 end
