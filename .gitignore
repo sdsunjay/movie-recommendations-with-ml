@@ -34,4 +34,4 @@ fullchain.pem
 privkey.pem
 *.sql
 .DS_Store
-config/initializers/themovieapi.rb
+themovieapi.rb
