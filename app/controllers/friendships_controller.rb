@@ -2,7 +2,7 @@ class FriendshipsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_friendship, only: [:show, :edit, :update, :destroy]
   before_action :set_user, only: [:index, :show, :edit, :update, :destroy]
-  before_action :require_admin
+  before_action :require_admin, except: [:show]
 
   # GET /friendships
   # GET /friendships.json
@@ -14,7 +14,8 @@ class FriendshipsController < ApplicationController
   # GET /friendships/1
   # GET /friendships/1.json
   def show
-    @page_title = 'Friendship'
+    @page_title = 'Friends'
+    @friends = @user.friendships
   end
 
   # GET /friendships/new
