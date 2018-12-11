@@ -33,6 +33,7 @@ COPY Gemfile Gemfile
 COPY Gemfile.lock Gemfile.lock
 COPY db/seeds db/seeds
 COPY lib/docker-entrypoint.sh lib/docker-entrypoint.sh
+RUN gem install bundler && bundle install -j "$(getconf _NPROCESSORS_ONLN)" --retry 5 --without development test
 
 # RUN apk add --virtual build-deps build-base openssl-dev postgresql-dev libc-dev linux-headers libxml2-dev libxslt-dev readline-dev
 # RUN gem install bundler && bundle install --jobs 20 --retry 5
@@ -46,7 +47,6 @@ ENV WEB_CONCURRENCY 4
 ENV MAX_THREADS 2
 ENV PORT 3000
 ENV pattern 20181205214938
-RUN bundle install --jobs 20 --retry 5 --without development test
 
 # development/production differs in bundle install
 #RUN if [[ "$RAILS_ENV" == "production" ]]; then\
@@ -63,7 +63,7 @@ RUN apk add --update mariadb-client postgresql-client postgresql-libs sqlite-lib
 COPY . .
 RUN bundle exec rake assets:precompile
 # This scripts runs `rake db:create` and `rake db:migrate` before
-# running the command given 
+# running the command given
 ENTRYPOINT ["lib/support/docker-entrypoint.sh"]
 EXPOSE 3000
 ENTRYPOINT ["lib/docker-entrypoint.sh"]
