@@ -14,6 +14,8 @@ class User < ApplicationRecord
   has_many :movies, through: :movie_user_recommendations, dependent: :destroy
   has_many :reviews, -> { order(created_at: :desc) }, dependent: :destroy
   has_many :visits, class_name: 'Ahoy::Visit'
+  belongs_to :education
+
   validates_uniqueness_of :email
   enum access_level: %i[user admin super_admin]
 
@@ -209,4 +211,13 @@ class User < ApplicationRecord
   def review(movie_id)
     Review.where(movie_id: movie_id, user_id: id).first
   end
+
+  def education_name
+    education.try(:education_name)
+  end
+
+  def education_name=(name)
+    self.education = Education.find_or_create_by(name: name) if name.present?
+  end
+
 end
