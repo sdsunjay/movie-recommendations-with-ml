@@ -70,16 +70,6 @@ class EducationsController < ApplicationController
     end
   end
 
-  def user
-    @educations = Education.order(:name).limit(100)
-    @educations = @educations.where("name like ?", "%#{params[:term]}%") if params[:term]
-
-    respond_to do |format|
-      format.html  # index.html.erb
-      format.json  { render :json => @educations.map(&:name) }
-    end
-  end
-
   def autocomplete
     @educations = Education.ransack(name_or_abbreviation_cont: params[:name]).result(distinct: true)
 
