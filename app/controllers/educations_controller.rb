@@ -8,7 +8,7 @@ class EducationsController < ApplicationController
   # GET /educations
   # GET /educations.json
   def index
-    @page_title = 'Education'
+    @page_title = 'Educations'
     @per_page = params[:per_page] || 30
     @pagy, @educations = pagy(Education.all.order(created_at: :desc), items: @per_page)
   end
