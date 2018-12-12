@@ -26,6 +26,7 @@ class MoviesController < ApplicationController
 
   # GET /movies/new
   def new
+    @page_title = 'New Movie'
     @movie = current_user.movies.build
     @genres = Genre.all
   end
