@@ -8,7 +8,6 @@
     <tr>
       <th scope="col">Name</th>
       <th scope="col">City</th>
-      <th scope="col">State</th>
       <th scope="col">Zipcode</th>
       <th scope="col">Homepage</th>
       <th scope="col">Abbreviation</th>
@@ -21,8 +20,7 @@
     <% @educations.each do |education| %>
       <tr>
         <th scope="row"><%= link_to education.name, education_path(education) %></td>
-        <td><%= education.city %></td>
-        <td><%= education.state %></td>
+        <td><%= link_to education.city.name city_path(education.city_id) %></td>
         <td><%= education.zipcode %></td>
         <td><%= education.homepage %></td>
         <% if education.abbreviation.blank? %>

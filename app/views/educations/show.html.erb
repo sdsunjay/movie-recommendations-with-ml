@@ -15,16 +15,10 @@
               <%= @education.address %>
             </li>
           <% end %>
-          <% unless @education.city.blank? %>
+          <% unless @education.city_id.blank? %>
             <li>
               <strong>City:</strong>
-              <%= @education.city %>
-            </li>
-          <% end %>
-          <% unless @education.state.blank? %>
-            <li>
-              <strong>State:</strong>
-              <%= @education.state %>
+              <%= link_to @education.city_name, city_path(@education.city_id) %>
             </li>
           <% end %>
           <% unless @education.zipcode.blank? %>
