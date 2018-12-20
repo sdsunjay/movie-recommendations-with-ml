@@ -1,6 +1,5 @@
 class UsersController < ApplicationController
   include Pagy::Frontend
-  before_action :force_json, only: :autocomplete
   before_action :authenticate_user!
   before_action :set_user, only: %i[show edit update]
   before_action :require_admin, only: %i[destroy index]
@@ -15,7 +14,7 @@ class UsersController < ApplicationController
 
   # GET /users/:id.:format
   def show
-    @page_title = 'Account'
+    @page_title = @user.name
     # if @user == current_user || @user in current_user.friendships
     @pagy_friends, @friends = pagy(Friendship.where(user_id: @user).order(created_at: :desc), page_params: :page_friends, params: { active_tab: 'friends-tab' } )
     @pagy_reviews, @reviews = pagy(@user.reviews.includes(:movie).order(created_at: :desc), page_param: :page_reviews, params: { active_tab: 'reviews-tab' })
@@ -30,14 +29,13 @@ class UsersController < ApplicationController
       @number_of_reviews = 0
       @number_of_liked_movies = 0
       @number_of_disliked_movies = 0
-
     else
       @number_of_reviews = @user.reviews.count
       @avg_review = @user.reviews.average(:rating).round(2)
       @number_of_liked_movies = Review.where(user_id: @user, rating: 5).count
       @number_of_disliked_movies = Review.where(user_id: @user, rating: 1).count
-
     end
+
     if @recommendations.blank?
       @number_of_recommendations = 0
     else
@@ -58,6 +56,7 @@ class UsersController < ApplicationController
 
   # PATCH/PUT /users/:id.:format
   def update
+    @page_title = 'Edit Account'
     if current_user.super_admin?
       @user_edit = User.find(params[:id])
     else
