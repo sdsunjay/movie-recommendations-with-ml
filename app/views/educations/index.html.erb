@@ -20,7 +20,11 @@
     <% @educations.each do |education| %>
       <tr>
         <th scope="row"><%= link_to education.name, education_path(education) %></td>
+       <% if education.city.present? %>
         <td><%= link_to education.city.name city_path(education.city_id) %></td>
+      <% else %>
+        <td></td>
+      <% end %>
         <td><%= education.zipcode %></td>
         <td><%= education.homepage %></td>
         <% if education.abbreviation.blank? %>
@@ -37,7 +41,7 @@
     <%= pagy_nav_bootstrap(@pagy).html_safe %>
 
     <% else %>
-        <p>There are no companys!</p>
+        <p>There are no universities!</p>
     <% end %>
 
     <br>
