@@ -12,9 +12,13 @@ Rails.application.routes.draw do
     get '/sign-up', to: 'devise/registrations#new', as: :signup
     resources :contacts, only: [:new, :create]
     authenticated :user do
+      resources :cities
+      resources :states
+      resources :countries
       get '/search', to: 'search#search', as: 'search'
       get '/autocomplete/search', to: 'search#autocomplete', as: 'autocomplete_search'
       get '/autocomplete/education', to: 'educations#autocomplete', as: 'autocomplete_education'
+      get '/autocomplete/city', to: 'cities#autocomplete', as: 'autocomplete_city'
       resources :users, only: [:index, :show, :edit, :destroy, :update]
       resources :friendships, only: [:new, :create, :index, :show, :edit, :destroy, :update]
       root to: 'movies#index', as: :authenticated_root
