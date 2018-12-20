@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_07_184457) do
+ActiveRecord::Schema.define(version: 2018_12_13_024752) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -116,6 +116,14 @@ ActiveRecord::Schema.define(version: 2018_12_07_184457) do
     t.index ["movie_id"], name: "index_categorizations_on_movie_id"
   end
 
+  create_table "cities", force: :cascade do |t|
+    t.string "name"
+    t.bigint "state_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["state_id"], name: "index_cities_on_state_id"
+  end
+
   create_table "companies", force: :cascade do |t|
     t.string "name", null: false
     t.text "description"
@@ -138,16 +146,25 @@ ActiveRecord::Schema.define(version: 2018_12_07_184457) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "countries", force: :cascade do |t|
+    t.string "iso"
+    t.string "name", null: false
+    t.string "printable_name"
+    t.string "iso3"
+    t.integer "numcode"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "educations", force: :cascade do |t|
     t.string "name", null: false
     t.string "address"
-    t.string "city"
-    t.string "state"
     t.string "zipcode"
     t.string "homepage"
     t.string "abbreviation"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "city_id"
   end
 
   create_table "friendships", force: :cascade do |t|
@@ -217,6 +234,15 @@ ActiveRecord::Schema.define(version: 2018_12_07_184457) do
     t.index ["user_id"], name: "index_reviews_on_user_id"
   end
 
+  create_table "states", force: :cascade do |t|
+    t.string "iso"
+    t.string "name", null: false
+    t.bigint "country_id", default: 214, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["country_id"], name: "index_states_on_country_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name", default: "", null: false
     t.string "email", default: "", null: false
@@ -251,6 +277,7 @@ ActiveRecord::Schema.define(version: 2018_12_07_184457) do
 
   add_foreign_key "categorizations", "genres"
   add_foreign_key "categorizations", "movies"
+  add_foreign_key "cities", "states"
   add_foreign_key "companies", "companies"
   add_foreign_key "friendships", "users"
   add_foreign_key "friendships", "users", column: "friend_id", on_delete: :cascade
@@ -260,5 +287,6 @@ ActiveRecord::Schema.define(version: 2018_12_07_184457) do
   add_foreign_key "movie_user_recommendations", "users"
   add_foreign_key "reviews", "movies"
   add_foreign_key "reviews", "users"
+  add_foreign_key "states", "countries"
   add_foreign_key "users", "educations"
 end
