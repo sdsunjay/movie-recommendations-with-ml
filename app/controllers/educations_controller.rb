@@ -40,6 +40,7 @@ class EducationsController < ApplicationController
         format.html { redirect_to @education, notice: 'Education was successfully created.' }
         format.json { render :show, status: :created, location: @education }
       else
+        @page_title = 'New Education'
         format.html { render :new }
         format.json { render json: @education.errors, status: :unprocessable_entity }
       end
@@ -54,6 +55,7 @@ class EducationsController < ApplicationController
         format.html { redirect_to @education, notice: 'Education was successfully updated.' }
         format.json { render :show, status: :ok, location: @education }
       else
+        @page_title = 'Edit Education'
         format.html { render :edit }
         format.json { render json: @education.errors, status: :unprocessable_entity }
       end
@@ -89,8 +91,8 @@ class EducationsController < ApplicationController
     # Never trust parameters from the scary internet
     # only allow the white list through.
     def education_params
-    # extend with your own params
-    accessible = %i[name address city state zipcode homepage abbreviation]
-    params.require(:education).permit(accessible)
+      # extend with your own params
+      accessible = %i[name address city_name zipcode homepage abbreviation]
+      params.require(:education).permit(accessible)
     end
 end
