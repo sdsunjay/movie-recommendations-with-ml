@@ -15,3 +15,18 @@ window.addEventListener("turbolinks:load", function() {
   };
   $input.easyAutocomplete(options);
 });
+window.addEventListener("turbolinks:load", function() {
+  var $input = $("[data-behavior='autocomplete_location']");
+  var options = {
+    getValue: "name",
+    url: function(phrase) {
+      return "/autocomplete/city.json?name=" + phrase;
+    },
+    categories: [
+      {
+        listLocation: "cities"
+      }
+    ]
+  };
+  $input.easyAutocomplete(options);
+});
