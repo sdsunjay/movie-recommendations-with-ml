@@ -1,21 +1,16 @@
 class MoviesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_user, only: %i[index show edit update destroy]
+  before_action :set_user, only: %i[index show edit update destroy liked disliked]
   before_action :set_movie, only: %i[show edit update destroy]
-  before_action :set_user_reviews, only: %i[show index]
+  before_action :set_user_reviews, only: %i[show index liked disliked]
   before_action :require_admin, only: %i[create new edit update destroy]
 
   # GET /movies
   # GET /movies.json
   def index
     @per_page = params[:per_page] || 30
-    if params[:title].present?
-      @page_title = params[:title]
-      help_index(params[:title])
-    else
-      @page_title = 'Movies'
-      @pagy, @movies = pagy(Movie.all, items: @per_page)
-    end
+    @page_title = 'Movies'
+    @pagy, @movies = pagy(Movie.all, items: @per_page)
   end
 
   # GET /movies/1
@@ -78,22 +73,21 @@ class MoviesController < ApplicationController
     end
   end
 
+  def liked
+    @per_page = params[:per_page] || 30
+    @page_title = 'Liked Movies'
+    @user = current_user
+    #@liked = @user_reviews.where(rating: 5)
+    @pagy_likes, @likes = pagy(Review.where(user_id: @user.id, rating: 5).order(created_at: :desc), page_param: :page_liked)
+  end
+
+  def disliked
+    @per_page = params[:per_page] || 30
+    @page_title = 'Disliked Movies'
+    @pagy_dislikes, @dislikes = pagy(Review.where(user_id: current_user.id, rating: 1).order(created_at: :desc), page_param: :page_disliked)
+  end
+
   private
-
-  def help_index(movie_title)
-  end
-
-  def movie_detail
-    movie_service.movie_detail(params['id'])
-  end
-
-  def image_path
-    @image_path ||= movie_service.configuration.base_url
-  end
-
-  def movie_service
-    @movie_service ||= MovieDbService.new
-  end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_movie

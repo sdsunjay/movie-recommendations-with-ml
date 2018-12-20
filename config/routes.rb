@@ -26,6 +26,8 @@ Rails.application.routes.draw do
       resources :companies, only: [:show, :index, :new, :create, :edit, :destroy, :update]
       resources :educations, only: [:show, :index, :new, :create, :edit, :destroy, :update]
       get 'movies/:movie_id/reviews/create', to: 'reviews#create', via: :post
+      get 'liked', to: :liked, controller: 'movies'
+      get 'disliked', to: :disliked, controller: 'movies'
       resources :reviews, only: [:index]
       resources :movie_user_recommendations, only: [:new, :create, :index, :show, :edit, :destroy, :update]
       resources :movies, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
