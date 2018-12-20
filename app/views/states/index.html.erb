@@ -3,27 +3,30 @@
 <h1>States</h1>
 <%= link_to 'New State', new_state_path %>
 
-<table>
-  <thead>
-    <tr>
-      <th>Iso</th>
-      <th>Name</th>
-      <th>Country</th>
-      <th colspan="2"></th>
-    </tr>
-  </thead>
+<% if @states.any? %>
 
-  <tbody>
-    <% @states.each do |state| %>
+  <table>
+    <thead>
       <tr>
-        <td><%= state.iso %></td>
-        <td><%= link_to state.name, state_path(state) %></td>
-        <td><%= link_to state.country.name, country_path(state.country_id) %></td>
-        <td><%= link_to 'Edit', edit_state_path(state) %></td>
-        <td><%= link_to 'Destroy', state, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <th>Iso</th>
+        <th>Name</th>
+        <th>Country</th>
+        <th colspan="2"></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
 
-<br>
+    <tbody>
+      <% @states.each do |state| %>
+        <tr>
+          <td><%= state.iso %></td>
+          <td><%= link_to state.name, state_path(state) %></td>
+          <td><%= link_to state.country.name, country_path(state.country_id) %></td>
+          <td><%= link_to 'Edit', edit_state_path(state) %></td>
+          <td><%= link_to 'Destroy', state, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <% else %>
+    <p>There are no states</p>
+  <% end %>
