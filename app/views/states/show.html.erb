@@ -1,0 +1,42 @@
+<p id="notice"><%= notice %></p>
+<h1><%= @state.name %></h1>
+
+<p>
+  <strong>Abbreviation:</strong>
+  <%= @state.iso %>
+</p>
+<p>
+  <strong>Country:</strong>
+  <%= @state.country.name %>
+</p>
+<% if @user.super_admin? %>
+<%= link_to 'Edit', edit_state_path(@state) %> |
+<%= link_to 'Back', states_path %>
+<% end %>
+<% if @cities.any? %>
+  <h3>Number of Cities: <%= @number_of_cities %></h3>
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">Name </th>
+        <th scope="col">State </th>
+        <th scope="col">Edit </th>
+        <th scope="col">Delete </th>
+      </tr>
+      </thead>
+
+      <tbody>
+        <% @cities.each do |city| %>
+          <tr>
+            <td><%= link_to city.name, city_path(city) %></td>
+            <td><%= link_to city.state.name, state_path(city.state_id) %></td>
+            <td><%= link_to 'Edit', edit_city_path(city) %></td>
+            <td><%= link_to 'Destroy', city, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= pagy_nav_bootstrap(@pagy).html_safe %>
+<% else %>
+  <p>This state has no citiess!</p>
+<% end %>
