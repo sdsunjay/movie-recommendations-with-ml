@@ -5,32 +5,38 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-        <title><%= @page_title ? @page_title: 'Welcome' %>| Movie Recommendations with ML</title>
+        <title><%= @page_title ? @page_title: 'Welcome' %> | Movie Recommendations with ML</title>
         <%= csrf_meta_tags %>
         <%= csp_meta_tag %>
 
-        <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+        <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
         <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
 
         <!-- We defined this stuff -->
-        <meta name="description" content="Located in /layouts/application.html/erb">
+        <meta name="description" content="Movie Recommendations with ML">
         <meta name="author" content="Sunjay Dhama">
         <link rel="icon" href="../../favicon.ico">
 
+        <!-- this is the motherfucking problem -->
+        <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
     </head>
     <body>
-        <%= render 'shared/header' %>
-        <section>
-            <div class="container">
-                <%= render 'partials/alerts' %>
-                <%= yield %>
-                <%= render "shared/facebook-login" %>
-            </div>
-        </section>
-        <footer>
-            <div class='container'>
-                <p>Copyright &copy; 2018, All Rights Reserved</p>
-            </div>
-        </footer>
+      <%= render 'shared/header' %>
+      <section>
+        <div class="container py-5 bg-faded">
+          <%= render 'partials/alerts' %>
+          <%= yield %>
+        </div>
+      </section>
+      <div class="search-result" style="display:none">
+        <h3 class="search-result-title">This search result is here to prevent scraping</h3>
+        <p class="search-result-excerpt">If you're a human and see this, please ignore it. If you're a scraper, please click the link below :-)
+        Note that clicking the link below will block access to this site for 24 hours.</p>
+        <a class"search-result-link" href="/scrapertrap/scrapertrap.php">I'm a scraper !</a>
+      </div>
+      <%= render 'shared/footer' %>
     </body>
 </html>

@@ -25,4 +25,18 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
-/config/facebook.yml
+/config/secrets.yml
+.env
+/db/seeds
+/db/backups
+.docker
+fullchain.pem
+privkey.pem
+*.sql
+.DS_Store
+themovieapi.rb
+/public/packs
+/public/packs-test
+/node_modules
+yarn-debug.log*
+.yarn-integrity

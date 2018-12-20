@@ -1,83 +1,40 @@
 class MoviesController < ApplicationController
-    before_action :authenticate_user!, except: [:index]
-    before_action :set_movie, only: [:show, :edit, :update, :destroy]
-    before_action :set_user, only: [:index, :show, :edit, :update, :destroy]
-    before_action :require_admin, only: [:destroy]
+  before_action :authenticate_user!
+  before_action :set_user, only: %i[index show edit update destroy]
+  before_action :set_movie, only: %i[show edit update destroy]
+  before_action :set_user_reviews, only: %i[show index]
+  before_action :require_admin, only: %i[create new edit update destroy]
 
   # GET /movies
   # GET /movies.json
   def index
-    # @facebook_movies = Facebook.get_object(current_user.token, '/me/movies?fields=name')
-    # puts @facebook_movies
-    #  @movies = Facebook.get_object(current_user.token, '/me/movies?fields=name')
-    # @movies = movie_service.popular
-    # @genres = Genre.all
-    @review = Review.new
+    @per_page = params[:per_page] || 30
     if params[:title].present?
-      @movies = Movie.search(params[:title]).paginate(per_page: 15, page: params[:page])
+      @page_title = params[:title]
+      help_index(params[:title])
     else
-      @movies = Movie.all.order(created_at: :asc).paginate(per_page: 15, page: params[:page])
-    end
-  end
-
-  def like
-    @movie = Movie.find(params[:id])
-    @review = Review.new
-    if !Review.where(movie_id: @movie.id, user_id: current_user.id).exists?
-      @review.user_id = current_user.id
-      @review.movie_id = @movie.id
-      @review.rating = 5
-      if @review.save
-        flash[:notice] = 'Review has been saved successfully.'
-        redirect_back(fallback_location: movies_path)
-      else
-        flash[:alert] = 'Database Error'
-        redirect_back(fallback_location: movies_path)
-      end
-    else
-        flash[:alert] = 'You have already reviewed this movies'
-        redirect_back(fallback_location: movies_path)
-    end
-  end
-  def dislike
-    @movie = Movie.find(params[:id])
-    @review = Review.new
-    if !Review.where(movie_id: @movie.id, user_id: current_user.id).exists?
-      @review.user_id = current_user.id
-      @review.movie_id = @movie.id
-      @review.rating = 1
-      if @review.save
-        flash[:notice] = 'Review has been saved successfully.'
-        redirect_back(fallback_location: movies_path)
-      else
-        flash[:alert] = 'Database Error'
-        redirect_back(fallback_location: movies_path)
-      end
-    else
-        flash[:alert] = 'You have already reviewed this movies'
-        redirect_back(fallback_location: movies_path)
+      @page_title = 'Movies'
+      @pagy, @movies = pagy(Movie.all, items: @per_page)
     end
   end
 
   # GET /movies/1
   # GET /movies/1.json
   def show
-    # @review = @user.reviews.where(movie_id: @movie.id).order("created_at DESC")
-    @review = Review.where(user_id: @user, movie_id: @movie.id).order(created_at: :desc).paginate(per_page: 15, page: params[:page])
+    @page_title = @movie.title
   end
-
 
   # GET /movies/new
   def new
-    # @movie = current_user.movies.build
+    @page_title = 'New Movie'
     @movie = current_user.movies.build
-    get_genres
-    # @movie.categorizations.build
+    @genres = Genre.all
   end
 
   # GET /movies/1/edit
   def edit
-    get_genres
+    @page_title = 'Edit Movie'
+    @genres = Genre.all
   end
 
   # POST /movies
@@ -123,8 +80,8 @@ class MoviesController < ApplicationController
 
   private
 
-
-   private
+  def help_index(movie_title)
+  end
 
   def movie_detail
     movie_service.movie_detail(params['id'])
@@ -140,26 +97,22 @@ class MoviesController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_movie
-    @movie = Movie.find(params[:id])
+    @movie ||= Movie.find(params[:id])
+    @review = Review.where(movie_id: params[:id], user_id: current_user.id)
+    @genres = @movie.genres
+    @companies = @movie.companies
   end
 
-  def set_user
-    @user = current_user
+  # Never trust parameters from the scary internet
+  # only allow the white list through.
+  def movie_params
+    accessible = [:title, :vote_count, :vote_average, :tagline, :status, :poster_path, :original_language, :backdrop_path, :adult, :overview, :popularity, :budget, :release_date, :revenue, :runtime, genre_ids: []]
+    params.require(:movie).permit(accessible)
   end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-
-    def movie_params
-      params
-        .require(:movie)
-        .permit(:title, :vote_count, :vote_average, :tagline, :status, :poster_path, :original_language, :backdrop_path, :adult, :overview, :popularity, :budget, :release_date, :revenue, :runtime, :genre_ids => [])
-        .merge(user_id: current_user.id)
-    end
-    # Utility methods
-    def get_genres
-      @genres = Genre.all
-      @movie_genres = @movie.categorizations.build
-      # @movie_genre = @movie.genres.build
-    end
-
+  # Utility methods
+  def genres
+    @genres = Genre.all
+    @movie_genres = @movie.categorizations.build
+  end
 end

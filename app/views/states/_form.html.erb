@@ -1,0 +1,16 @@
+
+<%= simple_form_for(@state) do |f| %>
+  <%= f.object.errors.full_messages.join(", ") if f.object.errors.any? %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <div class="form-inputs">
+    <%= f.input :iso %>
+    <%= f.input :name %>
+    <%= f.input :country_id %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

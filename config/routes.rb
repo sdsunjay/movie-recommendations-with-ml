@@ -1,30 +1,49 @@
 Rails.application.routes.draw do
-  get '/home', to: 'static_pages#home'
+  devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks', registrations: 'users/registrations' }
+  # static pages
   get '/help', to: 'static_pages#help'
   get '/about', to: 'static_pages#about'
   get '/privacy', to: 'static_pages#privacy'
   get '/terms', to: 'static_pages#terms'
-  devise_for :users, :controllers => {:omniauth_callbacks => "users/omniauth_callbacks"}
-  resources :users, only: [:index, :show, :edit, :destroy, :update]
-  devise_scope :user do
-  authenticated :user do
+  get 'facebook/subscription', to: 'facebook_realtime_updates#subscription', as: 'facebook_subscription', via: [:get,:post]
 
-    # resources :users, only: [:index, :show, :edit, :destroy, :update]
-    root to: 'movies#index', as: :authenticated_root
-    resources :genres, only: [:index,:show, :new, :create, :edit, :update]
-    get 'movies/:id/like', to: 'movies#like', as: :movie_like
-    get 'movies/:id/dislike', to: 'movies#dislike', as: :movie_dislike
-    resources :reviews, only: [:index]
-    resources :movies, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
-      resources :reviews, only: [:new, :create, :edit, :update, :destroy]
+  devise_scope :user do
+    get '/sign-in', to: 'devise/sessions#new', as: :signin
+    get '/sign-up', to: 'devise/registrations#new', as: :signup
+    resources :contacts, only: [:new, :create]
+    authenticated :user do
+      resources :cities
+      resources :states
+      resources :countries
+      get '/search', to: 'search#search', as: 'search'
+      get '/autocomplete/search', to: 'search#autocomplete', as: 'autocomplete_search'
+      get '/autocomplete/education', to: 'educations#autocomplete', as: 'autocomplete_education'
+      get '/autocomplete/city', to: 'cities#autocomplete', as: 'autocomplete_city'
+      resources :users, only: [:index, :show, :edit, :destroy, :update]
+      resources :friendships, only: [:new, :create, :index, :show, :edit, :destroy, :update]
+      root to: 'movies#index', as: :authenticated_root
+      resources :genres, only: [:show, :index, :new, :create, :edit, :destroy, :update]
+      resources :companies, only: [:show, :index, :new, :create, :edit, :destroy, :update]
+      resources :educations, only: [:show, :index, :new, :create, :edit, :destroy, :update]
+      get 'movies/:movie_id/reviews/create', to: 'reviews#create', via: :post
+      resources :reviews, only: [:index]
+      resources :movie_user_recommendations, only: [:new, :create, :index, :show, :edit, :destroy, :update]
+      resources :movies, only: [:index, :show, :new, :create, :edit, :update, :destroy] do
+        resources :reviews, only: [:new, :create, :edit, :update, :destroy]
+      end
+      resources :contacts, only: [:index, :show]
+    end
+
+    unauthenticated do
+      root to: 'devise/registrations#new', as: :unauthenticated_root
+      resources :movies, only: [:index]
+    end
+
+    # TODO - why doesn't this work?
+    authenticate :user, ->(user) { user.super_admin? } do
+      mount Blazer::Engine, at: 'blazer'
     end
   end
-
-  unauthenticated do
-    root to: 'devise/sessions#new', as: :unauthenticated_root
-  end
-  end
-
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

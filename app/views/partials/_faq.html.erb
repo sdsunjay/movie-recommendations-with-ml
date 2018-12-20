@@ -1,0 +1,177 @@
+<!-- container -->
+<div class="container">
+  <!-- row -->
+  <div class="row">
+    <div class="col-12 mx-auto">
+      <div class="team-area">
+
+        <div class="title-area wow fadeInUp">
+          <h2 class="tittle">FAQ</h2>
+          <span class="tittle-line"></span>
+          <p>Frequently Asked Questions</p>
+        </div>
+
+        <div class="accordion" id="faqExample">
+
+          <!-- Start Card 1 -->
+          <div class="card">
+            <div class="card-header" id="headingOne">
+              <h5 class="mb-0">
+                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                  Q: What is Movie Recommendations with ML?
+                </button>
+              </h5>
+            </div>
+            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#faqExample">
+              <div class="card-body">
+                <b>Answer:</b>
+                Movie Recommendations with ML is a movie recommendation service based on
+                <a href="http://psl.linqs.org">Probabilistic Soft Logic (PSL)</a>, which is a machine learning framework for developing probabilistic models. In order to get started simply
+                <%= link_to 'Sign Up with Facebook', new_user_registration_path %>
+                and start reviewing movies. Once you have rated a sufficient number of movies and there are enough users on the site, we will start giving you recommendations.
+              </div>
+            </div>
+          </div>
+
+          <!-- Start Card 2 -->
+          <div class="card">
+            <div class="card-header" id="headingTwo">
+              <h5 class="mb-0">
+                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                  Q: How is this different from other recommedation engines?
+                </button>
+              </h5>
+            </div>
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#faqExample">
+              <div class="card-body">
+                <b>Answer:</b>
+                Unlike other services, we have the most up-to-date selection of a huge set of movies. Our database currently has over <b>50,000 titles</b>. We are also constantly adding new ones. While we require that you register using Facebook and rate some movies, we know this is an essential part of getting recommendations right! We care deeply about making accurate recommendations. Your taste, mood and preferences change every day and we understand that. We have made it easy to remove your rating from a movie. Simply click the
+                <%= fa_icon "thumbs-o-up" %>
+                or the
+                <%= fa_icon "thumbs-o-down" %>
+                on any movie you have already rated and the rating is removed. It will greatly improve accuracy of recommedations if you have at least one or two friends using the platform. Howver, we understand not everyone can be here. <%= link_to 'Sign Up with Facebook', new_user_registration_path %> and get started today!
+              </div>
+            </div>
+          </div>
+
+          <!-- Start Card 3 -->
+          <div class="card">
+            <div class="card-header" id="headingThree">
+              <h5 class="mb-0">
+                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                  Q. How does it work?
+                </button>
+              </h5>
+            </div>
+            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#faqExample">
+              <div class="card-body">
+                <b>Answer:</b>
+                As already mentioned, we are leveraging
+                <a href="http://psl.linqs.org">PSL</a>, which has &quot;produced state-of-the-art results in many areas, such as recommendation systems&quot;. While it will be a few weeks before we can start giving recommendations, we encourage you to continue to rate movies and ask you to share this website with your friends and family.
+              </div>
+            </div>
+          </div>
+
+          <!-- Start Card 4 -->
+          <div class="card">
+            <div class="card-header" id="headingFour">
+              <h5 class="mb-0">
+                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                  Q. Why we started Movie Recommendations with ML?
+                </button>
+              </h5>
+            </div>
+            <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#faqExample">
+              <div class="card-body">
+                <b>Answer:</b>
+                We are big fans of ML and good movies. We wanted to merge the two. Thus Movie Recommendations with ML was born. With so many movies being produced these days, its impossible to keep up. Why watch movies you don't like, when you can be certain you
+                will see something you enjoy? Researchers at UC Santa Cruz have demonstrated PSL can be used to make social recommendations, lets leverage their research and make highly accurate movie recommendations! We hope, you would love Movie Recommendations
+                with ML! If you have constructive feedback,
+                <a href='#contact'>please let me know</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Start Card 5 -->
+          <div class="card">
+            <div class="card-header" id="headingFive">
+              <h5 class="mb-0">
+                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                  Q. How can I upload my ratings for every movie I have ever watched?
+                </button>
+              </h5>
+            </div>
+            <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#faqExample">
+              <div class="card-body">
+                <b>Answer:</b>
+                When we designed Movie Recommendations with ML, we tried to make our service give awesome recommedations even if you don't rate tons of movies. There is no API currently and no way to mass upload ratings. If this is a highly requested feature,
+                <a href='#contact'>please let me know</a> and we will make it happen.
+              </div>
+            </div>
+          </div>
+          <!-- End Card 5 -->
+
+          <!-- Start Card 6 -->
+          <div class="card">
+            <div class="card-header" id="headingSix">
+              <h5 class="mb-0">
+                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                  Q. How can I find rare films?
+                </button>
+              </h5>
+            </div>
+            <div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="#faqExample">
+              <div class="card-body">
+                <b>Answer:</b>
+                We don't have a lot of <i>rare</i> films currently, but we are adding movies constantly. If you don't see something you want, please let me know and I will add it.
+              </div>
+            </div>
+          </div>
+          <!-- End Card 6 -->
+
+          <!-- Start Card 7 -->
+          <div class="card">
+            <div class="card-header" id="headingSeven">
+              <h5 class="mb-0">
+                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+                  Q. How can I find old films?
+                </button>
+              </h5>
+            </div>
+            <div id="collapseSeven" class="collapse" aria-labelledby="headingSeven" data-parent="#faqExample">
+              <div class="card-body">
+                <b>Answer:</b>
+                The ability to to filter by year is still in development. We expect to enhance the search feature soon, but in the meantime, continue to search by entering part or all of the movie title in the search bar.
+              </div>
+            </div>
+          </div>
+          <!-- End Card 7 -->
+          <!-- Start Card 8 -->
+          <div class="card">
+            <div class="card-header" id="headingEight">
+              <h5 class="mb-0">
+                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight">
+                  Q. Is the order of movies I rate is important??
+                </button>
+              </h5>
+            </div>
+            <div id="collapseEight" class="collapse" aria-labelledby="headingEight" data-parent="#faqExample">
+              <div class="card-body">
+                <b>Answer:</b>
+                The order is <i>not</i> important, the number of Facebook friends you have using the platform and number of movies you have rated matters much more.
+              </div>
+            </div>
+          </div>
+          <!-- End Card 8 -->
+
+        </div>
+        <!--/accordion-->
+      </div>
+      <!--/team-area -->
+
+    </div>
+    <!--/col-12 mx-auto -->
+  </div>
+  <!--/row-->
+</div>
+<!--/container-->

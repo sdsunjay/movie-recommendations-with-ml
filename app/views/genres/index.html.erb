@@ -1,28 +1,32 @@
 <h1>Genres</h1>
+    <%= link_to 'New Genre', new_genre_path %>
+<% if @genres.any? %>
+    <table class="table table-striped table-sm">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Name </th>
+                <th scope="col">Show </th>
+                <th scope="col">Edit </th>
+                <th scope="col">Delete </th>
+            </tr>
+        </thead>
 
-<table>
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Name</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @genres.each do |genre| %>
-      <tr>
-        <td><%= genre.id %></td>
-        <td><%= genre.name %></td>
-        <td><%= link_to 'Show', genre %></td>
-        <td><%= link_to 'Edit', edit_genre_path(genre) %></td>
-        <td><%= link_to 'Destroy', genre, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+        <tbody>
+            <% @genres.each do |genre| %>
+                <tr>
+                    <th scope="row"><%= genre.id %></th>
+                    <td><%= genre.name %></td>
+                    <td><%= link_to 'Show', genre %></td>
+                    <td><%= link_to 'Edit', edit_genre_path(genre) %></td>
+                    <td><%= link_to 'Destroy', genre, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+    <% else %>
+        <p>There are no genres!</p>
     <% end %>
-      <%= will_paginate @genres %>
-  </tbody>
-</table>
 
-<br>
+    <br>
 
-<%= link_to 'New Genre', new_genre_path %>

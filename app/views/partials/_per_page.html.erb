@@ -1,0 +1,1 @@
+<%= select_tag :per_page, options_for_select([30,60,120], params[:per_page]), onchange: "if(this.value){window.location='?per_page='+this.value;}", prompt: "Movies Per Page" %>

@@ -1,0 +1,16 @@
+<% friends.each do |friend| %>
+    <div class="card">
+        <%= link_to user_path(friend.friendship.id) do %>
+            <%= image_tag(friend.friendship.image) %>
+        <% end %>
+        <div class="row">
+            <div class="col-sm-10">
+                <a href="#" class="tooltip-link" data-original-title="Date" data-toggle="tooltip">
+                    <i class="fa fa-calendar"></i>
+                    <%= friend.created_at.strftime('%B %e at %l:%M %p' ) %>
+                </a>
+            </div>
+        </div><!-- End row -->
+    </div><!-- End card -->
+<% end %>
+

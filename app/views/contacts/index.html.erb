@@ -1,0 +1,40 @@
+<!-- 'access_level' must be set to 1 or 2 to view this page -->
+    <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="page-sub-title textcenter">
+            <h2 class="page-header">Manage Comments</h2>
+        </div><!-- end .page-sub-title -->
+    </div><!-- end .col-md-12 col-sm-12 col-xs-12 -->
+    <% if @contacts.any? %>
+        <table class="table table-striped table-sm">
+          <thead>
+            <tr>
+                <th scope="col">User</th>
+                <th scope="col">Email</th>
+                <th scope="col">Message</th>
+                <th scope="col">Created At</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @contacts.each do |contact| %>
+                <tr>
+                     <% if contact.user_id.blank? %>
+                       <th scope="row"><%= contact.name %></th>
+                       <td><%= contact.email %></td>
+                      <% else %>
+                          <th scope="row"><%= link_to contact.name, user_path(contact.user_id) %></th>
+                          <td><%= contact.user.email %></td>
+                      <% end %>
+                      <td>
+                        <%=truncate(contact.message, :length => 200,  :separator => ' ') do
+                          link_to "See More", contact_path(contact), id: "message", class: "message"
+                        end
+                        %>
+                       </td>
+                    <td><%= contact.created_at.to_time.strftime('%B %e %H:%M' ) %></td>
+                </tr>
+            <% end %>
+           <tbody>
+        </table>
+    <% else %>
+        <p>There are no messages</p>
+    <% end %>

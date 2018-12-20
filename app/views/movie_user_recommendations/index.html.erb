@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Movie User Recommendations</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Movie</th>
+      <th>User</th>
+      <th>Confidence</th>
+      <th>User rating</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @recommendations.each do |recommendation| %>
+      <tr>
+        <td><%= recommendation.movie.title %></td>
+        <td><%= recommendation.user.name %></td>
+        <td><%= recommendation.confidence %></td>
+        <td><%= recommendation.user_rating %></td>
+        <td><%= link_to 'Show', recommendation %></td>
+        <td><%= link_to 'Edit', edit_movie_user_recommendation_path(recommendation) %></td>
+        <td><%= link_to 'Destroy', recommendation, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Movie User Recommendation', new_movie_user_recommendation_path %>

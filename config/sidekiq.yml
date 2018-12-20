@@ -1,0 +1,14 @@
+:verbose: true
+max_retries: 2
+# :pidfile: tmp/pids/sidekiq.pid
+:logfile: log/sidekiq.log
+# 5 jobs can run asynchronously simultaneously
+:concurrency: 5
+staging:
+  :concurrency: 10
+production:
+  :concurrency: 20
+:queues:
+  - critical
+  - default
+  - low

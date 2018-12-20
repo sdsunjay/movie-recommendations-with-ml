@@ -1,17 +1,5 @@
-<% @reviews.each_with_index do |review, index| %>
-    <div class="card">
-        <%= link_to movie_path(review.movie) do %>
-            <%= image_tag('http://image.tmdb.org/t/p/w300_and_h450_bestv2/' + review.movie.poster_path) %>
-        <% end %>
-        <p class="card-text"></p>
-        <div class="rating">
-            <div class="row">
-                <a href="#" class="tooltip-link" data-original-title="Date" data-toggle="tooltip">
-                    <i class="fa fa-calendar"></i>
-                    <%= review.created_at.strftime('%B %e at %l:%M %p' ) %>
-                </a>
-                <%= render 'partials/rating', :review => review  %>
-            </div>
-        </div>
-    </div>
+<% @reviews.each do |review| %>
+  <% cache review.movie do %>
+    <%= render 'partials/movie', movie: review.movie, user_reviews: reviews %>
+  <% end %>
 <% end %>

@@ -1,17 +1,14 @@
-<%= form_with(model: friendship, local: true) do |form| %>
-  <% if friendship.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(friendship.errors.count, "error") %> prohibited this friendship from being saved:</h2>
 
-      <ul>
-      <% friendship.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+<%= simple_form_for(@friendship) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
-  <div class="actions">
-    <%= form.submit %>
+  <div class="form-inputs">
+      <%= f.input :user_id, collection: @users, label_method: :name, value_method: :id, label: false, include_blank: true, error: 'User is mandatory, please specify one'  %>
+      <%= f.input :friend_id, collection: @users, label_method: :name, value_method: :id, label: false, include_blank: true, error: 'Friend is mandatory, please specify one'  %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
   </div>
 <% end %>

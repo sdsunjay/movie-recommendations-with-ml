@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Movie:</strong>
+  <%= @recommendation.movie.title %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @recommendation.user.name%>
+</p>
+
+<p>
+  <strong>Confidence:</strong>
+  <%= @recommendation.confidence %>
+</p>
+
+<p>
+  <strong>User rating:</strong>
+  <%= @recommendation.user_rating %>
+</p>
+
+<%= link_to 'Edit', edit_movie_user_recommendation_path(@recommendation) %> |
+<%= link_to 'Back', movie_user_recommendations_path %>

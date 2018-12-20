@@ -2,7 +2,18 @@
 
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
-FACEBOOK_CONFIG = YAML::load_file("#{Rails.root}/config/facebook.yml")[Rails.env]
+if Rails.env.development?
+  FACEBOOK_APP_ID = Rails.application.credentials.development[:facebook_app_id]
+  FACEBOOK_SECRET = Rails.application.credentials.development[:facebook_secret]
+  FACEBOOK_CALLBACK_URL = Rails.application.credentials.development[:facebook_callback_url]
+end
+
+if Rails.env.production?
+  FACEBOOK_APP_ID = Rails.application.credentials.production[:facebook_app_id]
+  FACEBOOK_SECRET = Rails.application.credentials.production[:facebook_secret]
+  FACEBOOK_CALLBACK_URL = Rails.application.credentials.production[:facebook_callback_url]
+end
+
 Devise.setup do |config|
   # The secret key used by Devise. Devise uses this key to generate
   # random tokens. Changing this key will render invalid all existing
@@ -19,7 +30,7 @@ Devise.setup do |config|
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class
   # with default "from" parameter.
-  config.mailer_sender = 'please-change-me-at-config-initializers-devise@example.com'
+  config.mailer_sender = 'support@movierecommendationswithml.com'
 
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'
@@ -143,14 +154,14 @@ Devise.setup do |config|
   # initial account confirmation) to be applied. Requires additional unconfirmed_email
   # db field (see migrations). Until confirmed, new email is stored in
   # unconfirmed_email column, and copied to email column on successful confirmation.
-  config.reconfirmable = true
+  config.reconfirmable = false
 
   # Defines which key will be used when confirming an account
   # config.confirmation_keys = [:email]
 
   # ==> Configuration for :rememberable
   # The time the user will be remembered without asking for credentials again.
-  # config.remember_for = 2.weeks
+  config.remember_for = 3.weeks
 
   # Invalidates all the remember me tokens when the user signs out.
   config.expire_all_remember_me_on_sign_out = true
@@ -252,12 +263,13 @@ Devise.setup do |config|
   # config.navigational_formats = ['*/*', :html]
 
   # The default HTTP method used to sign out a resource. Default is :delete.
-  config.sign_out_via = :delete
+  config.sign_out_via = :get
 
   # ==> OmniAuth
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
-  config.omniauth :facebook, FACEBOOK_CONFIG['app_id'], FACEBOOK_CONFIG['secret'], scope: 'public_profile,email,user_likes,user_gender,user_friends,user_hometown,user_location', image_size: 'large', info_fields: 'email, id, name,gender,picture,link,location,hometown,friends', callback_url: 'http://localhost:3000/users/auth/facebook/callback'
+  #
+  config.omniauth :facebook, FACEBOOK_APP_ID, FACEBOOK_SECRET, scope: 'user_birthday, user_link, user_likes, user_gender, user_friends, user_hometown, user_location, public_profile,email', image_size: 'large', info_fields: 'email,id,name,gender,picture,link,location,hometown,friends,birthday', callback_url: FACEBOOK_CALLBACK_URL, client_options: {site: 'https://graph.facebook.com/v3.1', authorize_url: "https://www.facebook.com/v3.1/dialog/oauth"}
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or

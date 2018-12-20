@@ -2,32 +2,35 @@ class GenresController < ApplicationController
   before_action :authenticate_user!
   before_action :set_genre, only: [:show, :edit, :update, :destroy]
   before_action :set_user
-  before_action :require_admin, only: [:edit, :new, :update, :destroy]
+  before_action :set_user_reviews, only: [:show]
+  before_action :require_admin, only: [:index, :new, :create, :edit, :destroy, :update]
+  caches_action :index
+
   # GET /genres
   # GET /genres.json
   def index
-      @genres = Genre.all.order(created_at: :desc).paginate(per_page: 50, page: params[:page])
-      @reviews =  @user.reviews.order(created_at: :desc)
+    @page_title = 'Genres'
+    @genres = Genre.all
   end
 
   # GET /genres/1
   # GET /genres/1.json
   def show
-      # @genres = Genre.all
-      @movies = @genre.movies.all.order(created_at: :asc).paginate(per_page: 15, page: params[:page])
-      @reviews =  @user.reviews.order(created_at: :desc)
+    @per_page = params[:per_page] || 30
+    @page_title = @genre.name
+    @pagy, @movies = pagy(@genre.movies.all, items: @per_page)
   end
 
   # GET /genres/new
   def new
     @genre = Genre.new
+    @page_title = 'New Genre'
   end
 
   # GET /genres/1/edit
   def edit
-     @genre = Genre.find_by(id: params[:id])
-     @movies = Movie.all
-     @moviesTheGenreIncludes = @genre.movies.pluck(:id)
+    @page_title = 'Edit Genre'
+    @movies_the_genre_includes = @genre.movies.pluck(:id)
   end
 
   # POST /genres
@@ -60,8 +63,6 @@ class GenresController < ApplicationController
     end
   end
 
-  # DELETE /genres/1
-  # DELETE /genres/1.json
   def destroy
     @genre.destroy
     respond_to do |format|
@@ -71,18 +72,15 @@ class GenresController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_genre
-      @genre = Genre.find(params[:id])
-    end
 
-    def set_user
-      @user = current_user
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_genre
+    @genre ||= Genre.find(params[:id])
+  end
 
-
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def genre_params
-      params.require(:genre).permit(:name)
-    end
+  # Never trust parameters from the scary internet
+  # only allow the white list through.
+  def genre_params
+    params.require(:genre).permit(:name)
+  end
 end

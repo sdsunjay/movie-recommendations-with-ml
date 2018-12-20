@@ -1,27 +1,20 @@
-<%= form_for([@movie, review]) do |f| %>
-  <% if review.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(review.errors.count, "error") %> prohibited this review from being saved:</h2>
+<%= form_for([movie, review]) do |f| %>
+<% if review.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(review.errors.count, "error") %>
+      prohibited this review from being saved:</h2>
 
-      <ul>
+    <ul>
       <% review.errors.full_messages.each do |message| %>
         <li><%= message %></li>
       <% end %>
-      </ul>
-    </div>
-  <% end %>
-    <li class="control-group">
-        <%= f.label :user_id, "user id", class: "control-label" %>
-        <div class="controls"><%= f.number_field :user_id %></div>
-    </li>
-    <li class="control-group">
-        <%= f.label :movie_id, "movie id", class: "control-label" %>
-        <div class="controls"><%= f.number_field :movie_id %></div>
-    </li>
-    <li class="control-group">
-        <%= f.label :rating, "rating", class: "control-label" %>
-        <div class="controls"><%= f.number_field :rating %></div>
-    </li>
-    <%= f.submit %>
-    </div>
+    </ul>
+  </div>
+<% end %>
+<li class="control-group">
+  <div class="controls">
+    <%= f.select :rating, options_for_select([["Like",5], ["Dislike", 1]]), { prompt: "No Limit" } %>
+  </div>
+</li>
+<%= f.submit %>
 <% end %>

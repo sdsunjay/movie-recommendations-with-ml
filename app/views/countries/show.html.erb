@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Iso:</strong>
+  <%= @country.iso %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @country.name %>
+</p>
+
+<p>
+  <strong>Printable name:</strong>
+  <%= @country.printable_name %>
+</p>
+
+<p>
+  <strong>Iso3:</strong>
+  <%= @country.iso3 %>
+</p>
+
+<p>
+  <strong>Numcode:</strong>
+  <%= @country.numcode %>
+</p>
+
+<%= link_to 'Edit', edit_country_path(@country) %> |
+<%= link_to 'Back', countries_path %>

@@ -1,8 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
-
-ruby '2.5.1'
-
+ruby '2.5.3'
+gem 'rack', '>= 2.0.6'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.0'
 # Use postgresql as the database for Active Record
@@ -10,7 +9,14 @@ gem 'pg', '>= 0.18', '< 2.0'
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 5.0'
+gem 'bootstrap', '~> 4.1.3'
+gem 'sprockets-rails', :require => 'sprockets/railtie'
+# gem 'compass-rails'
+gem 'autoprefixer-rails'
+gem 'popper_js', '~> 1.14.3'
+gem 'font-awesome-rails'
+gem 'jquery-rails'
+gem 'sass-rails'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
@@ -19,7 +25,7 @@ gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.2'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
-gem 'turbolinks', '~> 5'
+gem 'turbolinks', '~> 5.2.0'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production
@@ -32,21 +38,30 @@ gem 'jbuilder', '~> 2.5'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
-
+# find slow queries
+# gem 'bullet', group: :development
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'cocoon'
 gem 'devise', '>= 4.0.0', require: true
-gem 'omniauth-facebook'
-gem 'bootstrap', '~> 4.1.3'
-gem 'popper_js', '~> 1.14.3'
-gem 'font-awesome-rails'
-gem 'themoviedb'
-gem 'will_paginate', '>= 3.0'
-gem 'jquery-rails'
+gem 'omniauth-facebook', require: true
+gem 'pagy', '0.19.4'
 gem 'koala'
 gem 'seed_dump'
 gem 'rubyzip', '~> 1.2.2'
+gem 'simple_form'
+gem 'country_select', require: 'country_select_without_sort_alphabetical'
+gem 'loofah', '>= 2.2.3'
+# background jobs
+gem 'sidekiq', '>= 5.2.2'
+# analytics
+gem 'ahoy_matey'
+gem 'blazer'
+gem 'puma_worker_killer'
+# caching
+gem 'actionpack-action_caching'
+# searching
+gem 'ransack', github: 'activerecord-hackery/ransack'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

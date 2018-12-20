@@ -1,22 +1,13 @@
-<%= form_with(model: genre, local: true) do |form| %>
-  <% if genre.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(genre.errors.count, "error") %> prohibited this genre from being saved:</h2>
+<%= simple_form_for(@genre) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
-      <ul>
-      <% genre.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <div class="form-inputs">
 
-  <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name %>
+  <%= f.input :name, label: false, placeholder: 'Genre Name', error: 'Name is mandatory, please specify one' %>
+
   </div>
-
-  <div class="actions">
-    <%= form.submit %>
+  <div class="form-actions">
+    <%= f.button :submit %>
   </div>
 <% end %>

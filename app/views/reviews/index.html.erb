@@ -1,33 +1,36 @@
 <h2>Reviews</h2>
 <!-- 'access_level' must be set to 1 or 2 to view this page -->
-    <div class="col-md-12 col-sm-12 col-xs-12">
-        <div class="page-sub-title textcenter">
-            <h2 class="page-header">Manage Reviews </h2>
-        </div><!-- end .page-sub-title -->
-    </div><!-- end .col-md-12 col-sm-12 col-xs-12 -->
-    <% if @reviews.any? %>
-<table class="table table-striped">
-    <tr>
-        <th>User</th>
-        <th>Movie</th>
-        <th>Rating</th>
-        <th>Created At</th>
-        <th>Edit</th>
-        <th>Delete</th>
-
-    </tr>
-    <% @reviews.each do |review| %>
-        <tr>
-            <td> <%= link_to review.user.name, user_path(current_user.id)  %></td>
-            <td><%= link_to review.movie.title, movie_path(review.movie) %></td>
-            <td> <%= review.rating %></td>
-            <td><%= review.created_at.to_time.strftime('%B %e at %l:%M %p' ) %></td>
-            <td><%= link_to 'Edit', edit_movie_review_path(review.movie,review), class: 'btn btn-primary' %></td>
-            <td><%= link_to 'Delete', movie_review_path(review.movie, review), class: 'btn btn-danger', method: :delete, data: { confirm: "Are you sure?" } %></td>
-        </tr>
-    <% end %>
-</table>
-<%= will_paginate @reviews %>
+<div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="page-sub-title textcenter">
+        <h2 class="page-header">Manage Reviews </h2>
+    </div><!-- end .page-sub-title -->
+</div><!-- end .col-md-12 col-sm-12 col-xs-12 -->
+<% if @reviews.any? %>
+    <table class="table table-striped table-sm">
+        <thead>
+            <tr>
+                <th scope="col">User</th>
+                <th scope="col">Movie</th>
+                <th scope="col">Rating</th>
+                <th scope="col">Created At </th>
+                <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+        <% @reviews.each do |review| %>
+            <tr>
+                <th scope="row"> <%= link_to review.user.name, user_path(review.user.id)  %></th>
+                <td><%= link_to review.movie.title, movie_path(review.movie) %></td>
+                <td> <%= review.rating %></td>
+                <td><%= review.created_at.to_time.strftime('%B %e %H:%M' ) %></td>
+                <td><%= link_to 'Edit', edit_movie_review_path(review.movie,review) %></td>
+                <td><%= link_to 'Delete', movie_review_path(review.movie, review), method: :delete, data: { confirm: "Are you sure?" } %></td>
+            </tr>
+        <% end %>
+            <tbody>
+        </table>
+        <%= pagy_nav_bootstrap(@pagy).html_safe %>
     <% else %>
         <p>There are no reviews</p>
     <% end %>

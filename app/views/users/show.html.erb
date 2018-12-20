@@ -1,166 +1,228 @@
-<% if user_signed_in? && current_user == @user %>
-    <div class="row">
-        <div class="col-lg-12 col-md-12 col-sm-12">
-            <div class="blog-area">
-                <div class="blog-left blog-archive">
-                    <article class="single-from-blog wow fadeInLeft" style='border: 1px solid #f0f0f0;'>
-                        <div class="single-widget" style="border: none">
-                            <h2>
-                                <%= @user.name %>
-                                <%= link_to 'Edit', edit_user_path(@user), class: 'fa fa-edit tooltip-link', 'data-original-title': 'Edit Profile Information', 'data-toggle': 'tooltip', style: 'color: 00d999; float: right; font-size: 0.6em' %>
-                            </h2>
+<% if user_signed_in?  %>
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+      <div class="blog-area">
+        <div class="blog-left blog-archive">
+          <article class="single-from-blog wow fadeInLeft" style='border: 1px solid #f0f0f0;'>
+            <div class="single-widget" style="border: none">
+              <h2>
+                <%= @user.name %>
+                <%= link_to 'Edit', edit_user_path(@user), class: 'fa fa-edit tooltip-link', 'data-original-title': 'Edit Profile Information', 'data-toggle': 'tooltip', style: 'color: 00d999; float: right; font-size: 0.6em' %>
+              </h2>
 
-                            <div class="popular-post-widget">
-                                <div class="single-item">
-                                    <div class="col-sm-4">
-                                        <% if @user.image.present? %>
-                                            <%= image_tag @user.image, style: 'width: 100%' %>
-                                        <% else %>
-                                            <%= image_tag "default_avatar_280x280.jpg", style: 'width: 100%' %>
-                                        <% end %>
-                                    </div>
-                                    <div class="col-sm-8">
-                                        <h4 class="user-name">
-                                            <i class="fa fa-user" style="color: #00d999; font-size: 1.5em;"></i>
-                                            <strong>About me</strong>
-                                        </h4>
-                                        <% if @user.gender.present? %>
-                                            <% if @user.gender == 'female' %>
-                                                <i class="fa fa-female" style="color: #00d999;"></i>
-                                                (<%= @user.gender %>Gender)
-                                            <% end %>
-                                            <% if @user.gender == 'male' %>
-                                                <i class="fa fa-male" style="color: #00d999;"></i>
-                                                (<%= @user.gender %>Gender)
-                                            <% end %>
-                                        <% end %>
+              <div class="popular-post-widget">
+                <div class="single-item">
+                  <div class="col-sm-4">
+                    <% if @user.image? %>
+                      <%= image_tag @user.image, style: 'width: 100%' %>
+                    <% else %>
+                      <%= image_tag "default_avatar_280x280.jpg", style: 'width: 100%' %>
+                    <% end %>
+                  </div>
+                  <div class="col-sm-8">
+                    <h4 class="user-name">
+                      <i class="fa fa-user" style="color: #00d999; font-size: 1.5em;"></i>
+                      <strong>About me</strong>
+                    </h4>
+                    <h5>
+                      <% if @user.gender? %>
+                        <% if @user.gender == 'female' %>
+                          <i class="fa fa-female" aria-hidden="true" style="color: #00d999;"></i>
+                          (Female)
+                          <% elsif @user.gender == 'male' %>
+                            <i class="fa fa-male" aria-hidden="true" style="color: #00d999;"></i>
+                            (Male)
+                          <% else %>
+                            <i class="fa fa-superpowers" aria-hidden="true" style="color: #00d999;"></i>
+                            (<%= @user.gender %>)
+                          <% end %>
+                        <% end %>
+                      </h5>
+                    <h5>
+                      <% if @user.birthday? %>
+                        <i class="fa fa-birthday-cake" aria-hidden="true" style="color: #00d999;"></i>
+                        <%= @user.birthday.strftime("%B %d, %Y") %>
+                      <% end %>
+                      </h5>
+                      <h5>
+                        <i class="fa fa-users" aria-hidden="true" style="color: #00d999;"></i>
+                        (<%= @friends_count %>)
+                      </h5>
+                      <hr>
+                      <h5>
+                        <i class="fa fa-star" style="color: #00d999;"></i>
+                        (<%= @avg_review %>
+                        Average Movie Rating)
+                      </h5>
+                      <h5>
+                        <i class="fa fa-comment" style="color: #00d999;"></i>
+                        (<%= @number_of_reviews%>
+                        <% if @number_of_reviews < 50 %>
+                          Movies Reviewed -- Please review more movies)
+                        <% else %>
+                          Movies Reviewed )
+                        <% end %>
+                      </h5>
+                      <h5>
+                        <i class="fa fa-thumbs-o-up" style="color: blue"></i>
+                        (<%= @number_of_liked_movies%>
+                        Movies Liked)
+                      </h5>
+                      <h5>
+                        <i class="fa fa-thumbs-o-down" style="color: blue"></i>
+                        (<%= @number_of_disliked_movies%>
+                        Movies Disliked)
+                      </h5>
+                      <h5>
+                        <i class="fa fa-lightbulb-o" aria-hidden="true"></i>
+                        (<%= @number_of_recommendations %>
+                        Movie Recommendations)
+                      </h5>
+                      <hr>
 
-                                        <hr>
-                                        <h5>
-                                            <i class="fa fa-star" style="color: #00d999;"></i>
-                                            (<%= @avg_review %>
-                                        Average Movie Rating)
-                                        </h5>
-                                        <h5>
-                                            <i class="fa fa-comment" style="color: #00d999;"></i>
-                                            (<%= @number_of_reviews%>
-                                        <% if @number_of_reviews < 50 %>
-                                            Movies Reviewed -- Please review more movies)
-                                        <% else %>
-                                            Movies Reviewed -- Please review more movies)
-                                        <% end %>
-                                        </h5>
-                                        <h5>
-                                            <i class="fa fa-thumbs-up" style="color: #00d999;"></i>
-                                            (<%= @number_of_liked_movies%>
-                                        Movies Liked)
-                                        </h5>
-                                        <h5>
-                                            <i class="fa fa-thumbs-down" style="color: #00d999;"></i>
-                                            (<%= @number_of_disliked_movies%>
-                                        Movies Disliked)
-                                        </h5>
-                                        <hr>
-
-                                        <h5>
-                                            <i class="fa fa-home" style="color: #00d999;"></i>
-                                            Location:
-                                            <% if @user.location.present? %>
-                                                <i class="fa fa-check" style="color: green"></i>
-                                                <%= @user.location%>,
-                                            <% else %>
-                                                <i class="fa fa-times" style="color: red"></i>
-                                                Location Not Added
-                                            <% end %>
-                                        </h5>
-                                        <h5>
-                                            <i class="fa fa-home" style="color: #00d999;"></i>
-                                            Hometown:
-                                            <% if @user.hometown.present? %>
-                                                <i class="fa fa-check" style="color: green"></i>
-                                                <%= @user.hometown%>,
-                                            <% else %>
-                                                <i class="fa fa-times" style="color: red"></i>
-                                                Hometown Not Added
-                                            <% end %>
-                                        </h5>
-                                        <h5>
-                                            <h5>
-                                                <i class="fa fa-facebook" style="color: #00d999;"></i>
-                                                Facebook:
-                                                <% if @user.link.present? %>
-                                                    <i class="fa fa-check" style="color: green"></i>
-                                                    <%= link_to 'verified', @user.link %>
-                                                <% else %>
-                                                    <i class="fa fa-times" style="color: red"></i>
-                                                    not verified
-                                                <% end %>
-                                            </h5>
-                                            <h5>
-                                                <i class="fa fa-university" style="color: #00d999;"></i>
-                                                University:
-                                                <% if @user.education.present? %>
-                                                    <i class="fa fa-check" style="color: green"></i>
-                                                    <%= @user.education %>
-                                                <% else %>
-                                                    <i class="fa fa-times" style="color: red"></i>
-                                                    University Name Not Added
-                                                <% end %>
-                                            </h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </article>
-
-                    <article class='single-from-blog wow fadeInLeft'>
-                        <ul class="nav nav-tabs" style="background-color:#f8f8f8">
-                            <li class="active">
-                                <a data-toggle="tab" href="#reviews-given-tab">Reviews Given</a>
-                            </li>
-                        </ul>
-                        <!-- End of Reviews Given -->
-
-                        <ul class="nav nav-tabs" style="background-color:#f8f8f8">
-                            <li class="active">
-                                <a data-toggle="tab" href="#recommendations-tab">My Recommendations</a>
-                            </li>
-                        </ul>
-                        <!-- End of Reviews Given -->
-
-                        <!-- Beginning of Reviews Given -->
-                        <div id="reviews-given-tab" class="tab-pane fade">
-                            <% if @reviews.try(:any?) %>
-                                <%= render 'partials/reviews', :reviews => @reviews %>
-                                <%= will_paginate @reviews, param_name: 'reviews_given_page' %>
-                            <% else %>
-                                <section class="single-from-blog" style="margin-bottom: 0; border: 1px solid #f0f0f0;">
-                                    <div class="blog-title">
-                                        <h2>No movies reviewed yet</h2>
-                                    </div>
-                                </section>
-                            <% end %>
-                        </div>
-                        <!-- End of Reviews Given -->
-
-                        <!-- Beginning of My Recommendations -->
-                        <div id="recommendations-tab" class="tab-pane fade">
-                            <section class="single-from-blog" style="margin-bottom: 0; border: 1px solid #f0f0f0;">
-                                <div class="blog-title">
-                                    <h2>No recommendations yet</h2>
-                                    <h2>Please review more movies</h2>
-                                </div>
-                            </section>
-                        </div>
-                        <!-- End of My Recommendations -->
-
+                      <h5>
+                        <i class="fa fa-home" style="color: #00d999;"></i>
+                        Location:
+                        <% if @user.location? %>
+                          <i class="fa fa-check" style="color: green"></i>
+                          <%= @user.location%>
+                        <% else %>
+                          <i class="fa fa-times" style="color: red"></i>
+                          Location Not Added
+                        <% end %>
+                      </h5>
+                      <h5>
+                        <i class="fa fa-home" style="color: #00d999;"></i>
+                        Hometown:
+                        <% if @user.hometown? %>
+                          <i class="fa fa-check" style="color: green"></i>
+                          <%= @user.hometown%>
+                        <% else %>
+                          <i class="fa fa-times" style="color: red"></i>
+                          Hometown Not Added
+                        <% end %>
+                      </h5>
+                        <h5>
+                          <i class="fa fa-university" style="color: #00d999;"></i>
+                          University:
+                          <% if @user.education_id? %>
+                            <i class="fa fa-check" style="color: green"></i>
+                            <%= link_to @user.education_name, education_path(@user.education_id) %>
+                          <% else %>
+                            <i class="fa fa-times" style="color: red"></i>
+                            University Name Not Added
+                          <% end %>
+                        </h5>
+                      <h5>
+                        <h5>
+                          <i class="fa fa-facebook" style="color: #00d999;"></i>
+                          Facebook:
+                          <% if @user.link? %>
+                            <i class="fa fa-check" style="color: green"></i>
+                            <%= link_to 'verified', @user.link %>
+                          <% else %>
+                            <i class="fa fa-times" style="color: red"></i>
+                            not verified
+                          <% end %>
+                        </h5>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                    </article>
-            </div>
-        </div>
-    </div>
-          <%= render "shared/sidebar" %>
-<% else %>
-    <h4>You do not have permission to view this user's profile</h4>
-<% end %>
+          </article>
+              <article class='single-from-blog wow fadeInLeft'>
+                <ul class="nav nav-tabs" id="myTab" role="tablist" style="background-color:#f8f8f8">
+                  <li class="nav-item">
+                    <a class="nav-link <%= 'active' if params[:active_tab] == 'home-tab' %>" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Home</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link <%= 'active' if params[:active_tab] == 'reviews-tab' %>" id="reviews-tab" data-toggle="tab" href="#reviews" role="tab" aria-controls="reviews" aria-selected="false">My Reviews</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link <%= 'active' if params[:active_tab] == 'friends-tab' %>" id="friends-tab" data-toggle="tab" href="#friends" role="tab" aria-controls="friends" aria-selected="false">My Friends</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link <%= 'active' if params[:active_tab] == 'recommendations-tab' %>" id="recommendations-tab" data-toggle="tab" href="#recommendations" role="tab" aria-controls="recommendations" aria-selected="false">My Recommendations</a>
+                  </li>
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                  <div class="tab-pane fade <%= 'show active' if params[:active_tab] == 'home-tab' %>" id="home" role="tabpanel" aria-labelledby="home-tab">
+                    <p>Welcome home!</p>
+                  </div>
 
+                  <!-- Beginning of My reviews -->
+                  <div class="tab-pane fade <%= 'show active' if params[:active_tab] == 'reviews-tab' %>" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
+                    <% if @reviews.try(:any?) %>
+                      <div class="row">
+                        <div class="card-columns">
+                            <%= render 'partials/reviews', reviews: @reviews %>
+                        </div>
+                      </div>
+                    <div class="row">
+                      <%= pagy_nav_compact_bootstrap(@pagy_reviews).html_safe %>
+                    </div>
+                    <% else %>
+                      <section class="single-from-blog" style="margin-bottom: 0; border: 1px solid #f0f0f0;">
+                        <div class="blog-title">
+                          <h2>No movie reviews yet</h2>
+                        </div>
+                      </section>
+                    <% end %>
+                  </div>
+                  <!-- End of My Reviews -->
+
+                    <!-- Beginning of My Friends -->
+                  <div class="tab-pane fade <%= 'show active' if params[:active_tab] == 'friends-tab' %>" id="friends" role="tabpanel" aria-labelledby="friends-tab">
+                    <% if @friends.try(:any?) %>
+                      <div class="row">
+                        <div class="card-columns">
+                          <%= render 'partials/friends', friends: @friends, cached: true %>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <%= pagy_nav_compact_bootstrap(@pagy_friends).html_safe %>
+                      </div>
+                    <% else %>
+                      <section class="single-from-blog" style="margin-bottom: 0; border: 1px solid #f0f0f0;">
+                        <div class="blog-title">
+                          <h2>No friends yet</h2>
+                        </div>
+                      </section>
+                    <% end %>
+                  </div>
+                  <!-- End of My Friends -->
+
+                  <!-- Beginning of My Recommendations -->
+                  <div class="tab-pane fade <%= 'show active' if params[:active_tab] == 'recommendations-tab' %>"  id="recommendations" role="tabpanel" aria-labelledby="recommendations-tab">
+                    <% if @recommendations.try(:any?) %>
+                      <div class="row">
+                        <div class="card-columns">
+                          <%= render 'partials/recommendations', recommendations: @recommendations, reviews: @reviews %>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <%= pagy_nav_compact_bootstrap(@pagy_recommendations).html_safe %>
+                      </div>
+                    <% else %>
+                      <section class="single-from-blog" style="margin-bottom: 0; border: 1px solid #f0f0f0;">
+                        <div class="blog-title">
+                          <h2>No recomendations yet</h2>
+                        </div>
+                      </section>
+                    <% end %>
+                  </div>
+                  <!-- End of My Recommendations -->
+                </div>
+                <!-- End of tab-content -->
+              </article>
+              <!-- End of single-from-blog -->
+        </div>
+        <!-- End of blog-area -->
+      </div>
+      <!-- End of col-lg-8 col-md-7 col-sm-12 -->
+    </div>
+    <!-- End of row -->
+    <%= render "shared/sidebar" %>
+  <% else %>
+    <h4>You do not have permission to view this user's profile</h4>
+  <% end %>

@@ -1,25 +1,35 @@
-<p id="notice"><%= notice %></p>
-
-<h1>Friendships</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @friendships.each do |friendship| %>
-      <tr>
-        <td><%= link_to 'Show', friendship %></td>
-        <td><%= link_to 'Edit', edit_friendship_path(friendship) %></td>
-        <td><%= link_to 'Destroy', friendship, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Friendship', new_friendship_path %>
+<h2>Friendships</h2>
+<!-- 'access_level' must be set to 1 or 2 to view this page -->
+<div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="page-sub-title textcenter">
+        <h2 class="page-header">Manage Friendships </h2>
+    </div><!-- end .page-sub-title -->
+</div><!-- end .col-md-12 col-sm-12 col-xs-12 -->
+<% if @friends.any? %>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+            <th scope="col">User</th>
+            <th scope="col">Friend</th>
+            <th scope="col">Created At</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+        <% @friends.each do |friend| %>
+            <tr>
+                <th scope="row"> <%= link_to friend.user.name, user_path(friend.user.id)  %></th>
+                <td><%= link_to friend.friendship.name, user_path(friend.friendship.id) %></td>
+                <td><%= friend.created_at.to_time.strftime('%B %e at %l:%M %p' ) %></td>
+                <td><%= link_to 'Edit', edit_friendship_path(friend) %></td>
+                <td><%= link_to 'Destroy', friend, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+            </tr>
+        <% end %>
+        </tbody>
+    </table>
+    <%= pagy_nav_bootstrap(@pagy).html_safe %>
+<% else %>
+    <p>There are no friendships</p>
+<% end %>
+    <p><%= link_to 'New Friendship', new_friendship_path %></p>

@@ -1,40 +1,93 @@
 <div id="movies-show">
-    <h2><%= @movie.title %></h2>
-    <div class="movies-show-left">
-        <%= image_tag('http://image.tmdb.org/t/p/w300_and_h450_bestv2'+@movie.poster_path) %>
+  <% cache @movie do %>
+
+  <h2><%= @movie.title %></h2>
+  <div class='row'>
+    <div class="col-md-6 col-sm-6 col-xs-6">
+      <%= image_tag('https://image.tmdb.org/t/p/w500'+@movie.poster_path, alt: "#{@movie.title}", class:"card-img-top img-fluid") %>
     </div>
-    <div class="movies-show-right">
-        <h3>Movie Info: </h3>
+    <!-- end col-sm-6 -->
+    <div class="col-md-6 col-sm-6 col-xs-6">
+      <div class="card-body-right">
+        <h3>Movie Info:
+        </h3>
         <ul>
-            <% unless @movie.tagline.blank? %>
-                <li><strong>Tagline: </strong><%= @movie.tagline %></li>
-            <% end %>
-            <li><strong>Genres: </strong>
-            <% @movie.categorizations.each do |categorization| %>
-                <%= link_to categorization.genre.name, genre_path(categorization.genre) %>,
-            <% end %>
-            </li>
-            <% unless @movie.runtime.blank? %>
-                <li><strong>Runtime: </strong><%= @movie.runtime %> mins</li>
-            <% end %>
-            <li><strong>Release Date: </strong><%= @movie.release_date.strftime('%Y-%m-%d') %></li>
-            <% unless @movie.budget.blank? %>
-                <li><strong>Budget: </strong><%= @movie.budget %></li>
-            <% end %>
-            <% unless @movie.revenue.blank? %>
-                <li><strong>Revenue: </strong><%= @movie.revenue %></li>
-            <% end %>
-            <% unless @movie.popularity.blank? %>
-                <li><strong>Popularity: </strong><%= @movie.popularity %></li>
-            <% end %>
-            <li><strong>Overview: </strong><%= @movie.overview %></li>
-        </ul>
+          <% unless @movie.tagline.blank? %>
+            <li>
+              <strong>Tagline:
+              </strong><%= @movie.tagline %>
+          </li>
+          <% end %>
+          <li>
+            <strong>Genres:
+            </strong>
+            <%= @genres.map { |genre| link_to(genre.name, genre_path(genre)) }.join(', ').html_safe %>
+          </li>
+          <% unless @companies.blank? %>
+          <li>
+            <strong>Companies:
+            </strong>
+            <%= @companies.map { |company| link_to(company.name, company_path(company)) }.join(', ').html_safe %>
+          </li>
+          <% end %>
+          <% unless @movie.status.blank? %>
+            <li>
+              <strong>Status:</strong>
+              <%= @movie.status.humanize %></li>
+          <% end %>
+          <li>
+            <strong>Release Date:
+            </strong><%= @movie.release_date.strftime('%B %e %Y') %>
+          </li>
+          <% unless @movie.runtime.blank? %>
+            <li>
+              <strong>Runtime:
+              </strong><%= @movie.runtime %>
+              mins</li>
+          <% end %>
+          <% unless @movie.budget.blank? or @movie.budget == 0 %>
+            <li>
+              <strong>Budget:
+              </strong>$<%= number_to_human(@movie.budget) %></li>
+          <% end %>
+          <%-# TODO: Revenue still shows if it is 0 -%>
+          <% unless @movie.revenue.blank? or @movie.revenue == 0 %>
+            <li>
+              <strong>Revenue:
+              </strong>$<%= number_to_human(@movie.revenue) %></li>
+          <% end %>
+          <% unless @movie.popularity.blank? %>
+            <li>
+              <strong>Popularity:
+              </strong><%= @movie.popularity %></li>
+          <% end %>
+          <% unless @movie.overview.blank? %>
+          <li>
+            <strong>Overview:
+            </strong><%= @movie.overview %></li>
+          <% end %>
+          <li>&nbsp;</li>
+          <li>
+            <strong>My Rating:
+            </strong>
+          </li>
+            <div id="movie_<%= @movie.id %>">
+            <%= render 'partials/review', movie: @movie, user_reviews: @user_reviews %>
+            </div>
+          </ul>
+        </div>
+        <!-- closes col-sm-6 -->
+      </div>
+      <!-- closes movies-show-right -->
     </div>
-</div>
-<div class="clearfix"></div>
+    <!-- closes row -->
+    <div class="clearfix"></div>
     <% if @user.super_admin? %>
-    <h3>Admin Functions </h3>
-    <%= link_to 'Edit', edit_movie_path(@movie), class: "btn btn-default btn-sm" %> |
-    <%= link_to 'Delete', movie_path(@movie), method: :delete, class: "btn btn-danger btn-sm", data: { confirm: "Are you sure?" } %>
+      <h3>Admin Functions
+      </h3>
+      <%= link_to 'Edit', edit_movie_path(@movie), class: "btn btn-default btn-sm" %>
+      |
+      <%= link_to 'Delete', movie_path(@movie), method: :delete, class: "btn btn-danger btn-sm", data: { confirm: "Are you sure?" } %>
     <% end %>
+  <% end %>
 </div>
