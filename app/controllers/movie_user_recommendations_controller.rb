@@ -21,11 +21,13 @@ class MovieUserRecommendationsController < ApplicationController
   def new
     @page_title = 'New Movie Recommendation'
     @movie_user_recommendation = MovieUserRecommendation.new
+    @users = User.all
   end
 
   # GET /movie_user_recommendations/1/edit
   def edit
     @page_title = 'Edit Movie Recommendation'
+    @users = User.all
   end
 
   # POST /movie_user_recommendations
