@@ -34,6 +34,7 @@ class MoviesController < ApplicationController
   # GET /movies/1/edit
   def edit
     @page_title = 'Edit Movie'
+    @genres = Genre.all
   end
 
   # POST /movies
