@@ -1,0 +1,32 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Cities</h1>
+<%= link_to 'New City', new_city_path %>
+
+<% if @cities.any? %>
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">Name </th>
+        <th scope="col">State </th>
+        <th scope="col">Edit </th>
+        <th scope="col">Delete </th>
+      </tr>
+      </thead>
+
+      <tbody>
+        <% @cities.each do |city| %>
+          <tr>
+            <td><%= link_to city.name, city_path(city) %></td>
+            <td><%= link_to city.state.name, state_path(city.state_id) %></td>
+            <td><%= link_to 'Edit', edit_city_path(city) %></td>
+            <td><%= link_to 'Destroy', city, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= pagy_nav_bootstrap(@pagy).html_safe %>
+<% else %>
+  <p>There are no citiess!</p>
+<% end %>
+<br>

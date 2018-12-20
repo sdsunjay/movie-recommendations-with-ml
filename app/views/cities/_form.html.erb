@@ -1,0 +1,15 @@
+
+<%= simple_form_for(@city) do |f| %>
+  <%= f.object.errors.full_messages.join(", ") if f.object.errors.any? %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <div class="form-inputs">
+  <%= f.input :name, label: false, placeholder: 'Name', error: 'Name is mandatory, please specify one' %>
+    <%= f.input :state_id, collection: @states, label_method: :name, value_method: :id, label: false, include_blank: true, error: 'State is mandatory, please specify one'  %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>
