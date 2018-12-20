@@ -22,11 +22,13 @@ class FriendshipsController < ApplicationController
   def new
     @page_title = 'New Friendship'
     @friendship = Friendship.new
+    @users = User.all
   end
 
   # GET /friendships/1/edit
   def edit
     @page_title = 'Edit Friendship'
+    @users = User.all
   end
 
   # POST /friendships
