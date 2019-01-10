@@ -76,15 +76,15 @@ class MoviesController < ApplicationController
   def liked
     @per_page = params[:per_page] || 30
     @page_title = 'Liked Movies'
-    @user = current_user
-    #@liked = @user_reviews.where(rating: 5)
-    @pagy_likes, @likes = pagy(Review.where(user_id: @user.id, rating: 5).order(created_at: :desc), page_param: :page_liked)
+    @movie_user = User.find(params[:user_id])
+    @pagy_likes, @likes = pagy(Review.where(user_id: @movie_user.id, rating: 5).order(created_at: :desc), page_param: :page_liked)
   end
 
   def disliked
     @per_page = params[:per_page] || 30
     @page_title = 'Disliked Movies'
-    @pagy_dislikes, @dislikes = pagy(Review.where(user_id: current_user.id, rating: 1).order(created_at: :desc), page_param: :page_disliked)
+    @movie_user = User.find(params[:user_id])
+    @pagy_dislikes, @dislikes = pagy(Review.where(user_id: @movie_user.id, rating: 1).order(created_at: :desc), page_param: :page_disliked)
   end
 
   private
