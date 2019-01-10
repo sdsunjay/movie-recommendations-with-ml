@@ -1,13 +1,14 @@
 class ReviewsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_movie, only: %i[create new show edit update destroy]
-  before_action :set_review, only: %i[show update destroy]
+  before_action :set_review, only: %i[show edit update destroy]
   before_action :set_user, only: %i[create edit update destroy]
   before_action :require_admin, only: [:index]
 
   # GET /reviews
   # GET /reviews.json
   def index
+    @page_title = 'Reviews'
     @pagy, @reviews = pagy(Review.includes(:user, :movie).all, items: 60)
   end
 
@@ -18,7 +19,9 @@ class ReviewsController < ApplicationController
   end
 
   # GET /reviews/1/edit
-  def edit; end
+  def edit
+    @page_title = 'Edit Review'
+  end
 
   # POST /reviews
   # POST /reviews.json
@@ -28,15 +31,16 @@ class ReviewsController < ApplicationController
 
     if !@movie.released?
       respond_to do |format|
-        format.html { redirect_to movies_path }
+        format.html { redirect_to movie_path(@movie) }
         format.js { flash[:alert] = 'Not Released Yet' }
         format.json { render json: @review.errors, status: :unprocessable_entity }
       end
     else
-      @movie.reviews.where(user_id: @user.id, rating: params[:rating]).first_or_create
+     @movie.reviews.where(user_id: @user.id, rating: params[:rating]).first_or_create
       respond_to do |format|
-        format.html { redirect_to movies_path }
+        format.html { redirect_to movie_path(@movie) }
         format.js { flash[:notice] = 'Review added' }
+        format.json { render :show, status: :created, location: @movie }
       end
     end
   end
@@ -78,11 +82,15 @@ class ReviewsController < ApplicationController
   private
 
   def set_review
-    @review ||= current_user.reviews.find(params[:id])
+    @review ||= Review.find(params[:id])
   end
 
   def set_movie
-    @movie ||= Movie.find(params[:movie_id])
+    unless (@movie ||= Movie.find(params[:movie_id]))
+      flash[:warning] = 'Review must be for an existing movie.'
+      redirect_to movies_path
+    end
+
   end
 
   def review_params

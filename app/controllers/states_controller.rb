@@ -3,7 +3,7 @@ class StatesController < ApplicationController
   before_action :set_state, only: [:show, :edit, :update, :destroy]
   before_action :set_user, only: [:show, :edit, :update, :destroy]
   before_action :set_user
-  before_action :require_admin, only: [:index, :new, :create, :edit, :destroy, :update]
+  before_action :require_admin, except: [:show]
   caches_action :index
 
   # GET /states

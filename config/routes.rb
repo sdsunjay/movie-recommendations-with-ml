@@ -12,7 +12,16 @@ Rails.application.routes.draw do
     get '/sign-up', to: 'devise/registrations#new', as: :signup
     resources :contacts, only: [:new, :create]
     authenticated :user do
-      resources :cities
+      resources :cities do
+        collection do
+          get 'search'
+        end
+      end
+      resources :educations, only: [:show, :index, :new, :create, :edit, :destroy, :update] do
+        collection do
+          get 'search'
+        end
+      end
       resources :states
       resources :countries
       get '/search', to: 'search#search', as: 'search'
@@ -24,8 +33,8 @@ Rails.application.routes.draw do
       root to: 'movies#index', as: :authenticated_root
       resources :genres, only: [:show, :index, :new, :create, :edit, :destroy, :update]
       resources :companies, only: [:show, :index, :new, :create, :edit, :destroy, :update]
-      resources :educations, only: [:show, :index, :new, :create, :edit, :destroy, :update]
-      get 'movies/:movie_id/reviews/create', to: 'reviews#create', via: :post
+      get 'liked', to: :liked, controller: 'movies'
+      get 'disliked', to: :disliked, controller: 'movies'
       resources :reviews, only: [:index]
       resources :movie_user_recommendations, only: [:new, :create, :index, :show, :edit, :destroy, :update]
       resources :movies, only: [:index, :show, :new, :create, :edit, :update, :destroy] do

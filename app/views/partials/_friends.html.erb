@@ -1,6 +1,6 @@
 <% friends.each do |friend| %>
     <div class="card">
-        <%= link_to user_path(friend.friendship.id) do %>
+        <%= link_to friendship_path(friend) do %>
             <%= image_tag(friend.friendship.image) %>
         <% end %>
         <div class="row">

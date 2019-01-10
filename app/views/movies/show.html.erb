@@ -3,9 +3,11 @@
 
   <h2><%= @movie.title %></h2>
   <div class='row'>
+    <% if @movie.poster_path.present? %>
     <div class="col-md-6 col-sm-6 col-xs-6">
       <%= image_tag('https://image.tmdb.org/t/p/w500'+@movie.poster_path, alt: "#{@movie.title}", class:"card-img-top img-fluid") %>
     </div>
+  <% end %>
     <!-- end col-sm-6 -->
     <div class="col-md-6 col-sm-6 col-xs-6">
       <div class="card-body-right">
@@ -50,8 +52,7 @@
               <strong>Budget:
               </strong>$<%= number_to_human(@movie.budget) %></li>
           <% end %>
-          <%-# TODO: Revenue still shows if it is 0 -%>
-          <% unless @movie.revenue.blank? or @movie.revenue == 0 %>
+          <% unless @movie.revenue.blank? %>
             <li>
               <strong>Revenue:
               </strong>$<%= number_to_human(@movie.revenue) %></li>

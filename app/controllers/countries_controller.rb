@@ -2,7 +2,7 @@ class CountriesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_country, only: [:show, :edit, :update, :destroy]
   before_action :set_user
-  before_action :require_admin, only: [:index, :new, :create, :edit, :destroy, :update]
+  before_action :require_admin, except: [:show]
   caches_action :index
 
   # GET /countries

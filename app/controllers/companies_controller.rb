@@ -3,7 +3,7 @@ class CompaniesController < ApplicationController
   before_action :set_company, only: [:show, :edit, :update, :destroy]
   before_action :set_user
   before_action :set_user_reviews, only: [:show]
-  before_action :require_admin, only: [:index, :new, :create, :edit, :destroy, :update]
+  before_action :require_admin, except: [:show]
   caches_action :index
 
   # GET /companies
@@ -12,6 +12,7 @@ class CompaniesController < ApplicationController
     @page_title = 'Companies'
     @per_page = params[:per_page] || 30
     @pagy, @companies = pagy(Company.all.order(created_at: :desc), items: @per_page)
+    @number_of_companies = Company.all.count
   end
 
   # GET /companiess/1
@@ -72,6 +73,18 @@ class CompaniesController < ApplicationController
       format.html { redirect_to companies_url, notice: 'Company was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def search
+    @pagy, @companies = pagy(Company.ransack(name_cont: params[:company_name]).result(distinct: true), items: 30)
+
+    ahoy.track 'Searched Company', education: params[:company_name]
+    @page_title = params[:company_name]
+    return if @educations.exists?
+
+    flash[:alert] = 'Not found'
+    params.delete :company_name
+    redirect_back(fallback_location: companies_path)
   end
 
   private

@@ -2,7 +2,7 @@ class CitiesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_city, only: [:show, :edit, :update, :destroy]
   before_action :set_user
-  before_action :require_admin, only: [:index, :new, :create, :edit, :destroy, :update]
+  before_action :require_admin, except: [:show, :search, :autocomplete]
   before_action :force_json, only: :autocomplete
   # caches_action :index
 
@@ -12,12 +12,16 @@ class CitiesController < ApplicationController
     @page_title = 'Cities'
     @per_page = params[:per_page] || 30
     @pagy, @cities = pagy(City.includes(:state).all, items: @per_page)
+    @number_of_cities = City.all.count
   end
 
   # GET /cities/1
   # GET /cities/1.json
   def show
-    @page_title = @city.name
+   @educations = @city.educations
+   @number_of_educations = @city.educations.count
+   @pagy, @educations = pagy(@city.educations, items: 30)
+   @page_title = @city.name
   end
 
   # GET /cities/new
@@ -86,10 +90,25 @@ class CitiesController < ApplicationController
     end
   end
 
+  def search
+    @pagy, @cities = pagy(City.ransack(name_cont: params[:name]).result(distinct: true), items: 30)
+
+    ahoy.track 'Searched city', city: params[:name]
+    @city = params[:name]
+    @page_title = @city
+    # redirect_to search_cities_path if @cities.exists?
+    return if @cities.exists?
+
+    ahoy.track 'City not found'
+    flash[:alert] = @city + ' not found'
+    params.delete :name
+    redirect_back(fallback_location: cities_path)
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_city
-      @city = City.find(params[:id])
+      @city ||= City.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

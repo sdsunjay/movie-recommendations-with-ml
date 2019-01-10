@@ -2,7 +2,7 @@ class EducationsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_education, only: [:show, :edit, :update, :destroy]
   before_action :set_user
-  before_action :require_admin, only: [:index, :new, :create, :edit, :destroy, :update]
+  before_action :require_admin, except: [:show, :search, :autocomplete]
   before_action :force_json, only: :autocomplete
 
   # GET /educations
@@ -11,6 +11,7 @@ class EducationsController < ApplicationController
     @page_title = 'Educations'
     @per_page = params[:per_page] || 30
     @pagy, @educations = pagy(Education.all.order(created_at: :desc), items: @per_page)
+    @number_of_educations = Education.all.count
   end
 
   # GET /educations/1
@@ -82,6 +83,20 @@ class EducationsController < ApplicationController
     end
   end
 
+  def search
+    @pagy, @educations = pagy(Education.ransack(name_cont: params[:education_name]).result(distinct: true), items: 30)
+
+    ahoy.track 'Searched Education', education: params[:education_name]
+    @education = params[:education_name]
+    @page_title = @education
+    return if @educations.exists?
+
+    ahoy.track 'Education not found'
+    flash[:alert] = @education + ' not found'
+    params.delete :education_name
+    redirect_back(fallback_location: educations_path)
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_education
@@ -92,7 +107,7 @@ class EducationsController < ApplicationController
     # only allow the white list through.
     def education_params
       # extend with your own params
-      accessible = %i[name address city_name zipcode homepage abbreviation]
+      accessible = %i[name address city_name zipcode homepage abbreviation phone url]
       params.require(:education).permit(accessible)
     end
 end

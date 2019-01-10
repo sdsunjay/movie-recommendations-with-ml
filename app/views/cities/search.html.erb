@@ -1,16 +1,6 @@
-<p id="notice"><%= notice %></p>
-
-<h1>Cities</h1>
-<%= link_to 'New City', new_city_path %>
-<% if @cities.any? %>
-  <h3>Number of Cities: <%= @number_of_cities %></h3>
-  <br>
-  <%= form_tag(search_cities_path, method: :get) do %>
-    <%= text_field_tag(:name, params[:name]) %>
-    <%= submit_tag ("Search") %>
-  <% end %>
-<br>
-<table class="table table-striped table-sm">
+<h1><%= @city %></h1>
+<% if @cities.try(:any?) %>
+  <table>
     <thead>
       <tr>
         <th scope="col">Name </th>
@@ -23,7 +13,7 @@
       <tbody>
         <% @cities.each do |city| %>
           <tr>
-            <th scope="row"><%= link_to city.name, city_path(city) %></th>
+            <td><%= link_to city.name, city_path(city) %></td>
             <td><%= link_to city.state.name, state_path(city.state_id) %></td>
             <td><%= link_to 'Edit', edit_city_path(city) %></td>
             <td><%= link_to 'Destroy', city, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -31,8 +21,13 @@
       <% end %>
     </tbody>
   </table>
-  <%= pagy_nav_bootstrap(@pagy).html_safe %>
+  <div class="row">
+    <%= pagy_nav_compact_bootstrap(@pagy).html_safe %>
+  </div>
 <% else %>
-  <p>There are no citiess!</p>
+  <article class="single-from-blog">
+    <div class="blog-title">
+      <h2>No cities available yet</h2>
+    </div>
+  </article>
 <% end %>
-<br>

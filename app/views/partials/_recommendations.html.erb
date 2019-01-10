@@ -1,6 +1,12 @@
 <% recommendations.each do |recommendation| %>
   <% cache recommendation.movie do %>
-    <%= render 'partials/movie', movie: recommendation.movie, user_reviews: reviews %>
+    <% if recommendation.movie.poster_path.present? %>
+      <div class="card">
+        <%= link_to movie_user_recommendation_path(recommendation) do %>
+          <%= image_tag('http://image.tmdb.org/t/p/w300_and_h450_bestv2' + recommendation.movie.poster_path, alt: "#{recommendation.movie.title}", class:"card-img-top img-fluid") %>
+        <% end %>
+      </div>
+    <% end %>
   <% end %>
 <% end %>
 
