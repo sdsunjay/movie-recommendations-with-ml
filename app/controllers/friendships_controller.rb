@@ -14,8 +14,20 @@ class FriendshipsController < ApplicationController
   # GET /friendships/1
   # GET /friendships/1.json
   def show
-    @page_title = 'Friends'
+    @page_title = @friendship.friendship.name
     @friends = @user.friendships
+    @pagy_reviews, @reviews = pagy(Review.where(user_id: @friendship.friend_id).order(created_at: :desc), page_param: :page_reviews, params: { active_tab: 'reviews-tab' })
+    if @reviews.blank?
+      @avg_review = 0
+      @number_of_reviews = 0
+      @number_of_liked_movies = 0
+      @number_of_disliked_movies = 0
+    else
+      @number_of_reviews = Review.where(user_id: @friendship.friend_id).count
+      @avg_review = Review.where(user_id: @friendship.friend_id).average(:rating).round(2)
+      @number_of_liked_movies = Review.where(user_id: @friendship.friend_id, rating: 5).count
+      @number_of_disliked_movies = Review.where(user_id: @friendship.friend_id, rating: 1).count
+    end
   end
 
   # GET /friendships/new
