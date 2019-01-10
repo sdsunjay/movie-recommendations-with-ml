@@ -65,18 +65,18 @@
                       </h5>
                       <h5>
                         <i class="fa fa-thumbs-o-up" style="color: blue"></i>
-                        (<%= link_to liked_path do %>
+                        (<%= link_to liked_path(user_id: @user.id) do %>
                           <%= @number_of_liked_movies %> Movies Liked
                         <% end %>)
                       </h5>
                       <h5>
                         <i class="fa fa-thumbs-o-down" style="color: blue"></i>
-                        (<%= link_to disliked_path do %>
+                        (<%= link_to disliked_path(user_id: @user.id) do %>
                           <%= @number_of_disliked_movies %> Movies Disliked
                         <% end %>)
                       </h5>
                       <h5>
-                        <i class="fa fa-lightbulb-o" aria-hidden="true"></i>
+                      <i class="fa fa-lightbulb-o" style="color: #00d999;"></i>
                         (<%= @number_of_recommendations %>
                         Movie Recommendations)
                       </h5>
