@@ -32,6 +32,7 @@ class ContactsController < ApplicationController
             redirect_to unauthenticated_root_path
         end
     end
+
     def index
        @page_title = 'Comments'
        @contacts = Contact.all.includes(:user).order(created_at: :desc)
@@ -49,6 +50,7 @@ class ContactsController < ApplicationController
     end
 
     def contact_params
-        params.require(:contact).permit(:name, :email, :message)
+      accessible = [:name, :email, :message]
+      params.require(:contact).permit(accessible)
     end
 end
