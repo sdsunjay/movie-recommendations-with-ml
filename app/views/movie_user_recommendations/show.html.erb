@@ -1,24 +1,31 @@
-<p id="notice"><%= notice %></p>
+<div class="row">
+  <div class="col-lg-12 col-md-12 col-sm-12">
+    <div class="blog-area">
+      <div class="blog-left blog-archive">
+        <article class="single-from-blog wow fadeInLeft" style='border: 1px solid #f0f0f0;'>
+          <div class="single-widget" style="border: none">
+            <h2>
+              <%= link_to @recommendation.movie.title, movie_path(@recommendation.movie) %>
+              <% if @user.super_admin? %>
+                <%= link_to 'Edit', edit_movie_user_recommendation_path(@recommendation), class: 'fa fa-edit tooltip-link', 'data-original-title': 'Edit Recommendation', 'data-toggle': 'tooltip', style: 'color: 00d999; float: right; font-size: 0.6em' %>
+                <br>
+                <%= link_to 'Destroy', @recommendation, method: :delete, data: { confirm: 'Are you sure?' }, class: 'fa fa-trash tooltip-link', 'data-original-title': 'Delete Recommendation', 'data-toggle': 'tooltip', style: 'color: 00d999; float: right; font-size: 0.6em' %>
 
-<p>
-  <strong>Movie:</strong>
-  <%= @recommendation.movie.title %>
-</p>
-
-<p>
-  <strong>User:</strong>
-  <%= @recommendation.user.name%>
-</p>
-
-<p>
-  <strong>Confidence:</strong>
-  <%= @recommendation.confidence %>
-</p>
-
-<p>
-  <strong>User rating:</strong>
-  <%= @recommendation.user_rating %>
-</p>
-
-<%= link_to 'Edit', edit_movie_user_recommendation_path(@recommendation) %> |
-<%= link_to 'Back', movie_user_recommendations_path %>
+              <% end %>
+            </h2>
+            <div class="popular-post-widget">
+              <div class="single-item">
+                <div class="col-sm-8">
+                  <h5><strong>Confidence:</strong> <%= @recommendation.confidence %></h5>
+                  <h5><strong>User rating:</strong><%= @recommendation.user_rating %></h5>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+        <!-- End of single-from-blog -->
+      </div>
+      <!-- End of blog-area -->
+    </div>
+    <!-- End of col-lg-8 col-md-7 col-sm-12 -->
+  </div>
