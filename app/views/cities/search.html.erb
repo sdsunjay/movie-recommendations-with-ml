@@ -1,0 +1,33 @@
+<h1><%= @city %></h1>
+<% if @cities.try(:any?) %>
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">Name </th>
+        <th scope="col">State </th>
+        <th scope="col">Edit </th>
+        <th scope="col">Delete </th>
+      </tr>
+      </thead>
+
+      <tbody>
+        <% @cities.each do |city| %>
+          <tr>
+            <td><%= link_to city.name, city_path(city) %></td>
+            <td><%= link_to city.state.name, state_path(city.state_id) %></td>
+            <td><%= link_to 'Edit', edit_city_path(city) %></td>
+            <td><%= link_to 'Destroy', city, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <div class="row">
+    <%= pagy_nav_compact_bootstrap(@pagy).html_safe %>
+  </div>
+<% else %>
+  <article class="single-from-blog">
+    <div class="blog-title">
+      <h2>No cities available yet</h2>
+    </div>
+  </article>
+<% end %>
