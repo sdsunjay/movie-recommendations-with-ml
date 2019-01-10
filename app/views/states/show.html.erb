@@ -1,42 +1,59 @@
-<p id="notice"><%= notice %></p>
-<h1><%= @state.name %></h1>
+<div class="row">
+  <div class="col-lg-12 col-md-12 col-sm-12">
+    <div class="blog-area">
+      <div class="blog-left blog-archive">
+        <article class="single-from-blog wow fadeInLeft" style='border: 1px solid #f0f0f0;'>
+          <div class="single-widget" style="border: none">
+            <h2>
+              <%= @state.name %>
+              <% if @user.super_admin? %>
+                <%= link_to 'Edit', edit_state_path(@state), class: 'fa fa-edit tooltip-link', 'data-original-title': 'Edit State', 'data-toggle': 'tooltip', style: 'color: 00d999; float: right; font-size: 0.6em' %>
 
-<p>
-  <strong>Abbreviation:</strong>
-  <%= @state.iso %>
-</p>
-<p>
-  <strong>Country:</strong>
-  <%= @state.country.name %>
-</p>
-<% if @user.super_admin? %>
-<%= link_to 'Edit', edit_state_path(@state) %> |
-<%= link_to 'Back', states_path %>
-<% end %>
-<% if @cities.any? %>
-  <h3>Number of Cities: <%= @number_of_cities %></h3>
-  <table>
-    <thead>
-      <tr>
-        <th scope="col">Name </th>
-        <th scope="col">State </th>
-        <th scope="col">Edit </th>
-        <th scope="col">Delete </th>
-      </tr>
-      </thead>
+              <% end %>
+            </h2>
+            <div class="popular-post-widget">
+              <div class="single-item">
+                <div class="col-sm-8">
+                  <h4 class="user-name">Abbreviation: <%= @state.iso %></h4>
+                  <h5>Country: <%= link_to @state.country.name, country_path(@state.country) %></h5>
+                  <% if @cities.any? %>
+                    <h3>Number of Cities: <%= @number_of_cities %></h3>
+                    <table>
+                      <thead>
+                        <tr>
+                          <th scope="col">Name </th>
+                          <th scope="col">State </th>
+                          <th scope="col">Edit </th>
+                          <th scope="col">Delete </th>
+                        </tr>
+                      </thead>
 
-      <tbody>
-        <% @cities.each do |city| %>
-          <tr>
-            <td><%= link_to city.name, city_path(city) %></td>
-            <td><%= link_to city.state.name, state_path(city.state_id) %></td>
-            <td><%= link_to 'Edit', edit_city_path(city) %></td>
-            <td><%= link_to 'Destroy', city, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-          </tr>
-      <% end %>
-    </tbody>
-  </table>
-  <%= pagy_nav_bootstrap(@pagy).html_safe %>
-<% else %>
-  <p>This state has no citiess!</p>
-<% end %>
+                      <tbody>
+                        <% @cities.each do |city| %>
+                          <tr>
+                            <td><%= link_to city.name, city_path(city) %></td>
+                            <td><%= link_to city.state.name, state_path(city.state_id) %></td>
+                            <td><%= link_to 'Edit', edit_city_path(city) %></td>
+                            <td><%= link_to 'Destroy', city, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                          </tr>
+                        <% end %>
+                      </tbody>
+                    </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+        <!-- End of single-from-blog -->
+      </div>
+      <!-- End of blog-area -->
+    </div>
+    <!-- End of col-lg-8 col-md-7 col-sm-12 -->
+  </div>
+  <!-- End of row -->
+  <div class="row">
+    <%= pagy_nav_bootstrap(@pagy).html_safe %>
+  <% else %>
+    <p>This state has no cities!</p>
+  <% end %>
+  </div>

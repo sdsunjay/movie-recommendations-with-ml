@@ -1,14 +1,58 @@
-<p id="notice"><%= notice %></p>
+<div class="row">
+  <div class="col-lg-12 col-md-12 col-sm-12">
+    <div class="blog-area">
+      <div class="blog-left blog-archive">
+        <article class="single-from-blog wow fadeInLeft" style='border: 1px solid #f0f0f0;'>
+          <div class="single-widget" style="border: none">
+            <h2>
+              <%= @city.name %>
+              <% if @user.super_admin? %>
+                <%= link_to 'Edit', edit_city_path(@city), class: 'fa fa-edit tooltip-link', 'data-original-title': 'Edit City', 'data-toggle': 'tooltip', style: 'color: 00d999; float: right; font-size: 0.6em' %>
+                <br>
+                <%= link_to 'Destroy', @city, method: :delete, data: { confirm: 'Are you sure?' }, class: 'fa fa-trash tooltip-link', 'data-original-title': 'Delete City', 'data-toggle': 'tooltip', style: 'color: 00d999; float: right; font-size: 0.6em' %>
 
-<p>
-  <strong>Name:</strong>
-  <%= @city.name %>
-</p>
+              <% end %>
+            </h2>
+            <div class="popular-post-widget">
+              <div class="single-item">
+                <div class="col-sm-8">
+                  <h5>State Name: <%= link_to @city.state.name, state_path(@city.state_id) %></h5>
+                  <% if @educations.any? %>
+                    <h3>Number of Universities: <%= @number_of_educations %></h3>
+                    <table>
+                      <thead>
+                        <tr>
+                          <th scope="col">Name </th>
+                          <th scope="col">Edit </th>
+                          <th scope="col">Delete </th>
+                        </tr>
+                      </thead>
 
-<p>
-  <strong>State:</strong>
-  <%= link_to @city.state.name, state_path(@city.state_id) %>
-</p>
-
-<%= link_to 'Edit', edit_city_path(@city) %> |
-<%= link_to 'Back', cities_path %>
+                      <tbody>
+                        <% @educations.each do |education| %>
+                          <tr>
+                            <td><%= link_to education.name, education_path(education) %></td>
+                            <td><%= link_to 'Edit', edit_education_path(education) %></td>
+                            <td><%= link_to 'Destroy', education, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+                          </tr>
+                        <% end %>
+                      </tbody>
+                    </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+        <!-- End of single-from-blog -->
+      </div>
+      <!-- End of blog-area -->
+    </div>
+    <!-- End of col-lg-8 col-md-7 col-sm-12 -->
+  </div>
+  <!-- End of row -->
+  <div class="row">
+    <%= pagy_nav_bootstrap(@pagy).html_safe %>
+  <% else %>
+    <p>This city has no universities!</p>
+  <% end %>
+  </div>
