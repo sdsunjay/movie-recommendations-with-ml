@@ -98,6 +98,8 @@ class UsersController < ApplicationController
     @per_page = params[:per_page] || 30
     @page_title = 'Liked Movies'
     @movie_user = @user.check_user(params[:user_id])
+    # params.except[:user_id]
+    # params.delete :user_id
     @pagy_likes, @likes = pagy(Review.where(user_id: @movie_user.id, rating: 5).order(created_at: :desc), page_param: :page_liked)
   end
 
@@ -105,6 +107,8 @@ class UsersController < ApplicationController
     @per_page = params[:per_page] || 30
     @page_title = 'Disliked Movies'
     @movie_user = @user.check_user(params[:user_id])
+    # params.except[:user_id]
+    # params.delete :user_id
     @pagy_dislikes, @dislikes = pagy(Review.where(user_id: @movie_user.id, rating: 1).order(created_at: :desc), page_param: :page_disliked)
   end
 
