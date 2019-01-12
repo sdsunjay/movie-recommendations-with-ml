@@ -33,13 +33,13 @@
                 </h5>
                 <h5>
                   <i class="fa fa-thumbs-o-up" style="color: blue"></i>
-                  (<%= link_to user_liked_path(user_id: @friendship.friendship.id) do %>
+                  (<%= link_to user_liked_path(user_id: @friendship.friendship.id), method: :post do %>
                   <%= @number_of_liked_movies %> Movies Liked
                 <% end %>)
                 </h5>
                 <h5>
                   <i class="fa fa-thumbs-o-down" style="color: blue"></i>
-                  (<%= link_to user_disliked_path(user_id: @friendship.friendship.id) do %>
+                  (<%= link_to user_disliked_path(user_id: @friendship.friendship.id), method: :post do %>
                   <%= @number_of_disliked_movies %> Movies Disliked
                 <% end %>)
                 </h5>
