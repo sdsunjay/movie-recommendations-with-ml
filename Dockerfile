@@ -46,8 +46,6 @@ ENV RACK_ENV production
 ENV WEB_CONCURRENCY 4
 ENV MAX_THREADS 2
 ENV PORT 3000
-ENV pattern 20181205214938
-
 # development/production differs in bundle install
 #RUN if [[ "$RAILS_ENV" == "production" ]]; then\
 # RUN bundle install --jobs 20 --retry 5 --without development test
