@@ -1,0 +1,76 @@
+<% cache @education do %>
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12">
+      <div class="blog-area">
+        <div class="blog-left blog-archive">
+          <article class="single-from-blog wow fadeInLeft" style='border: 1px solid #f0f0f0;'>
+            <div class="single-widget" style="border: none">
+              <h2>
+                <%= @education.name %>
+                <% if @user.super_admin? %>
+                  <%= link_to 'Edit', edit_education_path(@education), class: 'fa fa-edit tooltip-link', 'data-original-title': 'Edit Education', 'data-toggle': 'tooltip', style: 'color: 00d999; float: right; font-size: 0.6em' %>
+                  <br>
+                  <%= link_to 'Destroy', @education, method: :delete, data: { confirm: 'Are you sure?' }, class: 'fa fa-trash tooltip-link', 'data-original-title': 'Delete University', 'data-toggle': 'tooltip', style: 'color: 00d999; float: right; font-size: 0.6em' %>
+
+                <% end %>
+              </h2>
+              <div class="popular-post-widget">
+                <div class="single-item">
+                  <div class="col-sm-8">
+                    <ul>
+                      <% unless @education.address.blank? %>
+                        <li>
+                          <strong>Address:</strong>
+                          <%= @education.address %>
+                        </li>
+                      <% end %>
+                      <% unless @education.city_id.blank? %>
+                        <li>
+                          <strong>City:</strong>
+                          <%= link_to @education.city_name, city_path(@education.city_id) %>
+                        </li>
+                      <% end %>
+                      <% unless @education.zipcode.blank? %>
+                        <li>
+                          <strong>Zipcode:</strong>
+                          <%= @education.zipcode %>
+                        </li>
+                      <% end %>
+                      <% unless @education.phone.blank? %>
+                        <li>
+                          <strong>Phone Number:</strong>
+                          <%= @education.phone %>
+                        </li>
+                      <% end %>
+                      <% unless @education.homepage.blank? %>
+                        <li>
+                          <strong>Homepage:</strong>
+                          <%= link_to @education.homepage, @education.homepage %>
+                        </li>
+                      <% end %>
+                      <% unless @education.url.blank? %>
+                        <li>
+                          <strong>Google Maps URL:</strong>
+                          <%= link_to @education.url, @education.url %>
+                        </li>
+                      <% end %>
+                      <% unless @education.abbreviation.blank? %>
+                        <li>
+                          <strong>Abbreviation:</strong>
+                          <%= @education.abbreviation %>
+                        </li>
+                      <% end %>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </article>
+          <!-- End of single-from-blog -->
+        </div>
+        <!-- End of blog-area -->
+      </div>
+      <!-- End of col-lg-8 col-md-7 col-sm-12 -->
+    </div>
+    <!-- End of row -->
+  <% end %>

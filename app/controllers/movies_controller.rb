@@ -9,13 +9,8 @@ class MoviesController < ApplicationController
   # GET /movies.json
   def index
     @per_page = params[:per_page] || 30
-    if params[:title].present?
-      @page_title = params[:title]
-      help_index(params[:title])
-    else
-      @page_title = 'Movies'
-      @pagy, @movies = pagy(Movie.all, items: @per_page)
-    end
+    @page_title = 'Movies'
+    @pagy, @movies = pagy(Movie.all, items: @per_page)
   end
 
   # GET /movies/1
@@ -26,6 +21,7 @@ class MoviesController < ApplicationController
 
   # GET /movies/new
   def new
+    @page_title = 'New Movie'
     @movie = current_user.movies.build
     @genres = Genre.all
   end
@@ -33,6 +29,7 @@ class MoviesController < ApplicationController
   # GET /movies/1/edit
   def edit
     @page_title = 'Edit Movie'
+    @genres = Genre.all
   end
 
   # POST /movies
@@ -77,29 +74,6 @@ class MoviesController < ApplicationController
   end
 
   private
-
-  def help_index(movie_title)
-    ahoy.track 'Searched movie', title: movie_title
-    @pagy, @movies = pagy(Movie.search(movie_title), items: 33)
-    return if @movies.exists?
-
-    ahoy.track 'Movie not found'
-    flash[:alert] = movie_title + ' not found'
-    params.delete :title
-    redirect_back(fallback_location: movies_path)
-  end
-
-  def movie_detail
-    movie_service.movie_detail(params['id'])
-  end
-
-  def image_path
-    @image_path ||= movie_service.configuration.base_url
-  end
-
-  def movie_service
-    @movie_service ||= MovieDbService.new
-  end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_movie

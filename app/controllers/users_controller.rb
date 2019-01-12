@@ -1,8 +1,9 @@
 class UsersController < ApplicationController
   include Pagy::Frontend
   before_action :authenticate_user!
-  before_action :set_user, only: %i[show edit update]
+  before_action :set_user, only: %i[show edit update liked disliked]
   before_action :require_admin, only: %i[destroy index]
+  before_action :set_user_reviews, only: %i[liked disliked]
   caches_action :index
 
   # GET /users
@@ -14,7 +15,8 @@ class UsersController < ApplicationController
 
   # GET /users/:id.:format
   def show
-    @page_title = 'Account'
+    @page_title = @user.name
+    # if @user == current_user || @user in current_user.friendships
     @pagy_friends, @friends = pagy(Friendship.where(user_id: @user).order(created_at: :desc), page_params: :page_friends, params: { active_tab: 'friends-tab' } )
     @pagy_reviews, @reviews = pagy(@user.reviews.includes(:movie).order(created_at: :desc), page_param: :page_reviews, params: { active_tab: 'reviews-tab' })
     @pagy_recommendations, @recommendations = pagy(@user.movie_user_recommendations.includes(:movie).order(created_at: :desc), page_params: :page_recommendations, params: { active_tab: 'recommendations-tab' })
@@ -28,14 +30,13 @@ class UsersController < ApplicationController
       @number_of_reviews = 0
       @number_of_liked_movies = 0
       @number_of_disliked_movies = 0
-
     else
       @number_of_reviews = @user.reviews.count
       @avg_review = @user.reviews.average(:rating).round(2)
       @number_of_liked_movies = Review.where(user_id: @user, rating: 5).count
       @number_of_disliked_movies = Review.where(user_id: @user, rating: 1).count
-
     end
+
     if @recommendations.blank?
       @number_of_recommendations = 0
     else
@@ -56,6 +57,7 @@ class UsersController < ApplicationController
 
   # PATCH/PUT /users/:id.:format
   def update
+    @page_title = 'Edit Account'
     if current_user.super_admin?
       @user_edit = User.find(params[:id])
     else
@@ -92,11 +94,29 @@ class UsersController < ApplicationController
     end
   end
 
+  def liked
+    @per_page = params[:per_page] || 30
+    @page_title = 'Liked Movies'
+    @movie_user = @user.check_user(params[:user_id])
+    # params.except[:user_id]
+    # params.delete :user_id
+    @pagy_likes, @likes = pagy(Review.where(user_id: @movie_user.id, rating: 5).order(created_at: :desc), page_param: :page_liked)
+  end
+
+  def disliked
+    @per_page = params[:per_page] || 30
+    @page_title = 'Disliked Movies'
+    @movie_user = @user.check_user(params[:user_id])
+    # params.except[:user_id]
+    # params.delete :user_id
+    @pagy_dislikes, @dislikes = pagy(Review.where(user_id: @movie_user.id, rating: 1).order(created_at: :desc), page_param: :page_disliked)
+  end
+
   private
 
   def user_params
     # extend with your own params
-    accessible = %i[gender hometown location education birthday link]
+    accessible = %i[gender hometown location education_name birthday link]
     params.require(:user).permit(accessible)
   end
 end

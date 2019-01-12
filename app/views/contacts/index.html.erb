@@ -22,7 +22,7 @@
                        <td><%= contact.email %></td>
                       <% else %>
                           <th scope="row"><%= link_to contact.name, user_path(contact.user_id) %></th>
-                          <td><%= contact.user.email %></td>
+                          <td><%= contact.email %></td>
                       <% end %>
                       <td>
                         <%=truncate(contact.message, :length => 200,  :separator => ' ') do

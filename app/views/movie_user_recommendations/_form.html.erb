@@ -1,11 +1,10 @@
-
-<%= simple_form_for(@movie_user_recommendation) do |f| %>
+<%= simple_form_for(@recommendation) do |f| %>
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
   <div class="form-inputs">
     <%= f.input :movie_id, label: 'Movie ID', error: 'Movie ID is mandatory, please specify one' %>
-    <%= f.input :user_id, label: 'User ID', error: 'User ID is mandatory, please specify one' %>
+    <%= f.input :user_id, collection: @users, label_method: :name, value_method: :id, include_blank: true, error: 'User is mandatory, please specify one'  %>
     <%= f.input :confidence %>
     <%= f.input :user_rating %>
   </div>

@@ -1,0 +1,25 @@
+
+<h1>Liked Movies</h1>
+<% if @likes.try(:any?) %>
+  <div class="row">
+    <%= render 'partials/per_page' %>
+  </div>
+  <div class="row">
+    <div class="card-columns">
+      <% @likes.each do |review| %>
+        <% cache review.movie do %>
+          <%= render 'partials/movie', movie: review.movie, user_reviews: @user_reviews %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+  <div class="row">
+    <%= pagy_nav_compact_bootstrap(@pagy_likes).html_safe %>
+  </div>
+<% else %>
+  <article class="single-from-blog">
+    <div class="blog-title">
+      <h2>Please review some movies</h2>
+    </div>
+  </article>
+<% end %>

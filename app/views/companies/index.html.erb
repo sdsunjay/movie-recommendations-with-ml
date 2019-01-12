@@ -2,6 +2,7 @@
 <h1>Companies</h1>
     <%= link_to 'New company', new_company_path %>
 <% if @companies.any? %>
+  <h3>Number of Companies: <%= @number_of_companies %></h3>
     <table class="table table-striped table-sm">
         <thead>
             <tr>
@@ -26,7 +27,7 @@
     </table>
     <%= pagy_nav_bootstrap(@pagy).html_safe %>
     <% else %>
-        <p>There are no companys!</p>
+        <p>There are no companies!</p>
     <% end %>
 
     <br>

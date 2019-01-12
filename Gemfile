@@ -9,7 +9,14 @@ gem 'pg', '>= 0.18', '< 2.0'
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 5.0'
+gem 'bootstrap', '~> 4.1.3'
+gem 'sprockets-rails', :require => 'sprockets/railtie'
+# gem 'compass-rails'
+gem 'autoprefixer-rails'
+gem 'popper_js', '~> 1.14.3'
+gem 'font-awesome-rails'
+gem 'jquery-rails'
+gem 'sass-rails'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # See https://github.com/rails/execjs#readme for more supported runtimes
@@ -38,12 +45,7 @@ gem 'bootsnap', '>= 1.1.0', require: false
 gem 'cocoon'
 gem 'devise', '>= 4.0.0', require: true
 gem 'omniauth-facebook', require: true
-gem 'bootstrap', '~> 4.1.3'
-gem 'popper_js', '~> 1.14.3'
-gem 'font-awesome-rails'
 gem 'pagy', '0.19.4'
-gem 'jquery-rails'
-gem 'jquery-ui-rails'
 gem 'koala'
 gem 'seed_dump'
 gem 'rubyzip', '~> 1.2.2'
@@ -58,7 +60,8 @@ gem 'blazer'
 gem 'puma_worker_killer'
 # caching
 gem 'actionpack-action_caching'
-
+# searching
+gem 'ransack', github: 'activerecord-hackery/ransack'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

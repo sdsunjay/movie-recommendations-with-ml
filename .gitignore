@@ -35,3 +35,8 @@ privkey.pem
 *.sql
 .DS_Store
 themovieapi.rb
+/public/packs
+/public/packs-test
+/node_modules
+yarn-debug.log*
+.yarn-integrity

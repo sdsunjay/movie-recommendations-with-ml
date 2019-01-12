@@ -2,7 +2,7 @@ class MovieUserRecommendationsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_user, only: %i[index show edit update destroy]
   before_action :set_movie_user_recommendation, only: %i[show edit update destroy]
-  before_action :require_admin
+  before_action :require_admin, except: [:show]
 
   # GET /movie_user_recommendations
   # GET /movie_user_recommendations.json
@@ -14,18 +14,20 @@ class MovieUserRecommendationsController < ApplicationController
   # GET /movie_user_recommendations/1
   # GET /movie_user_recommendations/1.json
   def show
-    @page_title = 'Movie Recommendation'
+    @page_title = @recommendation.movie.title
   end
 
   # GET /movie_user_recommendations/new
   def new
     @page_title = 'New Movie Recommendation'
-    @movie_user_recommendation = MovieUserRecommendation.new
+    @recommendation = MovieUserRecommendation.new
+    @users = User.all
   end
 
   # GET /movie_user_recommendations/1/edit
   def edit
     @page_title = 'Edit Movie Recommendation'
+    @users = User.all
   end
 
   # POST /movie_user_recommendations

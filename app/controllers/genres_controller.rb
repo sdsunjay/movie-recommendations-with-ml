@@ -24,12 +24,12 @@ class GenresController < ApplicationController
   # GET /genres/new
   def new
     @genre = Genre.new
+    @page_title = 'New Genre'
   end
 
   # GET /genres/1/edit
   def edit
     @page_title = 'Edit Genre'
-    @movies = Movie.all
     @movies_the_genre_includes = @genre.movies.pluck(:id)
   end
 

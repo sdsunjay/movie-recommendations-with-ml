@@ -14,7 +14,11 @@ class User < ApplicationRecord
   has_many :movies, through: :movie_user_recommendations, dependent: :destroy
   has_many :reviews, -> { order(created_at: :desc) }, dependent: :destroy
   has_many :visits, class_name: 'Ahoy::Visit'
+  belongs_to :education, optional: true
+
   validates_uniqueness_of :email
+  validate :validate_age, if: proc { |u| u.birthday.present? }
+
   enum access_level: %i[user admin super_admin]
 
   def self.new_with_session(params, session)
@@ -209,4 +213,50 @@ class User < ApplicationRecord
   def review(movie_id)
     Review.where(movie_id: movie_id, user_id: id).first
   end
+
+  def education_name
+    if education_id
+      education.name
+    end
+  end
+
+  # attr_writer
+  def education_name=(name)
+    self.education = Education.find_or_create_by(name: name) if name.present?
+  end
+
+  def check_user(user_id)
+    if not user_id
+      return self
+    end
+    if id == user_id
+      return self
+    else
+      if Friendship.where(user_id: id, friend_id: user_id).exists?
+        return User.find(user_id)
+      end
+    end
+    return self
+  end
+
+  private
+
+  def validate_age
+    return if valid_date_range.include?(birthday)
+    errors.add(:birthday, 'invalid. Must be 12-100 years of age')
+  end
+
+  def valid_date_range
+    maximum_date..minimum_date
+  end
+
+  def minimum_date
+    12.years.ago.to_date
+  end
+
+  def maximum_date
+    100.years.ago.to_date
+  end
+
+
 end

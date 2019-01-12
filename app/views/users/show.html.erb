@@ -65,16 +65,18 @@
                       </h5>
                       <h5>
                         <i class="fa fa-thumbs-o-up" style="color: blue"></i>
-                        (<%= @number_of_liked_movies%>
-                        Movies Liked)
+                        (<%= link_to user_liked_path do %>
+                          <%= @number_of_liked_movies %> Movies Liked
+                        <% end %>)
                       </h5>
                       <h5>
                         <i class="fa fa-thumbs-o-down" style="color: blue"></i>
-                        (<%= @number_of_disliked_movies%>
-                        Movies Disliked)
+                        (<%= link_to user_disliked_path do %>
+                          <%= @number_of_disliked_movies %> Movies Disliked
+                        <% end %>)
                       </h5>
                       <h5>
-                        <i class="fa fa-lightbulb-o" aria-hidden="true"></i>
+                      <i class="fa fa-lightbulb-o" style="color: #00d999;"></i>
                         (<%= @number_of_recommendations %>
                         Movie Recommendations)
                       </h5>
@@ -102,6 +104,17 @@
                           Hometown Not Added
                         <% end %>
                       </h5>
+                        <h5>
+                          <i class="fa fa-university" style="color: #00d999;"></i>
+                          University:
+                          <% if @user.education_id? %>
+                            <i class="fa fa-check" style="color: green"></i>
+                            <%= link_to @user.education_name, education_path(@user.education_id) %>
+                          <% else %>
+                            <i class="fa fa-times" style="color: red"></i>
+                            University Name Not Added
+                          <% end %>
+                        </h5>
                       <h5>
                         <h5>
                           <i class="fa fa-facebook" style="color: #00d999;"></i>
@@ -112,17 +125,6 @@
                           <% else %>
                             <i class="fa fa-times" style="color: red"></i>
                             not verified
-                          <% end %>
-                        </h5>
-                        <h5>
-                          <i class="fa fa-university" style="color: #00d999;"></i>
-                          University:
-                          <% if @user.education? %>
-                            <i class="fa fa-check" style="color: green"></i>
-                            <%= @user.education %>
-                          <% else %>
-                            <i class="fa fa-times" style="color: red"></i>
-                            University Name Not Added
                           <% end %>
                         </h5>
                       </div>
@@ -146,9 +148,12 @@
                   </li>
                 </ul>
                 <div class="tab-content" id="myTabContent">
+
+                  <!-- Beginning of Home -->
                   <div class="tab-pane fade <%= 'show active' if params[:active_tab] == 'home-tab' %>" id="home" role="tabpanel" aria-labelledby="home-tab">
                     <p>Welcome home!</p>
                   </div>
+                  <!-- End of Home -->
 
                   <!-- Beginning of My reviews -->
                   <div class="tab-pane fade <%= 'show active' if params[:active_tab] == 'reviews-tab' %>" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">

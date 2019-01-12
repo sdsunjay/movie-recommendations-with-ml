@@ -1,4 +1,118 @@
-<p id="notice"><%= notice %></p>
+<div class="row">
+  <div class="col-lg-12 col-md-12 col-sm-12">
+    <div class="blog-area">
+      <div class="blog-left blog-archive">
+        <article class="single-from-blog wow fadeInLeft" style='border: 1px solid #f0f0f0;'>
+          <div class="single-widget" style="border: none">
+            <h2>
+              <%= @friendship.friendship.name %>
+            </h2>
 
-<%= link_to 'Edit', edit_friendship_path(@friendship) %> |
-<%= link_to 'Back', friendships_path %>
+            <div class="popular-post-widget">
+              <div class="single-item">
+                <div class="col-sm-4">
+                  <% if @friendship.friendship.image? %>
+                    <%= image_tag @friendship.friendship.image, style: 'width: 100%' %>
+                  <% else %>
+                    <%= image_tag "default_avatar_280x280.jpg", style: 'width: 100%' %>
+                  <% end %>
+                </div>
+                <h5>
+                  <i class="fa fa-star" style="color: #00d999;"></i>
+                  (<%= @avg_review %>
+                Average Movie Rating)
+                </h5>
+                <h5>
+                  <i class="fa fa-comment" style="color: #00d999;"></i>
+                  (<%= @number_of_reviews%>
+                <% if @number_of_reviews < 50 %>
+                  Movies Reviewed -- Please review more movies)
+                <% else %>
+                  Movies Reviewed )
+                <% end %>
+                </h5>
+                <h5>
+                  <i class="fa fa-thumbs-o-up" style="color: blue"></i>
+                  (<%= link_to user_liked_path(user_id: @friendship.friendship.id), method: :post do %>
+                  <%= @number_of_liked_movies %> Movies Liked
+                <% end %>)
+                </h5>
+                <h5>
+                  <i class="fa fa-thumbs-o-down" style="color: blue"></i>
+                  (<%= link_to user_disliked_path(user_id: @friendship.friendship.id), method: :post do %>
+                  <%= @number_of_disliked_movies %> Movies Disliked
+                <% end %>)
+                </h5>
+                <h5>
+                  <i class="fa fa-lightbulb-o" style="color: #00d999;"></i>
+                  (0 Movie Recommendations)
+                </h5>
+                <hr>
+
+                <h5>
+                  <i class="fa fa-facebook" style="color: #00d999;"></i>
+                  Facebook:
+                  <% if @friendship.friendship.link? %>
+                    <i class="fa fa-check" style="color: green"></i>
+                    <%= link_to 'verified', @friendship.friendship.link %>
+                  <% else %>
+                    <i class="fa fa-times" style="color: red"></i>
+                    not verified
+                  <% end %>
+                </h5>
+              </div>
+            </div>
+          </div>
+      </div>
+        </article>
+        <article class='single-from-blog wow fadeInLeft'>
+          <ul class="nav nav-tabs" id="myTab" role="tablist" style="background-color:#f8f8f8">
+            <li class="nav-item">
+              <a class="nav-link <%= 'active' if params[:active_tab] == 'home-tab' %>" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link <%= 'active' if params[:active_tab] == 'reviews-tab' %>" id="reviews-tab" data-toggle="tab" href="#reviews" role="tab" aria-controls="reviews" aria-selected="false">My Reviews</a>
+            </li>
+          </ul>
+          <div class="tab-content" id="myTabContent">
+
+            <!-- Beginning of Home -->
+            <div class="tab-pane fade <%= 'show active' if params[:active_tab] == 'home-tab' %>" id="home" role="tabpanel" aria-labelledby="home-tab">
+              <p>Welcome home!</p>
+            </div>
+            <!-- End of Home -->
+            <!-- Beginning of My Reviews -->
+            <div class="tab-pane fade <%= 'show active' if params[:active_tab] == 'reviews-tab' %>" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
+              <% if @reviews.try(:any?) %>
+                <div class="row">
+                  <div class="card-columns">
+                    <% @reviews.each do |review| %>
+                      <% cache review.movie do %>
+                        <%= render 'partials/movie', movie: review.movie, user_reviews: @user_reviews %>
+                      <% end %>
+                    <% end %>
+                  </div>
+                </div>
+                <div class="row">
+                  <%= pagy_nav_compact_bootstrap(@pagy_reviews).html_safe %>
+                </div>
+              <% else %>
+                <section class="single-from-blog" style="margin-bottom: 0; border: 1px solid #f0f0f0;">
+                  <div class="blog-title">
+                    <h2>No movie reviews yet</h2>
+                  </div>
+                </section>
+              <% end %>
+            </div>
+            <!-- End of My Reviews -->
+          </div>
+          <!-- End of tab-content -->
+        </article>
+        <!-- End of single-from-blog -->
+    </div>
+    <!-- End of blog-area -->
+  </div>
+  <!-- End of col-lg-8 col-md-7 col-sm-12 -->
+</div>
+<!-- End of row -->
+<%= render "shared/sidebar" %>

@@ -1,17 +1,19 @@
-        <%= simple_form_for(@user_edit) do |f| %>
-          <%= f.error_notification %>
-          <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
-          <div class="form-signin">
-          <div class="form-group string optional user_education form-group-valid"> <%= @user_edit.name %></div>
-          <div class="form-group string optional user_education form-group-valid"> <%= @user_edit.email %></div>
-          <%= f.input :gender, label: false, as: :select, collection: [ "male", "female", "other" ], selected: :gender, html5: true, class: 'form-control' %>
-          <%= f.input :education, label: false, placeholder: 'Education', html5: true %>
-          <%= f.input :birthday, label: false, as: :date, html5: true %>
-          <%= f.input :hometown, label: false, placeholder: 'Hometown', html5: true %>
-          <%= f.input :location, label: false, placeholder: 'Current Location', html5: true %>
-          <%= f.input :link, label: false, placeholder: 'Facebook Link', html5: true %>
-          </div>
-          <div class="form-actions">
-            <%= f.button :submit %>
-          </div>
-        <% end %>
+
+<%= simple_form_for(@user_edit) do |f| %>
+  <%= f.object.errors.full_messages.join(", ") if f.object.errors.any? %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+  <div class="form-signin">
+    <div class="form-group string optional user_name form-group-valid"> <%= @user_edit.name %></div>
+    <div class="form-group string optional user_email form-group-valid"> <%= @user_edit.email %></div>
+    <%= f.input :gender, label: false, as: :select, collection: [ "male", "female", "other" ], selected: :gender, html5: true, class: 'form-control' %>
+    <%= f.input :birthday, label: false, as: :date, input_html: { class: "datepicker"}, html5: true %>
+    <%= f.input :location, label: false, placeholder: 'Current Location', html5: true, input_html: { data: { behavior: "autocomplete_location" } } %>
+    <%= f.input :hometown, label: false, placeholder: 'Hometown', html5: true, input_html: { data: { behavior: "autocomplete_location" } } %>
+    <%= f.input :education_name, label: false, placeholder: 'Education', html5: true, input_html: { data: { behavior: "autocomplete_education" } } %>
+    <%= f.input :link, label: false, placeholder: 'Facebook Link', html5: true %>
+  </div>
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

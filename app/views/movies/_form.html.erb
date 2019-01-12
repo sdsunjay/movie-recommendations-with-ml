@@ -1,4 +1,5 @@
 <%= simple_form_for(@movie) do |f| %>
+<%= f.object.errors.full_messages.join(", ") if f.object.errors.any? %>
 <%= f.error_notification %>
 <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
 
