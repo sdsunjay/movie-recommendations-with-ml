@@ -31,7 +31,7 @@ RUN echo 'gem: --no-ri --no-rdoc' > ~/.gemrc
 # Adding gems
 COPY Gemfile Gemfile
 COPY Gemfile.lock Gemfile.lock
-COPY db/seeds db/seeds
+COPY db/ db/
 COPY lib/docker-entrypoint.sh lib/docker-entrypoint.sh
 RUN gem install bundler && bundle install -j "$(getconf _NPROCESSORS_ONLN)" --retry 5 --without development test
 
@@ -46,6 +46,7 @@ ENV RACK_ENV production
 ENV WEB_CONCURRENCY 4
 ENV MAX_THREADS 2
 ENV PORT 3000
+ENV PATTERN 20190111215903
 # development/production differs in bundle install
 #RUN if [[ "$RAILS_ENV" == "production" ]]; then\
 # RUN bundle install --jobs 20 --retry 5 --without development test
