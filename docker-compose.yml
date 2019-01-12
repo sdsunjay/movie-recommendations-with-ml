@@ -33,7 +33,6 @@ services:
     depends_on:
       - 'db'
       - 'sidekiq'
-      - 'web'
     links:
       - 'db:db'
         #volumes:
@@ -47,6 +46,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-nginx
+    depends_on:
+      - 'app'
     ports:
       - '80:80'
       - '443:443'
