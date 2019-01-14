@@ -1,8 +1,8 @@
 class ReviewsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_movie, only: %i[create new show edit update destroy]
-  before_action :set_review, only: %i[show edit update destroy]
-  before_action :set_user, only: %i[create show edit update destroy]
+  before_action :set_user, only: %i[create edit update destroy]
+  before_action :set_review, only: %i[edit update destroy]
   before_action :require_admin, only: [:index]
 
   # GET /reviews
@@ -83,7 +83,7 @@ class ReviewsController < ApplicationController
   private
 
   def set_review
-    @review ||= Review.where(id: params[:id], user_id: @user.id)
+    @review ||= Review.find(params[:id])
   end
 
   def set_movie
