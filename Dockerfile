@@ -31,7 +31,7 @@ RUN echo 'gem: --no-ri --no-rdoc' > ~/.gemrc
 # Adding gems
 COPY Gemfile Gemfile
 COPY Gemfile.lock Gemfile.lock
-COPY db/seeds db/seeds
+COPY db/ db/
 COPY lib/docker-entrypoint.sh lib/docker-entrypoint.sh
 RUN gem install bundler && bundle install -j "$(getconf _NPROCESSORS_ONLN)" --retry 5 --without development test
 
