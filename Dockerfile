@@ -46,6 +46,7 @@ ENV RACK_ENV production
 ENV WEB_CONCURRENCY 4
 ENV MAX_THREADS 2
 ENV PORT 3000
+ENV PATTERN 20190111215903
 # development/production differs in bundle install
 #RUN if [[ "$RAILS_ENV" == "production" ]]; then\
 # RUN bundle install --jobs 20 --retry 5 --without development test
@@ -62,7 +63,6 @@ COPY . .
 RUN bundle exec rake assets:precompile
 # This scripts runs `rake db:create` and `rake db:migrate` before
 # running the command given
-ENTRYPOINT ["lib/support/docker-entrypoint.sh"]
 EXPOSE 3000
 ENTRYPOINT ["lib/docker-entrypoint.sh"]
 CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
