@@ -35,7 +35,8 @@ services:
       - 'sidekiq'
     links:
       - 'db:db'
-        #volumes:
+    volumes:
+      - 'app-gems:/usr/local/bundle'
       # Mounts the app code (".") into the container's "/usr/src/app" folder:
       #- .:/usr/src/app
       # Mounts a persistable volume in the installed gems folder, so we can add
