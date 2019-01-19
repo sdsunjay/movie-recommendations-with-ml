@@ -83,6 +83,9 @@ Disallow: /
 User-agent: BackRub
 Disallow: /
 
+User-agent: BacklinkCrawler
+Disallow: /
+
 User-agent: Baiduspider
 Disallow: /
 
@@ -287,7 +290,7 @@ Disallow: /
 User-agent: FunnelWeb
 Disallow: /
 
-User-agent: gammaSpider, FocusedCrawler
+User-agent: gammaSpider
 Disallow: /
 
 User-agent: gazz
@@ -764,6 +767,12 @@ Disallow: /
 User-agent: SearchProcess
 Disallow: /
 
+User-agent: SearchmetricsBot
+Disallow: /
+
+User-agent: Seekbot
+Disallow: /
+
 User-agent: Senrigan
 Disallow: /
 
@@ -780,6 +789,9 @@ User-agent: Shai'Hulud
 Disallow: /
 
 User-agent: Sift
+Disallow: /
+
+User-agent: Sistrix
 Disallow: /
 
 User-agent: Simmany Robot Ver1.0
@@ -1064,7 +1076,7 @@ Disallow: /
 User-agent: WhoWhere Robot
 Disallow: /
 
-User-agent: Wild Ferret Web Hopper #1, #2, #3
+User-agent: Wild Ferret Web Hopper
 Disallow: /
 
 User-agent: Wired Digital
@@ -1089,6 +1101,9 @@ User-agent: XGET
 Disallow: /
 
 User-agent: XoviBot
+Disallow: /
+
+User-agent: Xovi
 Disallow: /
 
 User-agent: XYLEME Robot
