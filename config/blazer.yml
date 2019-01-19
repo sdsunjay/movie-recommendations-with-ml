@@ -6,7 +6,7 @@ data_sources:
 
     # statement timeout, in seconds
     # none by default
-    # timeout: 15
+    timeout: 15
 
     # caching settings
     # can greatly improve speed
@@ -16,6 +16,10 @@ data_sources:
     #   expires_in: 60 # min
     #   slow_threshold: 15 # sec, only used in slow mode
 
+    cache:
+      mode: slow
+      expires_in: 60 # min
+      slow_threshold: 15 # sec
     # wrap queries in a transaction for safety
     # not necessary if you use a read-only user
     # true by default
@@ -39,19 +43,25 @@ audit: true
 # time_zone: "Pacific Time (US & Canada)"
 
 # class name of the user model
-# user_class: User
+user_class: User
+
+# class name of the movie model
+movie_class: Movie
+
+# class name of the review model
+review_class: Review
 
 # method name for the current user
-# user_method: current_user
+user_method: current_user
 
 # method name for the display name
-# user_name: name
+user_name: name
 
 # custom before_action to use for auth
-# before_action_method: require_admin
+before_action_method: require_admin
 
 # email to send checks from
-# from_email: blazer@example.org
+from_email: support@movierecommendationswithml.com
 
 check_schedules:
   - "1 day"
