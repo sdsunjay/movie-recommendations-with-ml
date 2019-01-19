@@ -156,8 +156,10 @@ COPY public public/
 # Copy Nginx config template
 COPY ./docker/web/nginx.conf /etc/nginx/nginx.conf
 COPY ./docker/web/conf.d/nginx_server.conf /etc/nginx/conf.d/default.conf
-COPY ./docker/web/conf.d/* /etc/nginx/conf.d/.
-COPY ./docker/web/bots.d /etc/nginx/.
+COPY ./docker/web/conf.d/botblocker-nginx-settings.conf  /etc/nginx/conf.d/botblocker-nginx-settings.conf
+COPY ./docker/web/conf.d/drop.lasso.conf  /etc/nginx/conf.d/drop.lasso.conf
+COPY ./docker/web/conf.d/globalblacklist.conf  /etc/nginx/conf.d/globalblacklist.conf
+ADD ./docker/web/bots.d /etc/nginx/bots.d
 # certs
 COPY ./docker/web/privkey.pem /etc/nginx/privkey.pem
 COPY ./docker/web/fullchain.pem /etc/nginx/fullchain.pem
