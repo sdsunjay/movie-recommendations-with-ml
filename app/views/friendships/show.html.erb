@@ -10,6 +10,7 @@
 
             <div class="popular-post-widget">
               <div class="single-item">
+		          <% cache @friendship do %>
                 <div class="col-sm-4">
                   <% if @friendship.friendship.image? %>
                     <%= image_tag @friendship.friendship.image, style: 'width: 100%' %>
@@ -17,6 +18,7 @@
                     <%= image_tag "default_avatar_280x280.jpg", style: 'width: 100%' %>
                   <% end %>
                 </div>
+              <% end %>
                 <h5>
                   <i class="fa fa-star" style="color: #00d999;"></i>
                   (<%= @avg_review %>
@@ -33,13 +35,13 @@
                 </h5>
                 <h5>
                   <i class="fa fa-thumbs-o-up" style="color: blue"></i>
-                  (<%= link_to liked_path(user_id: @friendship.friendship.id) do %>
+                  (<%= link_to user_liked_path(user_id: @friendship.friendship.id), method: :post do %>
                   <%= @number_of_liked_movies %> Movies Liked
                 <% end %>)
                 </h5>
                 <h5>
                   <i class="fa fa-thumbs-o-down" style="color: blue"></i>
-                  (<%= link_to disliked_path(user_id: @friendship.friendship.id) do %>
+                  (<%= link_to user_disliked_path(user_id: @friendship.friendship.id), method: :post do %>
                   <%= @number_of_disliked_movies %> Movies Disliked
                 <% end %>)
                 </h5>
@@ -75,16 +77,20 @@
             </li>
           </ul>
           <div class="tab-content" id="myTabContent">
+
+            <!-- Beginning of Home -->
             <div class="tab-pane fade <%= 'show active' if params[:active_tab] == 'home-tab' %>" id="home" role="tabpanel" aria-labelledby="home-tab">
               <p>Welcome home!</p>
             </div>
-
-            <!-- Beginning of My reviews -->
+            <!-- End of Home -->
+            <!-- Beginning of My Reviews -->
             <div class="tab-pane fade <%= 'show active' if params[:active_tab] == 'reviews-tab' %>" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
               <% if @reviews.try(:any?) %>
                 <div class="row">
                   <div class="card-columns">
-                    <%= render 'partials/reviews', reviews: @reviews %>
+                    <% @reviews.each do |review| %>
+                      <%= render 'partials/movie', movie: review.movie, user_reviews: @user_reviews %>
+                    <% end %>
                   </div>
                 </div>
                 <div class="row">

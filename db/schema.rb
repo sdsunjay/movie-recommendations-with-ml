@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_22_213511) do
+ActiveRecord::Schema.define(version: 2019_01_19_115338) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -109,7 +109,6 @@ ActiveRecord::Schema.define(version: 2018_12_22_213511) do
   create_table "categorizations", force: :cascade do |t|
     t.bigint "movie_id", null: false
     t.bigint "genre_id", null: false
-    t.integer "position"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["genre_id"], name: "index_categorizations_on_genre_id"

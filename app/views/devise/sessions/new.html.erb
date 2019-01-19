@@ -9,9 +9,10 @@
                     <div class='row'>
                         <div class='col-sm-12'>
                             <div class='textcenter'>
-                              <%= link_to image_tag('facebooklogin.png', style: 'height: 50px;'), omniauth_authorize_path(:user, :facebook, intent: 'sign_in'), class: 'btn tng-lg btn-facebook btn-block text-uppercase', 'data-text': 'SIGN IN'%>
-
-                                <br/>
+                              <%= link_to omniauth_authorize_path(:user, :facebook, intent: 'sign_in'), class: 'btn btn-lg btn-facebook btn-block text-uppercase', 'data-button-type': 'login_with', 'data-size': 'large',  'data-text': 'Login with Facebook'  do %>
+                              <% fa_icon "facebook-f", text: "Login with Facebook", right: false %>
+                            <% end %>
+                            <br/>
                                 <p>We use Facebook to keep everyone real. We will never post on your behalf.</p>
                             </div>
                         </div>

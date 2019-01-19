@@ -225,6 +225,20 @@ class User < ApplicationRecord
     self.education = Education.find_or_create_by(name: name) if name.present?
   end
 
+  def check_user(user_id)
+    if not user_id
+      return self
+    end
+    if id == user_id
+      return self
+    else
+      if Friendship.where(user_id: id, friend_id: user_id).exists?
+        return User.find(user_id)
+      end
+    end
+    return self
+  end
+
   private
 
   def validate_age
@@ -243,5 +257,6 @@ class User < ApplicationRecord
   def maximum_date
     100.years.ago.to_date
   end
+
 
 end

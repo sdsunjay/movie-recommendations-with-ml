@@ -33,10 +33,10 @@ services:
     depends_on:
       - 'db'
       - 'sidekiq'
-      - 'web'
     links:
       - 'db:db'
-        #volumes:
+    volumes:
+      - 'app-gems:/usr/local/bundle'
       # Mounts the app code (".") into the container's "/usr/src/app" folder:
       #- .:/usr/src/app
       # Mounts a persistable volume in the installed gems folder, so we can add
@@ -47,6 +47,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile-nginx
+    depends_on:
+      - 'app'
     ports:
       - '80:80'
       - '443:443'

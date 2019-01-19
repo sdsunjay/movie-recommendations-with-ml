@@ -7,9 +7,7 @@
   <div class="row">
     <div class="card-columns">
       <% @likes.each do |review| %>
-        <% cache review.movie do %>
-          <%= render 'partials/movie', movie: review.movie, user_reviews: @likes %>
-        <% end %>
+        <%= render 'partials/movie', movie: review.movie, user_reviews: @user_reviews %>
       <% end %>
     </div>
   </div>

@@ -1,8 +1,8 @@
 class MoviesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_user, only: %i[index show edit update destroy liked disliked]
+  before_action :set_user, only: %i[index show edit update destroy]
   before_action :set_movie, only: %i[show edit update destroy]
-  before_action :set_user_reviews, only: %i[show index liked disliked]
+  before_action :set_user_reviews, only: %i[show index]
   before_action :require_admin, only: %i[create new edit update destroy]
 
   # GET /movies
@@ -71,20 +71,6 @@ class MoviesController < ApplicationController
       format.html { redirect_to movies_url, notice: 'Movie was successfully destroyed.' }
       format.json { head :no_content }
     end
-  end
-
-  def liked
-    @per_page = params[:per_page] || 30
-    @page_title = 'Liked Movies'
-    @movie_user = User.find(params[:user_id])
-    @pagy_likes, @likes = pagy(Review.where(user_id: @movie_user.id, rating: 5).order(created_at: :desc), page_param: :page_liked)
-  end
-
-  def disliked
-    @per_page = params[:per_page] || 30
-    @page_title = 'Disliked Movies'
-    @movie_user = User.find(params[:user_id])
-    @pagy_dislikes, @dislikes = pagy(Review.where(user_id: @movie_user.id, rating: 1).order(created_at: :desc), page_param: :page_disliked)
   end
 
   private

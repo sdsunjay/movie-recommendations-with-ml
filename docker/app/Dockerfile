@@ -21,7 +21,7 @@ RUN apk update && apk add --update --no-cache --virtual build-dependency build-b
 
 # Set an environment variable where the Rails app is installed to inside of Docker image
 ENV RAILS_ROOT /var/www/movierecommendationswithml
-ENV pattern 20181119181841
+ENV pattern 20190111215903
 # make a new directory where our project will be copied
 RUN mkdir -p $RAILS_ROOT
 # Set working directory within container
@@ -32,8 +32,7 @@ COPY Gemfile Gemfile
 COPY Gemfile.lock Gemfile.lock
 # if you are downloading this repo and are NOT Sunjay
 # You must comment out the line below as this directory doesn't exist in the repo
-COPY db/seeds db/seeds
-COPY db/backups db/backups
+COPY db/ db/
 
 # RUN apk add --virtual build-deps build-base openssl-dev postgresql-dev libc-dev linux-headers libxml2-dev libxslt-dev readline-dev
 # RUN gem install bundler && bundle install --jobs 20 --retry 5
