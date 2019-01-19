@@ -1,5 +1,10 @@
-.git
+.git*
 .dockerignore
 .byebug_history
+db/*.sqlite3
+db/*.sqlite3-journal
 log/*
 tmp/*
+Dockerfile
+README.md
+review.md
