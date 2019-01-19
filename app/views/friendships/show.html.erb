@@ -10,6 +10,7 @@
 
             <div class="popular-post-widget">
               <div class="single-item">
+		          <% cache @friendship do %>
                 <div class="col-sm-4">
                   <% if @friendship.friendship.image? %>
                     <%= image_tag @friendship.friendship.image, style: 'width: 100%' %>
@@ -17,6 +18,7 @@
                     <%= image_tag "default_avatar_280x280.jpg", style: 'width: 100%' %>
                   <% end %>
                 </div>
+              <% end %>
                 <h5>
                   <i class="fa fa-star" style="color: #00d999;"></i>
                   (<%= @avg_review %>
