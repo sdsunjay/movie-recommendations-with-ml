@@ -28,7 +28,8 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
        if @user.persisted?
          ahoy.track 'New user sign up', name: @user.name
          begin
-           AddMoviesToUserWorker.perform_async(@user.id)
+           # Removed due to Facebook user_likes permission being removed
+           # AddMoviesToUserWorker.perform_async(@user.id)
            AddFriendsToUserWorker.perform_async(@user.id)
          rescue # StandardError
            logger.debug "Error: Unable to connect to Redis"
