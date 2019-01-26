@@ -160,6 +160,7 @@ COPY ./docker/web/conf.d/botblocker-nginx-settings.conf  /etc/nginx/conf.d/botbl
 COPY ./docker/web/conf.d/drop.lasso.conf  /etc/nginx/conf.d/drop.lasso.conf
 COPY ./docker/web/conf.d/globalblacklist.conf  /etc/nginx/conf.d/globalblacklist.conf
 COPY ./docker/web/user_agent.conf  /etc/nginx/user_agent.conf
+COPY ./docker/web/location.conf  /etc/nginx/location.conf
 ADD ./docker/web/bots.d /etc/nginx/bots.d
 # certs
 COPY ./docker/web/privkey.pem /etc/nginx/privkey.pem
