@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
-ruby '2.5.3'
+ruby '2.6.0'
 gem 'rack', '>= 2.0.6'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.0'
@@ -46,14 +46,14 @@ gem 'cocoon'
 gem 'devise', '>= 4.0.0', require: true
 gem 'omniauth-facebook', require: true
 gem 'pagy', '0.19.4'
-gem 'koala'
+gem 'koala', '~> 3.0.0'
 gem 'seed_dump'
 gem 'rubyzip', '~> 1.2.2'
 gem 'simple_form'
 gem 'country_select', require: 'country_select_without_sort_alphabetical'
 gem 'loofah', '>= 2.2.3'
 # background jobs
-gem 'sidekiq', '>= 5.2.2'
+gem 'sidekiq', '~> 5.2.5'
 # analytics
 gem 'ahoy_matey'
 gem 'blazer'

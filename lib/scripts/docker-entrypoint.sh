@@ -5,7 +5,9 @@ set -e
 if [ -f /app/tmp/pids/server.pid ]; then
   rm /app/tmp/pids/server.pid
 fi
+# bundle check || bundle install --binstubs="$BUNDLE_BIN"
 
+# bundle exec rake assets:precompile
 bundle exec rake db:create 2>/dev/null
 bundle exec rake db:migrate 2>/dev/null
 

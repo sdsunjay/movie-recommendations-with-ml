@@ -4,7 +4,7 @@ class CitiesController < ApplicationController
   before_action :set_user
   before_action :require_admin, except: [:show, :search, :autocomplete]
   before_action :force_json, only: :autocomplete
-  # caches_action :index
+  caches_action :index, :show
 
   # GET /cities
   # GET /cities.json
@@ -34,7 +34,7 @@ class CitiesController < ApplicationController
   # GET /cities/1/edit
   def edit
     @states = State.all
-    @page_title = 'New City'
+    @page_title = 'Edit City'
   end
 
   # POST /cities

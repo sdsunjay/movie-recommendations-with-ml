@@ -123,6 +123,8 @@ class User < ApplicationRecord
     movie_names = @movies['movies']['data'].collect { |f| f['name'] }
     # puts movie_names
     logger.debug 'movie_names are present: #{movie_names}'
+    # TODO - this does not work when a title appears in db more than once
+    # Both are added to the user's liked movies, like in the case of aaron and 'Superbad'
     user_movies = Movie.where(title: movie_names)
     # puts user_movies
     user_movies.each do |user_movie|
