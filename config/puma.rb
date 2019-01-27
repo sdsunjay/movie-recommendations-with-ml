@@ -61,9 +61,10 @@ before_fork do
   unless  Rails.env.development? ||  Rails.env.test?
     PumaWorkerKiller.config do |config|
       config.ram           = 1024 # mb
-      config.frequency     = 5    # seconds
+      config.frequency     = 60    # seconds
       config.percent_usage = 0.98
-      config.rolling_restart_frequency = 12 * 3600 # 12 hours in seconds, or 12.hours if using Rails
+      config.rolling_restart_frequency = 24.hours # 24 hours in seconds, or 24.hours if using Rails
+      config.reaper_status_logs = false
     end
     PumaWorkerKiller.start
   end
