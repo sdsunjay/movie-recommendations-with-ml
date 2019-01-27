@@ -13,7 +13,19 @@ Disallow:
 User-agent: BingBot
 Disallow:
 
+User-agent: Googlebot-Image
+Disallow:
+
+User-agent: Googlebot-Mobile
+Disallow:
+
 # You guys are not cool with me.
+User-agent: Googlebot-News
+Disallow: /
+
+User-agent: Googlebot-Video
+Disallow: /
+
 User-agent: *
 Disallow: /
 
@@ -90,6 +102,9 @@ User-agent: Baiduspider
 Disallow: /
 
 User-agent: Baiduspider-image
+Disallow: /
+
+User-agent: Baiduspider-news
 Disallow: /
 
 User-agent: Baiduspider-video
@@ -536,7 +551,10 @@ Disallow: /
 User-agent: Motor
 Disallow: /
 
-User-agent: MSNBot
+User-agent: MsnBot
+Disallow: /
+
+User-agent: Msnbot-media
 Disallow: /
 
 User-agent: Muncher
@@ -1122,6 +1140,15 @@ User-agent: YoudaoBot
 Disallow: /
 
 User-agent: ZBot
+Disallow: /
+
+User-agent: adidxbot
+Disallow: /
+
+User-agent: Mediapartners-Google
+Disallow: /
+
+User-agent: AdsBot-Google
 Disallow: /
 # Now for everyone else I don't care about.
 
