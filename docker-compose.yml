@@ -4,7 +4,7 @@ services:
   db:
     build:
       context: .
-      dockerfile: Dockerfile-postgres
+      dockerfile: ./docker/db/Dockerfile
     volumes:
       - 'postgres-data:/var/lib/postgresql/data'
       - '/home/deploy/pgdata/etc:/etc/postgresql'
@@ -17,10 +17,13 @@ services:
       - 'redis:/data'
 
   sidekiq:
-    build: .
+    build:
+      context: .
+      dockerfile: ./docker/app/Dockerfile-sidekiq
     command: bundle exec sidekiq -C config/sidekiq.yml
     volumes:
-      - '.:/app'
+      - '.:/movierecommendationswithml'
+        #- 'app-gems:/usr/local/bundle'
     links:
       - 'db'
       - 'redis'
@@ -29,24 +32,20 @@ services:
   app:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: ./docker/app/Dockerfile
+    volumes:
+      - '.:/movierecommendationswithml'
+        #- 'app-gems:/usr/local/bundle'
     depends_on:
       - 'db'
       - 'sidekiq'
     links:
       - 'db:db'
-    volumes:
-      - 'app-gems:/usr/local/bundle'
-      # Mounts the app code (".") into the container's "/usr/src/app" folder:
-      #- .:/usr/src/app
-      # Mounts a persistable volume in the installed gems folder, so we can add
-      # gems to the app without having to build the development image again:
-      # - app-gems:/usr/local/bundle
 
   web:
     build:
       context: .
-      dockerfile: Dockerfile-nginx
+      dockerfile: ./docker/web/Dockerfile
     depends_on:
       - 'app'
     ports:
@@ -56,6 +55,4 @@ services:
 volumes:
   redis:
   postgres-data:
-    driver: local
-  app-gems:
     driver: local
