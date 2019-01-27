@@ -21,18 +21,19 @@ RUN apk update && apk add --update --no-cache --virtual build-dependency build-b
 
 # Set an environment variable where the Rails app is installed to inside of Docker image
 ENV RAILS_ROOT /var/www/movierecommendationswithml
-ENV pattern 20190111215903
 # make a new directory where our project will be copied
 RUN mkdir -p $RAILS_ROOT
 # Set working directory within container
 WORKDIR $RAILS_ROOT
 
+# Do not install gem documentation
+RUN echo 'gem: --no-ri --no-rdoc' > ~/.gemrc
 # Adding gems
 COPY Gemfile Gemfile
 COPY Gemfile.lock Gemfile.lock
-# if you are downloading this repo and are NOT Sunjay
-# You must comment out the line below as this directory doesn't exist in the repo
 COPY db/ db/
+COPY lib/docker-entrypoint.sh lib/docker-entrypoint.sh
+RUN gem install bundler && bundle install -j "$(getconf _NPROCESSORS_ONLN)" --retry 5 --without development test
 
 # RUN apk add --virtual build-deps build-base openssl-dev postgresql-dev libc-dev linux-headers libxml2-dev libxslt-dev readline-dev
 # RUN gem install bundler && bundle install --jobs 20 --retry 5
@@ -42,8 +43,10 @@ COPY db/ db/
 ENV RAILS_ENV production
 ENV RAKE_ENV production
 ENV RACK_ENV production
-
-RUN bundle install --jobs 20 --retry 5 --without development test
+ENV WEB_CONCURRENCY 4
+ENV MAX_THREADS 2
+ENV PORT 3000
+ENV PATTERN 20190111215903
 # development/production differs in bundle install
 #RUN if [[ "$RAILS_ENV" == "production" ]]; then\
 # RUN bundle install --jobs 20 --retry 5 --without development test
@@ -52,11 +55,14 @@ RUN bundle install --jobs 20 --retry 5 --without development test
 
 # Remove build dependencies and install runtime dependencies
 RUN apk del build-dependency
-RUN apk add --update mariadb-client-libs postgresql-client postgresql-libs sqlite-libs nodejs tzdata
+RUN apk add --update mariadb-client postgresql-client postgresql-libs sqlite-libs nodejs tzdata
 
 
 # Adding project files
 COPY . .
 RUN bundle exec rake assets:precompile
+# This scripts runs `rake db:create` and `rake db:migrate` before
+# running the command given
 EXPOSE 3000
+ENTRYPOINT ["lib/docker-entrypoint.sh"]
 CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
