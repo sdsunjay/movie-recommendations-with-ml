@@ -63,10 +63,11 @@ class User < ApplicationRecord
     user.gender = auth.extra.raw_info.gender # assuming the user has a gender
     user.access_level = 0
     user.link = auth.extra.raw_info.link
-    unless auth.extra.raw_info.birthday.nil?
+    # TODO - Add back this permission once it is approved by Facebook
+    # unless auth.extra.raw_info.birthday.nil?
       # the user has a birthday
-      user.birthday = Date.strptime(auth.extra.raw_info.birthday,'%m/%d/%Y')
-    end
+      # user.birthday = Date.strptime(auth.extra.raw_info.birthday,'%m/%d/%Y')
+    # end
     unless auth.extra.raw_info.location.nil?
       # the user has a location
       user.location = auth.extra.raw_info.location['name']
