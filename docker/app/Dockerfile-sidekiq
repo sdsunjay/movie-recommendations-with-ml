@@ -53,9 +53,9 @@ COPY . .
 # This sets up a volume so that nginx can read in the assets from
 # the Rails Docker image without having to copy them to the Docker host.
 VOLUME ["$RAILS_ROOT/public"]
-RUN bundle exec rake assets:precompile
+# RUN bundle exec rake assets:precompile
 # This scripts runs `rake db:create` and `rake db:migrate` before
 # running the command given
 EXPOSE 3000
-ENTRYPOINT ["lib/scripts/docker-entrypoint.sh"]
+# ENTRYPOINT ["lib/scripts/docker-entrypoint.sh"]
 CMD ["bundle", "exec", "sidekiq", "-C", "config/sidekiq.yml"]
