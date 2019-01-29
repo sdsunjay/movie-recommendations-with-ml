@@ -4,12 +4,12 @@ class EducationsController < ApplicationController
   before_action :set_user
   before_action :require_admin, except: [:show, :search, :autocomplete]
   before_action :force_json, only: :autocomplete
+  before_action :set_per_page, only: %i[index]
 
   # GET /educations
   # GET /educations.json
   def index
     @page_title = 'Educations'
-    @per_page = params[:per_page] || 30
     @pagy, @educations = pagy(Education.all.order(created_at: :desc), items: @per_page)
     @number_of_educations = Education.all.count
   end

@@ -60,6 +60,13 @@ class ApplicationController < ActionController::Base
     return @user_reviews if defined? @user_reviews
     @user_reviews = @user.reviews
   end
+  
+  def set_per_page
+    @per_page = params[:per_page] || 120
+    if @per_page.to_i > 150
+      @per_page = 120
+    end
+  end
 
   private
 

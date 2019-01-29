@@ -4,6 +4,7 @@ class GenresController < ApplicationController
   before_action :set_user
   before_action :set_user_reviews, only: [:show]
   before_action :require_admin, only: [:index, :new, :create, :edit, :destroy, :update]
+  before_action :set_per_page, only: %i[show]
   caches_action :index
 
   # GET /genres
@@ -16,7 +17,6 @@ class GenresController < ApplicationController
   # GET /genres/1
   # GET /genres/1.json
   def show
-    @per_page = params[:per_page] || 30
     @page_title = @genre.name
     @pagy, @movies = pagy(@genre.movies.all, items: @per_page)
   end

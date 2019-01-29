@@ -4,13 +4,13 @@ class CitiesController < ApplicationController
   before_action :set_user
   before_action :require_admin, except: [:show, :search, :autocomplete]
   before_action :force_json, only: :autocomplete
+  before_action :set_per_page, only: %i[index]
   caches_action :index, :show
 
   # GET /cities
   # GET /cities.json
   def index
     @page_title = 'Cities'
-    @per_page = params[:per_page] || 30
     @pagy, @cities = pagy(City.includes(:state).all, items: @per_page)
     @number_of_cities = City.all.count
   end

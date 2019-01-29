@@ -4,6 +4,7 @@ class UsersController < ApplicationController
   before_action :set_user, only: %i[show edit update liked disliked]
   before_action :require_admin, only: %i[destroy index]
   before_action :set_user_reviews, only: %i[liked disliked]
+  before_action :set_per_page, only: %i[liked disliked]
   caches_action :index
 
   # GET /users
@@ -95,7 +96,6 @@ class UsersController < ApplicationController
   end
 
   def liked
-    @per_page = params[:per_page] || 30
     @page_title = 'Liked Movies'
     @movie_user = @user.check_user(params[:user_id])
     # params.except[:user_id]
@@ -104,7 +104,6 @@ class UsersController < ApplicationController
   end
 
   def disliked
-    @per_page = params[:per_page] || 30
     @page_title = 'Disliked Movies'
     @movie_user = @user.check_user(params[:user_id])
     # params.except[:user_id]

@@ -4,11 +4,11 @@ class MoviesController < ApplicationController
   before_action :set_movie, only: %i[show edit update destroy]
   before_action :set_user_reviews, only: %i[show index]
   before_action :require_admin, only: %i[create new edit update destroy]
+  before_action :set_per_page, only: %i[index]
 
   # GET /movies
   # GET /movies.json
   def index
-    @per_page = params[:per_page] || 30
     @page_title = 'Movies'
     @pagy, @movies = pagy(Movie.all, items: @per_page)
   end
