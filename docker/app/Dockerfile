@@ -34,10 +34,11 @@ ENV RACK_ENV production
 ENV WEB_CONCURRENCY 4
 ENV MAX_THREADS 2
 ENV PORT 3000
-ENV PATTERN 20190111215903
+ENV BUNDLE_PATH /bundle_cache
+# ENV PATTERN 20190111215903
 
 RUN gem install bundler
-RUN bundle install --binstubs
+RUN bundle install --binstubs --path /bundle_cache --without development test --jobs=4
 # bundle install -j "$(getconf _NPROCESSORS_ONLN)" --retry 5 --without development test
 
 # Remove build dependencies and install runtime dependencies
