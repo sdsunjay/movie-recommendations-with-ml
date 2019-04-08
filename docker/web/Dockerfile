@@ -212,7 +212,7 @@ ADD ./docker/web/bots.d /etc/nginx/bots.d
 # certs
 COPY ./docker/web/privkey.pem /etc/nginx/privkey.pem
 COPY ./docker/web/fullchain.pem /etc/nginx/fullchain.pem
-
+VOLUME /var/log/nginx/log
 # substitute variable references in the Nginx config template for real values from the environment
 # put the final config in its place
 RUN envsubst '$RAILS_ROOT' < /etc/nginx/conf.d/default.conf
