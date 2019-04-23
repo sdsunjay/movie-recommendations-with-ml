@@ -1,0 +1,3 @@
+<h1><%= @list.name %></h1>
+<h2><%= @list.description %></h2>
+<%= render 'partials/movies', movies: @list.movies, user_reviews: @user_reviews, pagy: @pagy %>

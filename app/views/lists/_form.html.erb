@@ -1,0 +1,14 @@
+
+<%= simple_form_for(@list) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <div class="form-inputs">
+    <%= f.input :name, label: false, placeholder: 'List Title', error: 'Title is mandatory, please specify one'  %>
+    <%= f.input :description, label: false, placeholder: 'List Description' %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>
