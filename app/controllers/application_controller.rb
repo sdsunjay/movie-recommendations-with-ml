@@ -33,7 +33,7 @@ class ApplicationController < ActionController::Base
     new_user_session_path
   end
 
-  def authenticate
+  def authenticate_user!
     redirect_to new_user_session_path unless user_signed_in?
   end
 
@@ -58,13 +58,25 @@ class ApplicationController < ActionController::Base
 
   def set_user_reviews
     return @user_reviews if defined? @user_reviews
-    @user_reviews = @user.reviews
+    if user_signed_in?
+      @user_reviews = @user.reviews
+    else
+      redirect_to new_user_session_path unless user_signed_in?
+    end
   end
-  
+
   def set_per_page
     @per_page = params[:per_page] || 120
     if @per_page.to_i > 150
       @per_page = 120
+    end
+  end
+
+  def set_lists
+    if user_signed_in?
+      @lists = current_user.lists
+    else
+      @lists = nil
     end
   end
 
