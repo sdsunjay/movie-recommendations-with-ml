@@ -41,7 +41,7 @@ class UsersController < ApplicationController
     if @recommendations.blank?
       @number_of_recommendations = 0
     else
-      @number_of_recommendations = @recommendations.count
+      @number_of_recommendations = @user.movie_user_recommendations.count
     end
   end
 
@@ -115,7 +115,7 @@ class UsersController < ApplicationController
 
   def user_params
     # extend with your own params
-    accessible = %i[name email gender hometown location education_name birthday link]
+    accessible = %i[name email gender hometown location education_name education_level birthday link]
     params.require(:user).permit(accessible)
   end
 end
