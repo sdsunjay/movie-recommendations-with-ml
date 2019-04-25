@@ -58,6 +58,7 @@ class ApplicationController < ActionController::Base
 
   def set_user_reviews
     return @user_reviews if defined? @user_reviews
+
     if user_signed_in?
       @user_reviews = @user.reviews
     else
@@ -67,17 +68,11 @@ class ApplicationController < ActionController::Base
 
   def set_per_page
     @per_page = params[:per_page] || 120
-    if @per_page.to_i > 150
-      @per_page = 120
-    end
+    @per_page = 120 if @per_page.to_i > 150
   end
 
   def set_lists
-    if user_signed_in?
-      @lists = current_user.lists
-    else
-      @lists = nil
-    end
+    @lists = (current_user.lists if user_signed_in?)
   end
 
   private
