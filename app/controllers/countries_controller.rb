@@ -1,8 +1,9 @@
 class CountriesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_country, only: [:show, :edit, :update, :destroy]
-  before_action :set_user
-  before_action :require_admin, except: [:show]
+  before_action :set_country, only: %i[show edit update destroy]
+  before_action :set_user, only: %i[index show edit update destroy]
+  before_action :set_lists
+  before_action :require_admin, except: %i[show]
   caches_action :index
 
   # GET /countries
@@ -72,6 +73,7 @@ class CountriesController < ApplicationController
   end
 
   private
+
     # Use callbacks to share common setup or constraints between actions.
     def set_country
       @country = Country.find(params[:id])

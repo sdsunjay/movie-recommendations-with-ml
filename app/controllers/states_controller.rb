@@ -1,8 +1,8 @@
 class StatesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_state, only: [:show, :edit, :update, :destroy]
-  before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :set_state, only: %i[show edit update destroy]
   before_action :set_user
+  before_action :set_lists
   before_action :require_admin, except: [:show]
   caches_action :index, :show
 
