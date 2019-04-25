@@ -13,13 +13,21 @@ class User < ApplicationRecord
   has_many :movie_user_recommendations, -> { order(created_at: :desc) }
   has_many :movies, through: :movie_user_recommendations, dependent: :destroy
   has_many :reviews, -> { order(created_at: :desc) }, dependent: :destroy
+  has_many :lists, -> { order(created_at: :desc) }, dependent: :destroy
   has_many :visits, class_name: 'Ahoy::Visit'
   belongs_to :education, optional: true
-
+  after_create :create_list
+  validates_presence_of :name
   validates_uniqueness_of :email
   validate :validate_age, if: proc { |u| u.birthday.present? }
 
-  enum access_level: %i[user admin super_admin]
+  ACCESS_LEVEL = %i[user admin super_admin]
+  enum access_level: ACCESS_LEVEL
+  enum education_level: %i[in_high_school high_school trade_school in_college undergrad_degree in_grad_school grad_degree]
+
+  def create_list
+    list = List.create(user_id: self.id, name: 'Watchlist', description: 'Movies you have not seen, but would like to watch.')
+  end
 
   def self.new_with_session(params, session)
     super.tap do |user|
@@ -240,6 +248,11 @@ class User < ApplicationRecord
       end
     end
     return self
+  end
+
+  # no more than 2 lists per user
+  def list_limit_exceeded?(max = 2)
+    self.lists.count >= max
   end
 
   private
