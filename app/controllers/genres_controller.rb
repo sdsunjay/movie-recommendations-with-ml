@@ -2,6 +2,7 @@ class GenresController < ApplicationController
   before_action :authenticate_user!
   before_action :set_genre, only: [:show, :edit, :update, :destroy]
   before_action :set_user
+  before_action :set_lists
   before_action :set_user_reviews, only: [:show]
   before_action :require_admin, only: [:index, :new, :create, :edit, :destroy, :update]
   before_action :set_per_page, only: %i[show]
