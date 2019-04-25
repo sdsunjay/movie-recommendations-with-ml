@@ -12,7 +12,7 @@ class Movie < ApplicationRecord
   has_many :movie_production_companies, -> { select(:created_at, :confidence) }, dependent: :delete_all
   has_many :companies, -> { select(:name, :id) }, through: :movie_production_companies
   has_many :movie_lists, dependent: :delete_all
-  has_many :lists, -> { select(:name, :id) }, through: :movie_lists
+  has_many :lists, -> { select(:name) }, through: :movie_lists
 
   validates :title, presence: true
   # validates :overview, presence: true
