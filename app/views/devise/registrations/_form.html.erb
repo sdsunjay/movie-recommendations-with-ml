@@ -1,0 +1,71 @@
+<!-- https://bootsnipp.com/snippets/z8699 -->
+<div class="card bg-light">
+<article class="card-body mx-auto" style="max-width: 600px;">
+	<h4 class="card-title mt-3 text-center">Create Account</h4>
+	<p class="text-center">Get started with your free account</p>
+	<p>
+                            <%= link_to omniauth_authorize_path(:user, :facebook, intent: 'sign_up'), class: 'btn  btn-facebook btn-block text-uppercase', 'data-button-type': 'login_with', 'data-size': 'large',  'data-text': 'Sign up with Facebook'  do %>
+                              <% fa_icon "facebook-f", text: "Sign up with Facebook", right: false %>
+                            <% end %>
+	</p>
+  <label><input type="checkbox" name="terms" required name="terms"> I agree to the <%= link_to 'Terms of Use', terms_path %> and <%= link_to 'Privacy Policy', privacy_path %>.</label>
+	<p class="divider-text">
+        <span class="bg-light">OR</span>
+    </p>
+<%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+	<div class="form-group input-group">
+		<div class="input-group-prepend">
+		    <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+		 </div>
+    <%= f.input :name,
+								label: false,
+								placeholder: 'Full Name',
+								autofocus: true,
+                input_html: { autocomplete: "name", required: true },
+                class: 'form-control' %>
+    </div> <!-- form-group// -->
+    <div class="form-group input-group">
+    	<div class="input-group-prepend">
+		    <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
+		 </div>
+    <%= f.input :email,
+								label: false,
+								placeholder: 'Email Address',
+                autofocus: false,
+                input_html: { autocomplete: "email", required: true },
+                class: 'form-control' %>
+    </div> <!-- form-group// -->
+    <div class="form-group input-group">
+    	<div class="input-group-prepend">
+		    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+		</div>
+    <%= f.input :password,
+                placeholder: 'Password',
+                label: false,
+                required: true,
+                hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
+                input_html: { autocomplete: "new-password", required: true },
+                class: 'form-control' %>
+    </div> <!-- form-group// -->
+    <div class="form-group input-group">
+    	<div class="input-group-prepend">
+		    <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+		</div>
+    <%= f.input :password_confirmation,
+                placeholder: 'Password Confirmation',
+                label: false,
+                input_html: { autocomplete: "new-password", required: true },
+                class: 'form-control' %>
+  </div> <!-- form-group// -->
+  <label>
+    <input type="checkbox" name="terms" required name="terms"> I agree to the <%= link_to 'Terms of Use', terms_path %> and <%= link_to 'Privacy Policy', privacy_path %>
+  </label>
+    <div class="form-group">
+        <%= f.button :submit, "Create Account", class: 'btn btn-primary btn-block' %>
+    </div> <!-- form-group// -->
+    <p class="text-center">Have an account? <%= link_to 'Log In', signin_path %></p>
+<% end %>
+</article>
+</div> <!-- card.// -->
