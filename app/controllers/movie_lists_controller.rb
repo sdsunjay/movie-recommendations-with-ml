@@ -4,7 +4,6 @@ class MovieListsController < ApplicationController
   before_action :set_movie, only: %i[create destroy]
   before_action :set_list, only: %i[create destroy]
   before_action :set_lists, only: %i[create destroy]
-  before_action :list_owner, only: %i[create destroy]
   before_action :set_movie_list, only: %i[destroy]
 
   # POST /reviews
@@ -56,26 +55,25 @@ class MovieListsController < ApplicationController
   end
 
   def set_list
-    unless (@list ||= List.find(params[:list_id]))
+    unless params[:list_id].present?
       flash[:alert] = 'Must specify list.'
       redirect_to root_path
     end
-  end
-
-  def list_owner
-    unless @list.owned_by?(@user.id)
+    @list ||= @user.lists.where(id: params[:list_id]).first if params[:list_id].present?
+    unless @list.present?
       flash[:alert] = 'List does not belong to you'
       respond_to do |format|
-        format.html { redirect_to movie_path(@movie) }
+        format.html { redirect_to user_path(@user) }
         format.js {}
-        format.json { render json: @movie.errors, status: :unprocessable_entity }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
   end
 
-  def review_params
-    params
-      .require(:movielist)
-      .permit(:list_id, :movie_id)
+  def movie_list_params
+    # extend with your own params
+    accessible = %i[list_id movie_id]
+    params.require(:movielist).permit(accessible)
   end
+
 end

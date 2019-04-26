@@ -3,7 +3,6 @@ class ListsController < ApplicationController
   before_action :set_user
   before_action :set_list, only: %i[show edit update destroy]
   before_action :set_lists, only: %i[show edit update destroy]
-  before_action :list_owner, only: %i[show edit update destroy]
   before_action :set_user_reviews, only: %i[show]
   before_action :require_admin, only: %i[index]
   before_action :set_per_page, only: %i[show]
@@ -86,11 +85,8 @@ class ListsController < ApplicationController
   private
   # Use callbacks to share common setup or constraints between actions.
   def set_list
-    @list ||= List.find(params[:id])
-  end
-
-  def list_owner
-    unless @list.owned_by?(@user.id)
+    @list ||= @user.lists.where(id: params[:id]).first
+    unless @list.present?
       flash[:alert] = 'List does not belong to you'
       respond_to do |format|
         format.html { redirect_to user_path(@user) }
