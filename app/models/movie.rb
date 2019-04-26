@@ -17,7 +17,7 @@ class Movie < ApplicationRecord
   validates :title, presence: true
   # validates :overview, presence: true
   # validates :poster_path, presence: true
-  # validates :release_date, presence: true
+  validates :release_date, presence: true
 
   accepts_nested_attributes_for :categorizations,
                                 reject_if: :all_blank, allow_destroy: true
