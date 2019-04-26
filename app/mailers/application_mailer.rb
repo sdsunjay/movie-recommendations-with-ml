@@ -1,4 +1,5 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: 'from@example.com'
+  default from: 'support@movierecommendationswithml.com'
+  default to: 'Movie Recommendations With ML <support@movierecommendationswithml.com>'
   layout 'mailer'
 end
