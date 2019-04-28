@@ -22,29 +22,31 @@ namespace :db do
   end
 
   namespace :dump do
-    desc 'Dumps a specific table to backups'
-    task table: :environment do
-      table_name = ENV['table']
-      
-      if table_name.present?
-        dump_fmt   = ensure_format(ENV['format'])
-        dump_sfx   = suffix_for_format(dump_fmt)
-        backup_dir = backup_directory(Rails.env, create: true)
-        full_path  = nil
-        cmd        = nil
+    desc 'Dumps movie and related tables to backups'
+    task tables: :environment do
+      # table_name = ENV['table']
+      table_names = ['categorizations', 'companies', 'genres', 'movie_production_companies', 'movies']
+      table_names.each do |table_name|
+        if table_name.present?
+          dump_fmt   = ensure_format(ENV['format'])
+          dump_sfx   = suffix_for_format(dump_fmt)
+          backup_dir = backup_directory(Rails.env, create: true)
+          full_path  = nil
+          cmd        = nil
 
-        with_config do |app, host, db, user|
-          full_path = "#{backup_dir}/#{Time.now.strftime('%Y%m%d%H%M%S')}_#{db}.#{table_name.parameterize.underscore}.#{dump_sfx}"
-          cmd       = "pg_dump -F #{dump_fmt} -v -O -o -U '#{user}' -h '#{host}' -d '#{db}' -t '#{table_name}' -f '#{full_path}'"
+          with_config do |app, host, db, user|
+            full_path = "#{backup_dir}/#{Time.now.strftime('%Y%m%d%H%M%S')}_#{db}.#{table_name.parameterize.underscore}.#{dump_sfx}"
+            cmd       = "pg_dump -F #{dump_fmt} -v -O -o -U '#{user}' -h '#{host}' -d '#{db}' -t '#{table_name}' -f '#{full_path}'"
+          end
+
+          puts cmd
+          system cmd
+          puts ''
+          puts "Dumped to file: #{full_path}"
+          puts ''
+        else
+          puts 'Please specify a table name'
         end
-
-        puts cmd
-        system cmd
-        puts ''
-        puts "Dumped to file: #{full_path}"
-        puts ''
-      else
-        puts 'Please specify a table name'
       end
     end
   end
@@ -67,7 +69,7 @@ namespace :db do
       with_config do |app, host, db, user|
         backup_dir = backup_directory
         files      = Dir.glob("#{backup_dir}/**/*#{pattern}*")
-        
+
         case files.size
         when 0
           puts "No backups found for the pattern '#{pattern}'"
@@ -146,7 +148,7 @@ namespace :db do
       puts "Creating #{backup_dir} .."
       FileUtils.mkdir_p(backup_dir)
     end
-    
+
     backup_dir
   end
 
