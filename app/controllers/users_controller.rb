@@ -5,7 +5,6 @@ class UsersController < ApplicationController
   before_action :require_admin, only: %i[destroy index]
   before_action :set_user_reviews, only: %i[liked disliked]
   before_action :set_per_page, only: %i[liked disliked]
-  caches_action :index
 
   # GET /users
   # GET /users.json
@@ -18,13 +17,14 @@ class UsersController < ApplicationController
   def show
     @page_title = @user.name
     # if @user == current_user || @user in current_user.friendships
-    @pagy_friends, @friends = pagy(Friendship.where(user_id: @user).order(created_at: :desc), page_params: :page_friends, params: { active_tab: 'friends-tab' } )
+    @pagy_friendships, @friendships = pagy(@user.friendships.order(created_at: :desc), page_param: :page_friends, params: { active_tab: 'friends-tab' } )
     @pagy_reviews, @reviews = pagy(@user.reviews.includes(:movie).order(created_at: :desc), page_param: :page_reviews, params: { active_tab: 'reviews-tab' })
-    @pagy_recommendations, @recommendations = pagy(@user.movie_user_recommendations.includes(:movie).order(created_at: :desc), page_params: :page_recommendations, params: { active_tab: 'recommendations-tab' })
-    @friends_count = if @friends.blank?
+    @pagy_recommendations, @recommendations = pagy(@user.movie_user_recommendations.includes(:movie).order(created_at: :desc), page_param: :page_recommendations, params: { active_tab: 'recommendations-tab' })
+    @pagy_lists, @lists = pagy(@user.lists.includes(:movies).order(created_at: :desc), page_param: :page_lists, params: { active_tab: 'lists-tab' })
+    @friendships_count = if @friends.blank?
                        0
                      else
-                       @friends.count
+                       @user.friends.count
                      end
     if @reviews.blank?
       @avg_review = 0
@@ -41,7 +41,7 @@ class UsersController < ApplicationController
     if @recommendations.blank?
       @number_of_recommendations = 0
     else
-      @number_of_recommendations = @recommendations.count
+      @number_of_recommendations = @user.movie_user_recommendations.count
     end
   end
 
@@ -115,7 +115,7 @@ class UsersController < ApplicationController
 
   def user_params
     # extend with your own params
-    accessible = %i[gender hometown location education_name birthday link]
+    accessible = %i[name email gender hometown location education_name education_level birthday link]
     params.require(:user).permit(accessible)
   end
 end

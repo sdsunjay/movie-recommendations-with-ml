@@ -11,11 +11,13 @@ class Movie < ApplicationRecord
 
   has_many :movie_production_companies, -> { select(:created_at, :confidence) }, dependent: :delete_all
   has_many :companies, -> { select(:name, :id) }, through: :movie_production_companies
+  has_many :movie_lists, dependent: :delete_all
+  has_many :lists, -> { select(:name) }, through: :movie_lists
 
   validates :title, presence: true
   # validates :overview, presence: true
   # validates :poster_path, presence: true
-  # validates :release_date, presence: true
+  validates :release_date, presence: true
 
   accepts_nested_attributes_for :categorizations,
                                 reject_if: :all_blank, allow_destroy: true

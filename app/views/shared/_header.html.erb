@@ -6,20 +6,21 @@
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-      <% if user_signed_in? %>
         <li class=" <%= params[:controller] == 'movies' ? 'nav-item active' : 'nav-item'%>"><%= link_to 'Home', movies_path, class: "nav-link" %></li>
+      <% if user_signed_in? %>
         <%= render 'shared/genres-dropdown' %>
+        <%= render 'shared/lists-dropdown' %>
         <li class=" <%= params[:controller] == 'users' ? 'nav-item active' : 'nav-item'%>"><%= link_to 'Account', user_path(current_user), class: "nav-link" %></li>
         <li class="nav-item"><%= link_to('Logout', destroy_user_session_path, class: "nav-link") %></li>
       <% else %>
         <li class="nav-item">
-          <a class="nav-link disabled" href="#">Home</a>
+          <a class="nav-link disabled" href="#">Genres</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled" href="#">Lists</a>
         </li>
         <li class="nav-item">
           <a class="nav-link disabled" href="#">Account</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled" href="#">Genres</a>
         </li>
         <li class="nav-item"><%= link_to "Sign Up", signup_path, class: "nav-link" %></li>
         <li class="nav-item"><%= link_to "Sign In", signin_path, class: "nav-link" %></li>

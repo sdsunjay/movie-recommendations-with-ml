@@ -1,9 +1,10 @@
 class GenresController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_genre, only: [:show, :edit, :update, :destroy]
+  before_action :set_genre, only: %i[show edit update destroy]
   before_action :set_user
+  before_action :set_lists
   before_action :set_user_reviews, only: [:show]
-  before_action :require_admin, only: [:index, :new, :create, :edit, :destroy, :update]
+  before_action :require_admin, only: %i[index edit destroy update]
   before_action :set_per_page, only: %i[show]
   caches_action :index
 
@@ -21,32 +22,10 @@ class GenresController < ApplicationController
     @pagy, @movies = pagy(@genre.movies.all, items: @per_page)
   end
 
-  # GET /genres/new
-  def new
-    @genre = Genre.new
-    @page_title = 'New Genre'
-  end
-
   # GET /genres/1/edit
   def edit
     @page_title = 'Edit Genre'
     @movies_the_genre_includes = @genre.movies.pluck(:id)
-  end
-
-  # POST /genres
-  # POST /genres.json
-  def create
-    @genre = Genre.new(genre_params)
-
-    respond_to do |format|
-      if @genre.save
-        format.html { redirect_to @genre, notice: 'Genre was successfully created.' }
-        format.json { render :show, status: :created, location: @genre }
-      else
-        format.html { render :new }
-        format.json { render json: @genre.errors, status: :unprocessable_entity }
-      end
-    end
   end
 
   # PATCH/PUT /genres/1

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_19_115338) do
+ActiveRecord::Schema.define(version: 2019_03_31_003754) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -186,6 +186,24 @@ ActiveRecord::Schema.define(version: 2019_01_19_115338) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "lists", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "description"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_lists_on_user_id"
+  end
+
+  create_table "movie_lists", force: :cascade do |t|
+    t.bigint "movie_id", null: false
+    t.bigint "list_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["list_id"], name: "index_movie_lists_on_list_id"
+    t.index ["movie_id"], name: "index_movie_lists_on_movie_id"
+  end
+
   create_table "movie_production_companies", force: :cascade do |t|
     t.bigint "movie_id", null: false
     t.bigint "company_id", null: false
@@ -273,6 +291,7 @@ ActiveRecord::Schema.define(version: 2019_01_19_115338) do
     t.datetime "token_expires_at"
     t.date "birthday"
     t.bigint "education_id"
+    t.integer "education_level", limit: 2
     t.index ["education_id"], name: "index_users_on_education_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["provider", "uid"], name: "index_users_on_provider_and_uid"
@@ -285,6 +304,9 @@ ActiveRecord::Schema.define(version: 2019_01_19_115338) do
   add_foreign_key "companies", "companies"
   add_foreign_key "friendships", "users"
   add_foreign_key "friendships", "users", column: "friend_id", on_delete: :cascade
+  add_foreign_key "lists", "users"
+  add_foreign_key "movie_lists", "lists"
+  add_foreign_key "movie_lists", "movies"
   add_foreign_key "movie_production_companies", "companies"
   add_foreign_key "movie_production_companies", "movies"
   add_foreign_key "movie_user_recommendations", "movies"

@@ -1,0 +1,16 @@
+<li class=" <%= params[:controller] == 'lists' ? 'nav-item active dropdown' : 'nav-item dropdown' %>">
+  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Lists
+  </a>
+  <% if @lists.try(:any?) %>
+    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+      <% @lists.each do |list| %>
+        <%= link_to list.name, list_path(list), class: "dropdown-item" %>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+    <%= link_to 'Create List', new_list_path, class: 'dropdown-item', 'data-size': 'large', 'data-text': 'Create List'%>
+    </div>
+  <% end %>
+</li>

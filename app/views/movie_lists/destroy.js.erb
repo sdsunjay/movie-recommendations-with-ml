@@ -1,0 +1,2 @@
+$("#flash").html('<%= j render "partials/alerts" %>');
+$("#movie_list_<%= @list.id %>").html("<%=j render "partials/add_to_list", movie: @movie, list: @list %>");

@@ -12,4 +12,5 @@ class MovieUserRecommendation < ApplicationRecord
                             greater_than_or_equal_to: 1,
                             less_than_or_equal_to: 5,
                             message: 'Rating can only be whole number between 1 and 5.'
+  validates :user_id, presence: true, uniqueness: { scope: :movie_id, message: :"This movie has already been recommended!" }
 end

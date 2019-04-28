@@ -2,6 +2,7 @@ class CitiesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_city, only: [:show, :edit, :update, :destroy]
   before_action :set_user
+  before_action :set_lists
   before_action :require_admin, except: [:show, :search, :autocomplete]
   before_action :force_json, only: :autocomplete
   before_action :set_per_page, only: %i[index]
@@ -106,6 +107,7 @@ class CitiesController < ApplicationController
   end
 
   private
+  
     # Use callbacks to share common setup or constraints between actions.
     def set_city
       @city ||= City.find(params[:id])

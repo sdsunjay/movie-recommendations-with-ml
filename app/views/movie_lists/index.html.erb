@@ -1,0 +1,23 @@
+<h1><%=@list.name %></h1>
+<% if @movies.any? %>
+<table class="table table-striped table-sm">
+  <thead>
+    <tr>
+      <th scope="col">Title</th>
+      <th scope="col">Delete </th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @movies.each do |movie| %>
+      <tr>
+        <th scope="row"><%= link_to movie.title, movie_path(movie) %></th>
+        <td><%= link_to 'Destroy', list_movie_list_path(@list, movie), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+  <%= pagy_nav_bootstrap(@pagy).html_safe %>
+  <% else %>
+    <p>There are no movies!</p>
+  <% end %>

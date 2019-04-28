@@ -1,8 +1,8 @@
 class ReviewsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_movie, only: %i[create new show edit update destroy]
-  before_action :set_user, only: %i[create edit update destroy]
-  before_action :set_review, only: %i[edit update destroy]
+  before_action :set_movie, only: %i[create new destroy]
+  before_action :set_user, only: %i[create destroy]
+  before_action :set_review, only: %i[destroy]
   before_action :require_admin, only: [:index]
 
   # GET /reviews
@@ -16,11 +16,6 @@ class ReviewsController < ApplicationController
   def new
     @page_title = 'Add Review'
     @review = Review.new
-  end
-
-  # GET /reviews/1/edit
-  def edit
-    @page_title = 'Edit Review'
   end
 
   # POST /reviews
@@ -41,21 +36,6 @@ class ReviewsController < ApplicationController
         format.html { redirect_to movie_path(@movie) }
         format.js { flash[:notice] = 'Review added' }
         format.json { render :show, status: :created, location: @movie }
-      end
-    end
-  end
-
-  # PATCH/PUT /reviews/1
-  # PATCH/PUT /reviews/1.json
-  def update
-    @page_title = 'Edit Review'
-    respond_to do |format|
-      if @review.update(review_params)
-        format.html { redirect_to @movie, notice: 'Review was successfully updated.' }
-        format.json { render :show, status: :ok, location: @movie }
-      else
-        format.html { render :edit }
-        format.json { render json: @review.errors, status: :unprocessable_entity }
       end
     end
   end
