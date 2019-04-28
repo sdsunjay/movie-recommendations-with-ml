@@ -1,9 +1,7 @@
 <div class="rating">
   <div class="row">
     <% if user_reviews.present? and user_reviews.find{ |r| r.movie_id == movie.id  } %>
-          <% cache [movie, user_reviews.find{ |r| r.movie_id == movie.id  } ] do %>
             <%= render 'partials/rating', movie: movie, review: user_reviews.find{ |r| r.movie_id == movie.id  } %>
-          <% end %>
         <% else %>
             <div class="col" id="rating">
                 <%= link_to movie_reviews_path(movie, rating: 5), class: 'tooltip-link', 'data-original-title': 'Like', 'data-toggle': 'tooltip', method: :post, remote: true do %>
@@ -12,7 +10,7 @@
                 <% end  %>
             </div>
             <div class="col" id="rating">
-                <%= link_to movie_reviews_path(movie, rating: 1), class: 'tooltip-link', 'data-original-title': 'Like', 'data-toggle': 'tooltip', method: :post, remote: true do %>
+                <%= link_to movie_reviews_path(movie, rating: 1), class: 'tooltip-link', 'data-original-title': 'Dislike', 'data-toggle': 'tooltip', method: :post, remote: true do %>
                   <%= fa_icon "thumbs-down", class: "rating-not-present" %>
                     <strong>Dislike</strong>
                 <% end  %>
