@@ -1,16 +1,22 @@
-<% friends.each do |friend| %>
+<% friendships.each do |friendship| %>
     <div class="card">
-        <%= link_to friendship_path(friend) do %>
-            <%= image_tag(friend.friendship.image) %>
+        <%= link_to friendship_path(friendship) do %>
+            <%= image_tag(friendship.friend.image) %>
         <% end %>
         <div class="row">
             <div class="col-sm-10">
                 <a href="#" class="tooltip-link" data-original-title="Date" data-toggle="tooltip">
                     <i class="fa fa-calendar"></i>
-                    <%= friend.created_at.strftime('%B %e at %l:%M %p' ) %>
+                    <%= friendship.created_at.strftime('%B %e at %l:%M %p' ) %>
+                </a>
+            </div>
+        </div><!-- End row -->
+        <div class="row">
+            <div class="col-sm-10">
+                <a href="#" class="tooltip-link" data-original-title="Remove Friend" data-toggle="tooltip">
+                <%= link_to 'Remove', friendship, method: :delete %>
                 </a>
             </div>
         </div><!-- End row -->
     </div><!-- End card -->
 <% end %>
-

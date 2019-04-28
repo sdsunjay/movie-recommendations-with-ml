@@ -28,10 +28,10 @@
                     </h4>
                     <h5>
                       <% if @user.gender? %>
-                        <% if @user.gender == 'female' %>
+                        <% if @user.gender.downcase == 'female' %>
                           <i class="fa fa-female" aria-hidden="true" style="color: #00d999;"></i>
                           (Female)
-                          <% elsif @user.gender == 'male' %>
+                          <% elsif @user.gender.downcase == 'male' %>
                             <i class="fa fa-male" aria-hidden="true" style="color: #00d999;"></i>
                             (Male)
                           <% else %>
@@ -48,7 +48,7 @@
                       </h5>
                       <h5>
                         <i class="fa fa-users" aria-hidden="true" style="color: #00d999;"></i>
-                        (<%= @friends_count %>)
+                        (<%= @friendships_count %>)
                       </h5>
                       <hr>
                       <h5>
@@ -107,6 +107,17 @@
                         <% end %>
                       </h5>
                         <h5>
+                          <i class="fa fa-graduation-cap" style="color: #00d999;"></i>
+                          Education Level:
+                          <% if @user.education_level? %>
+                            <i class="fa fa-check" style="color: green"></i>
+                            <%= @user.education_level.humanize.capitalize %>
+                          <% else %>
+                            <i class="fa fa-times" style="color: red"></i>
+                            Education Level Not Added
+                          <% end %>
+                        </h5>
+                        <h5>
                           <i class="fa fa-university" style="color: #00d999;"></i>
                           University:
                           <% if @user.education_id? %>
@@ -141,6 +152,9 @@
                   </li>
                   <li class="nav-item">
                     <a class="nav-link <%= 'active' if params[:active_tab] == 'reviews-tab' %>" id="reviews-tab" data-toggle="tab" href="#reviews" role="tab" aria-controls="reviews" aria-selected="false">My Reviews</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link <%= 'active' if params[:active_tab] == 'lists-tab' %>" id="lists-tab" data-toggle="tab" href="#lists" role="tab" aria-controls="reviews" aria-selected="false">My Lists</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link <%= 'active' if params[:active_tab] == 'friends-tab' %>" id="friends-tab" data-toggle="tab" href="#friends" role="tab" aria-controls="friends" aria-selected="false">My Friends</a>
@@ -178,16 +192,37 @@
                   </div>
                   <!-- End of My Reviews -->
 
+                  <!-- Beginning of My Lists -->
+                  <div class="tab-pane fade <%= 'show active' if params[:active_tab] == 'lists-tab' %>" id="lists" role="tabpanel" aria-labelledby="lists-tab">
+                    <%= link_to new_list_path, class: 'btn btn-lg btn-block text-uppercase', 'data-button-type': 'login_with', 'data-size': 'large',  'data-text': 'Create A New List'  do %>
+                      <% fa_icon "film", text: "Create A New List", right: false %>
+                    <% end %>
+                    <% if @lists.try(:any?) %>
+                      <%= render 'partials/lists', lists: @lists, reviews: @reviews %>
+                    <% else %>
+                      <section class="single-from-blog" style="margin-bottom: 0; border: 1px solid #f0f0f0;">
+                        <div class="blog-title">
+                          <h2>No movie lists yet</h2>
+                        </div>
+                      </section>
+                    <% end %>
+                  </div>
+                  <!-- End of My Lists -->
+
                     <!-- Beginning of My Friends -->
                   <div class="tab-pane fade <%= 'show active' if params[:active_tab] == 'friends-tab' %>" id="friends" role="tabpanel" aria-labelledby="friends-tab">
-                    <% if @friends.try(:any?) %>
+                    <%= link_to new_friendship_path, class: 'btn btn-lg btn-block text-uppercase', 'data-button-type': 'login_with', 'data-size': 'large',  'data-text': 'Create Friend'  do %>
+
+                      <% fa_icon "friends", text: "Create Friend", right: false %>
+                    <% end %>
+                    <% if @friendships.try(:any?) %>
                       <div class="row">
                         <div class="card-columns">
-                          <%= render 'partials/friends', friends: @friends, cached: true %>
+                          <%= render 'partials/friends', friendships: @friendships, cached: true %>
                         </div>
                       </div>
                       <div class="row">
-                        <%= pagy_nav_compact_bootstrap(@pagy_friends).html_safe %>
+                        <%= pagy_nav_compact_bootstrap(@pagy_friendships).html_safe %>
                       </div>
                     <% else %>
                       <section class="single-from-blog" style="margin-bottom: 0; border: 1px solid #f0f0f0;">

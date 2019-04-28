@@ -2,7 +2,7 @@
 
 # Use this hook to configure devise mailer, warden hooks and so forth.
 # Many of these configuration options can be set straight in your model.
-if Rails.env.development?
+if Rails.env.development? || Rails.env.test?
   FACEBOOK_APP_ID = Rails.application.credentials.development[:facebook_app_id]
   FACEBOOK_SECRET = Rails.application.credentials.development[:facebook_secret]
   FACEBOOK_CALLBACK_URL = Rails.application.credentials.development[:facebook_callback_url]
@@ -82,7 +82,7 @@ Devise.setup do |config|
   # given strategies, for example, `config.http_authenticatable = [:database]` will
   # enable it only for database authentication. The supported strategies are:
   # :database      = Support basic authentication with authentication key + password
-  # config.http_authenticatable = false
+  config.http_authenticatable = false
 
   # If 401 status code should be returned for AJAX requests. True by default.
   # config.http_authenticatable_on_xhr = true
@@ -93,7 +93,7 @@ Devise.setup do |config|
   # It will change confirmation, password recovery and other workflows
   # to behave the same regardless if the e-mail provided was right or wrong.
   # Does not affect registerable.
-  # config.paranoid = true
+  config.paranoid = true
 
   # By default Devise will store the user in session. You can skip storage for
   # particular strategies by setting this option.
@@ -269,7 +269,7 @@ Devise.setup do |config|
   # Add a new OmniAuth provider. Check the wiki for more information on setting
   # up on your models and hooks.
   #
-  config.omniauth :facebook, FACEBOOK_APP_ID, FACEBOOK_SECRET, scope: 'user_birthday, user_link, user_gender, user_friends, user_hometown, user_location, public_profile, email', image_size: 'large', info_fields: 'email,id,name,gender,picture,link,location,hometown,friends,birthday', callback_url: FACEBOOK_CALLBACK_URL, client_options: {site: 'https://graph.facebook.com/v3.1', authorize_url: "https://www.facebook.com/v3.1/dialog/oauth"}
+  config.omniauth :facebook, FACEBOOK_APP_ID, FACEBOOK_SECRET, scope: 'user_link, user_gender, user_friends, user_hometown, user_location, public_profile, email', image_size: 'large', info_fields: 'email,id,name,gender,picture,link,location,hometown,friends,birthday', callback_url: FACEBOOK_CALLBACK_URL, client_options: {site: 'https://graph.facebook.com/v3.1', authorize_url: "https://www.facebook.com/v3.1/dialog/oauth"}
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or

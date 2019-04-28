@@ -1,0 +1,55 @@
+<!-- https://bootsnipp.com/snippets/z8699 -->
+<div class="card bg-light">
+  <article class="card-body mx-auto">
+	<h4 class="card-title mt-3 text-center">Sign In</h4>
+	<p class="text-center">Welcome Back</p>
+	<p>
+    <p>
+    <%= link_to omniauth_authorize_path(:user, :facebook, intent: 'sign_in'), class: 'btn btn-lg btn-facebook btn-block text-uppercase', 'data-button-type': 'login_with', 'data-size': 'large',  'data-text': 'Login with Facebook'  do %>
+      <% fa_icon "facebook-f", text: "Login with Facebook", right: false %>
+    <% end %>
+    </p>
+    <p class="divider-text">
+    <span class="bg-light">OR</span>
+    </p>
+    <%= simple_form_for @user, url: session_path(@user), html: { class: 'form-signin' } do |f| %>
+      <%= f.error_notification %>
+      <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+      <div class="form-group input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text"> <i class="fa fa-envelope"></i> </span>
+        </div>
+        <%= f.input :email,
+          label: false,
+          placeholder: 'Email Address',
+          autofocus: false,
+          input_html: { autocomplete: "email", required: true },
+          class: 'form-control' %>
+      </div> <!-- form-group// -->
+      <div class="form-group input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+        </div>
+        <%= f.input :password,
+          placeholder: 'Password',
+          label: false,
+          required: true,
+          input_html: { required: true },
+          class: 'form-control' %>
+      </div> <!-- form-group// -->
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <%= f.button :submit, "Sign In", class: 'btn btn-primary btn-block' %>
+          </div> <!-- form-group// -->
+          <p class="text-center">Don't an account? <%= link_to 'Sign Up', signup_path %></p>
+        </div>
+        <div class="col-md-6 text-right">
+          <%- if devise_mapping.recoverable? && controller_name != 'passwords' && controller_name != 'registrations' %>
+	  		    <%= link_to "Forgot your password?", new_password_path(resource_name), class: "small", style: 'color: #858585' %>
+          <% end %>
+        </div>
+      </div> <!-- .row// -->
+    <% end %>
+  </article>
+</div> <!-- card.// -->

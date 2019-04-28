@@ -2,15 +2,19 @@ default: &default
   adapter: postgresql
   encoding: unicode
   pool: <%= ENV.fetch('RAILS_MAX_THREADS') { 5 } %>
+  host: localhost
 
 development:
   <<: *default
   database: movierecommendationswithml_development
-  host: localhost
+
+test:
+  <<: *default
+  database: movierecommendationswithml_test
 
 production:
   <<: *default
   database: movierecommendationswithml_production
   username: postgres
   password: password
-  host: db
+  # host: db

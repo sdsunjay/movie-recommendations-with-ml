@@ -1,15 +1,16 @@
 class EducationsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_education, only: [:show, :edit, :update, :destroy]
+  before_action :set_education, only: %i[show edit update destroy]
   before_action :set_user
-  before_action :require_admin, except: [:show, :search, :autocomplete]
+  before_action :set_lists
+  before_action :require_admin, except: %i[show search autocomplete]
   before_action :force_json, only: :autocomplete
+  before_action :set_per_page, only: %i[index]
 
   # GET /educations
   # GET /educations.json
   def index
     @page_title = 'Educations'
-    @per_page = params[:per_page] || 30
     @pagy, @educations = pagy(Education.all.order(created_at: :desc), items: @per_page)
     @number_of_educations = Education.all.count
   end
@@ -77,9 +78,9 @@ class EducationsController < ApplicationController
     @educations = Education.ransack(name_or_abbreviation_cont: params[:name]).result(distinct: true)
 
     respond_to do |format|
-      format.json {
+      format.json do
         @educations = @educations.limit(10)
-      }
+      end
     end
   end
 
@@ -98,16 +99,17 @@ class EducationsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_education
-      @education ||= Education.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet
-    # only allow the white list through.
-    def education_params
-      # extend with your own params
-      accessible = %i[name address city_name zipcode homepage abbreviation phone url]
-      params.require(:education).permit(accessible)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_education
+    @education ||= Education.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet
+  # only allow the white list through.
+  def education_params
+    # extend with your own params
+    accessible = %i[name address city_name zipcode homepage abbreviation phone url]
+    params.require(:education).permit(accessible)
+  end
 end

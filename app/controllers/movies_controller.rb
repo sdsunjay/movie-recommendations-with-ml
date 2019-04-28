@@ -1,14 +1,16 @@
 class MoviesController < ApplicationController
-  before_action :authenticate_user!
-  before_action :set_user, only: %i[index show edit update destroy]
+  before_action :authenticate_user!, except: %i[index]
+  before_action :set_user, only: %i[show edit update destroy]
   before_action :set_movie, only: %i[show edit update destroy]
-  before_action :set_user_reviews, only: %i[show index]
+  before_action :set_review, only: %i[show edit update destroy]
+  before_action :set_lists, only: %i[index show edit update destroy]
+  before_action :set_reviews, only: %i[index show]
   before_action :require_admin, only: %i[create new edit update destroy]
+  before_action :set_per_page, only: %i[index]
 
   # GET /movies
   # GET /movies.json
   def index
-    @per_page = params[:per_page] || 30
     @page_title = 'Movies'
     @pagy, @movies = pagy(Movie.all, items: @per_page)
   end
@@ -22,7 +24,7 @@ class MoviesController < ApplicationController
   # GET /movies/new
   def new
     @page_title = 'New Movie'
-    @movie = current_user.movies.build
+    @movie = Movie.new
     @genres = Genre.all
   end
 
@@ -35,7 +37,7 @@ class MoviesController < ApplicationController
   # POST /movies
   # POST /movies.json
   def create
-    @movie = current_user.movies.build(movie_params)
+    @movie = Movie.new(movie_params)
 
     respond_to do |format|
       if @movie.save
@@ -78,9 +80,19 @@ class MoviesController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_movie
     @movie ||= Movie.find(params[:id])
-    @review = Review.where(movie_id: params[:id], user_id: current_user.id)
     @genres = @movie.genres
     @companies = @movie.companies
+  end
+
+  def set_review
+    @review = nil unless user_signed_in?
+    @review = Review.where(movie_id: params[:id], user_id: current_user.id)
+  end
+
+  def set_reviews
+    return @user_reviews if defined? @user_reviews
+
+    @user_reviews = (current_user.reviews if user_signed_in?)
   end
 
   # Never trust parameters from the scary internet

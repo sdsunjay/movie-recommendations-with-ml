@@ -4,9 +4,9 @@
 class Review < ApplicationRecord
   default_scope { order(created_at: :desc) }
   # user will review many movies
-  belongs_to :user, touch: true
+  belongs_to :user
   # movie will have many reviews
-  belongs_to :movie, -> { order(created_at: :desc) }, touch: true
+  belongs_to :movie, -> { order(created_at: :desc) }
   validates :user_id,
             presence: { message: 'Your review must belong to a user' }
   validates :movie_id,

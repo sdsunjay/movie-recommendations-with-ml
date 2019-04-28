@@ -15,11 +15,14 @@ Edit **config/credentials.yml.enc**. See [rails 5.2 encrypted credentials](https
 
 ```
 development:
-  redis_url: something
-  redis_password: SOMEKEY
-  facebook_app_id: some_id
-  facebook_secret: some_secret
-  facebook_callback_url: some_callback_url
+  facebook_app_id: <APP_ID>
+  facebook_secret: <SECRET>
+  redis_url: redis://127.0.0.1:6379
+  redis_password: <PASSWORD>
+  facebook_callback_url:<CALLBACK_URL>
+  blazer_database_url: <BLAZER_DATABASE_URL>
+  send_grid_username: <USERNAME>
+  send_grid_password: <PASSWORD>
 ```
 
 ```
@@ -37,16 +40,8 @@ To release to production with Docker
 ```
 $ docker-compose build
 $ docker-compose run app rake db:create db:migrate
-$ docker-compose run app rake users:seed_users
-$ docker-compose run app rake genres:seed_genres
-$ docker-compose run app rake db:seed:movies1
-$ docker-compose run app rake db:seed:movies2
-$ docker-compose run app rake db:seed:movies3
-$ docker-compose run app rake db:seed:categorizations1
-$ docker-compose run app rake db:seed:categorizations2
 
 # Optional
-# $ docker-compose run app rake db:seed:reviews
 $ docker-compose up
 $ docker ps
 ```

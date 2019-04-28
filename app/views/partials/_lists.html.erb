@@ -1,0 +1,26 @@
+<div class="accordion" id="listsExample">
+  <% @lists.each do |list| %>
+    <div class="card">
+      <div class="card-header" id="list_id_<%= list.id%>">
+        <h5 class="mb-0">
+          <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseList<%= list.id%>" aria-expanded="true" aria-controls="collapseList<%= list.id%>">
+            <%= list.name %> (<%= list.movie_lists.count %>)
+          </button>
+          <%= link_to 'Edit', edit_list_path(list), class: 'fa fa-edit tooltip-link', 'data-original-title': 'Edit List', 'data-toggle': 'tooltip', style: 'float: left, color: 00d999; font-size: 0.8em' %>
+          <%= link_to 'Delete', list, method: :delete, data: { confirm: 'Are you sure?' }, class: 'fa fa-trash tooltip-link', 'data-original-title': 'Delete List', 'data-toggle': 'tooltip', style: 'float: left, color: 00d999; font-size: 0.8em' %>
+        </h5>
+      </div>
+      <div id="collapseList<%= list.id%>" class="collapse" aria-labelledby="list_id_<%= list.id%>" data-parent="#listsExample">
+        <div class="card-body">
+          <div class="row">
+            <div class="card-columns">
+              <% list.movies.each do |movie| %>
+                <%= render 'partials/movie', movie: movie, user_reviews: reviews %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

@@ -10,19 +10,6 @@ class GenresControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "should get new" do
-    get new_genre_url
-    assert_response :success
-  end
-
-  test "should create genre" do
-    assert_difference('Genre.count') do
-      post genres_url, params: { genre: { name: @genre.name } }
-    end
-
-    assert_redirected_to genre_url(Genre.last)
-  end
-
   test "should show genre" do
     get genre_url(@genre)
     assert_response :success

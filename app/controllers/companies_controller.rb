@@ -4,13 +4,13 @@ class CompaniesController < ApplicationController
   before_action :set_user
   before_action :set_user_reviews, only: [:show]
   before_action :require_admin, except: [:show]
+  before_action :set_per_page, only: %i[show index]
   caches_action :index
 
   # GET /companies
   # GET /companies.json
   def index
     @page_title = 'Companies'
-    @per_page = params[:per_page] || 30
     @pagy, @companies = pagy(Company.all.order(created_at: :desc), items: @per_page)
     @number_of_companies = Company.all.count
   end
@@ -18,9 +18,7 @@ class CompaniesController < ApplicationController
   # GET /companiess/1
   # GET /companies/1.json
   def show
-    @per_page = params[:per_page] || 30
     @page_title = @company.name
-    @movies = Movie.first(30)
     @pagy, @movies = pagy(@company.movies, items: @per_page)
   end
 
