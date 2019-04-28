@@ -9,7 +9,10 @@ class User < ApplicationRecord
          omniauth_providers: [:facebook]
 
   has_many :friendships, -> { order(created_at: :desc) }
-  has_many :users, through: :friendships, dependent: :destroy
+  has_many :friends, through: :friendships, dependent: :destroy
+  has_many :inverse_friendships, class_name: "Friendship", foreign_key: "friend_id"
+  has_many :inverse_friends, through: :inverse_friendships, source: :user
+
   has_many :movie_user_recommendations, -> { order(created_at: :desc) }
   has_many :movies, through: :movie_user_recommendations, dependent: :destroy
   has_many :reviews, -> { order(created_at: :desc) }, dependent: :destroy
