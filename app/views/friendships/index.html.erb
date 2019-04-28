@@ -19,8 +19,8 @@
         <tbody>
         <% @friends.each do |friend| %>
             <tr>
-                <th scope="row"> <%= link_to friend.user.name, user_path(friend.user.id)  %></th>
-                <td><%= link_to friend.friendship.name, user_path(friend.friendship.id) %></td>
+                <th scope="row"> <%= link_to friend.user.name, friendship_path(friend.user.id)  %></th>
+                <td><%= link_to friend.friend.name, friendship_path(friend.id) %></td>
                 <td><%= friend.created_at.to_time.strftime('%B %e at %l:%M %p' ) %></td>
                 <td><%= link_to 'Edit', edit_friendship_path(friend) %></td>
                 <td><%= link_to 'Destroy', friend, method: :delete, data: { confirm: 'Are you sure?' } %></td>
