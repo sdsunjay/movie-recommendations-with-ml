@@ -1,0 +1,17 @@
+<div id="movie_list_<%= list.id %>">
+<% if list.movie_lists.find{ |r| r.movie_id == movie.id  }  %>
+  <li>
+    <%= link_to list_movie_list_path(list, movie), class: 'tooltip-link', 'data-original-title': 'Remove from List', 'data-toggle': 'tooltip', method: :delete, remote: true do %>
+      <%= fa_icon "minus" %>
+      <strong>Remove from <%= list.name %></strong>
+    <% end  %>
+  </li>
+<% else %>
+  <li>
+    <%= link_to list_movie_lists_path(list, id: movie), class: 'tooltip-link', 'data-original-title': 'Add to List', 'data-toggle': 'tooltip', method: :post, remote: true do %>
+      <%= fa_icon "plus" %>
+      <strong>Add to <%= list.name %></strong>
+    <% end  %>
+  </li>
+<% end  %>
+</div>
