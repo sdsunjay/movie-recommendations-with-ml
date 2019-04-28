@@ -23,7 +23,7 @@ services:
     command: bundle exec sidekiq -C config/sidekiq.yml
     volumes:
       - '.:/movierecommendationswithml'
-        #- 'app-gems:/usr/local/bundle'
+      - 'bundle_cache:/bundle_cache'
     links:
       - 'db'
       - 'redis'
@@ -35,17 +35,25 @@ services:
       dockerfile: ./docker/app/Dockerfile
     volumes:
       - '.:/movierecommendationswithml'
-        #- 'app-gems:/usr/local/bundle'
+      - 'bundle_cache:/bundle_cache'
     depends_on:
       - 'db'
       - 'sidekiq'
     links:
       - 'db:db'
+    env_file:
+      - '.env'
 
+  bundle_cache:
+    image: busybox
+    volumes:
+      - bundle_cache:/bundle_cache
   web:
     build:
       context: .
       dockerfile: ./docker/web/Dockerfile
+    volumes:
+        - '/home/deploy/nginx/log:/var/log'
     depends_on:
       - 'app'
     ports:
@@ -53,6 +61,7 @@ services:
       - '443:443'
 
 volumes:
+  bundle_cache:
   redis:
   postgres-data:
     driver: local

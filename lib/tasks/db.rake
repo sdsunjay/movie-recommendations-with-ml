@@ -60,8 +60,7 @@ namespace :db do
 
   desc 'Restores the database from a backup using PATTERN'
   task restore: :environment do
-    pattern = '20190111215903'
-
+    pattern = ENV['PATTERN']
     if pattern.present?
       file = nil
       cmd  = nil
