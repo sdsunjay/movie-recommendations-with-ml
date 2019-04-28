@@ -2,6 +2,9 @@
 <% if @movies.try(:any?) %>
     <div class="row">
         <%= render 'partials/per_page' %>
+        <% if @user.super_admin? %>
+          <%= link_to 'Edit', edit_company_path(@company) %>
+        <% end %>
     </div>
   <div class="row">
     <div class="card-columns">
@@ -19,12 +22,4 @@
       <h2>No movies available yet</h2>
     </div>
   </article>
-<% end %>
-
-<% if @user.super_admin? %>
-  <div class="row">
-    <%= link_to 'Edit', edit_company_path(@company) %>
-    |
-    <%= link_to 'Back', companies_path %>
-  </div>
 <% end %>
