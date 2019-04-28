@@ -17,14 +17,14 @@ class UsersController < ApplicationController
   def show
     @page_title = @user.name
     # if @user == current_user || @user in current_user.friendships
-    @pagy_friends, @friends = pagy(Friendship.where(user_id: @user).order(created_at: :desc), page_param: :page_friends, params: { active_tab: 'friends-tab' } )
+    @pagy_friendships, @friendships = pagy(@user.friendships.order(created_at: :desc), page_param: :page_friends, params: { active_tab: 'friends-tab' } )
     @pagy_reviews, @reviews = pagy(@user.reviews.includes(:movie).order(created_at: :desc), page_param: :page_reviews, params: { active_tab: 'reviews-tab' })
     @pagy_recommendations, @recommendations = pagy(@user.movie_user_recommendations.includes(:movie).order(created_at: :desc), page_param: :page_recommendations, params: { active_tab: 'recommendations-tab' })
-    @pagy_lists, @lists = pagy(@user.lists.order(created_at: :desc), page_param: :page_lists, params: { active_tab: 'lists-tab' })
-    @friends_count = if @friends.blank?
+    @pagy_lists, @lists = pagy(@user.lists.includes(:movies).order(created_at: :desc), page_param: :page_lists, params: { active_tab: 'lists-tab' })
+    @friendships_count = if @friends.blank?
                        0
                      else
-                       @friends.count
+                       @user.friends.count
                      end
     if @reviews.blank?
       @avg_review = 0
