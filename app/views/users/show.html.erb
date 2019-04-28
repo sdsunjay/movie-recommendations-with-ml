@@ -48,7 +48,7 @@
                       </h5>
                       <h5>
                         <i class="fa fa-users" aria-hidden="true" style="color: #00d999;"></i>
-                        (<%= @friends_count %>)
+                        (<%= @friendships_count %>)
                       </h5>
                       <hr>
                       <h5>
@@ -111,7 +111,7 @@
                           Education Level:
                           <% if @user.education_level? %>
                             <i class="fa fa-check" style="color: green"></i>
-                            <%= @user.education_level.humanize %>
+                            <%= @user.education_level.humanize.capitalize %>
                           <% else %>
                             <i class="fa fa-times" style="color: red"></i>
                             Education Level Not Added
@@ -211,14 +211,18 @@
 
                     <!-- Beginning of My Friends -->
                   <div class="tab-pane fade <%= 'show active' if params[:active_tab] == 'friends-tab' %>" id="friends" role="tabpanel" aria-labelledby="friends-tab">
-                    <% if @friends.try(:any?) %>
+                    <%= link_to new_friendship_path, class: 'btn btn-lg btn-block text-uppercase', 'data-button-type': 'login_with', 'data-size': 'large',  'data-text': 'Create Friend'  do %>
+
+                      <% fa_icon "friends", text: "Create Friend", right: false %>
+                    <% end %>
+                    <% if @friendships.try(:any?) %>
                       <div class="row">
                         <div class="card-columns">
-                          <%= render 'partials/friends', friends: @friends, cached: true %>
+                          <%= render 'partials/friends', friendships: @friendships, cached: true %>
                         </div>
                       </div>
                       <div class="row">
-                        <%= pagy_nav_compact_bootstrap(@pagy_friends).html_safe %>
+                        <%= pagy_nav_compact_bootstrap(@pagy_friendships).html_safe %>
                       </div>
                     <% else %>
                       <section class="single-from-blog" style="margin-bottom: 0; border: 1px solid #f0f0f0;">
