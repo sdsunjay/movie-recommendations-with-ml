@@ -15,17 +15,16 @@ class FriendshipsController < ApplicationController
   # GET /friendships/1
   # GET /friendships/1.json
   def show
-    @page_title = @friendship.friendship.name
-    @friends = @user.friendships
-    @pagy_reviews, @reviews = pagy(Review.where(user_id: @friendship.friend_id).order(created_at: :desc), page_param: :page_reviews, params: { active_tab: 'reviews-tab' })
+    @page_title = @friendship.friend.name
+    @pagy_reviews, @reviews = pagy(@friendship.friend.reviews.includes(:movie).order(created_at: :desc), page_param: :page_reviews, params: { active_tab: 'reviews-tab' })
     if @reviews.blank?
       @avg_review = 0
       @number_of_reviews = 0
       @number_of_liked_movies = 0
       @number_of_disliked_movies = 0
     else
-      @number_of_reviews = Review.where(user_id: @friendship.friend_id).count
-      @avg_review = Review.where(user_id: @friendship.friend_id).average(:rating).round(2)
+      @number_of_reviews = @friendship.friend.reviews.count
+      @avg_review = @friendship.friend.reviews.average(:rating).round(2)
       @number_of_liked_movies = Review.where(user_id: @friendship.friend_id, rating: 5).count
       @number_of_disliked_movies = Review.where(user_id: @friendship.friend_id, rating: 1).count
     end
@@ -47,13 +46,13 @@ class FriendshipsController < ApplicationController
   # POST /friendships
   # POST /friendships.json
   def create
-    @friendship = Friendship.new(friendship_params)
+    @friendship = current_user.friendships.build(friendship_params)
     respond_to do |format|
       if @friendship.save
-        format.html { redirect_to @friendship, notice: 'Friendship was successfully created.' }
-        format.json { render :show, status: :created, location: @friendship }
+        format.html { redirect_to @friendship, notice: 'Added friend.' }
+        format.json { render current_user, status: :created, location: @friendship }
       else
-        format.html { render :new }
+        format.html { redirect_to user_path(current_user), alert: 'Unable to add friend' }
         format.json { render json: @friendship.errors, status: :unprocessable_entity }
       end
     end
@@ -78,7 +77,7 @@ class FriendshipsController < ApplicationController
   def destroy
     @friendship.destroy
     respond_to do |format|
-      format.html { redirect_to friendships_url, notice: 'Friendship was successfully destroyed.' }
+      format.html { redirect_to current_user, notice: 'Removed friendship' }
       format.json { head :no_content }
     end
   end
@@ -87,7 +86,7 @@ class FriendshipsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_friendship
-    @friendship = Friendship.find(params[:id])
+    @friendship = current_user.friendships.find(params[:id])
   end
 
   # Never trust parameters from the scary internet
