@@ -1,4 +1,4 @@
-<%= simple_form_for(@movie) do |f| %>
+<%= simple_form_for(movie) do |f| %>
 <%= f.object.errors.full_messages.join(", ") if f.object.errors.any? %>
 <%= f.error_notification %>
 <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
@@ -6,14 +6,13 @@
 <div class="form-inputs">
   <%= f.input :title, label: false, placeholder: 'Title', error: 'Title is mandatory, please specify one' %>
   <%= f.input :tagline, label: false, placeholder: 'The world has enough Superheroes.' %>
-  <%= f.association :genres, as: :select, collection: @genres, input_html: { multiple: true }, :label_method => lambda{ |genre| "#{genre.name}"}, label: false, required: true %>
-  <%= f.input :poster_path, label: false, placeholder: '/2uNW4WbgBXL25BAbXGLnLqX71Sw.jpg'%>
-  <%= f.input :backdrop_path, label: false, placeholder: '/VuukZLgaCrho2Ar8Scl9HtV3yD.jpg'%>
+  <%= f.association :genres, as: :select, collection: genres, input_html: { multiple: true }, :label_method => lambda{ |genre| "#{genre.name}"}, label: false, required: true %>
+  <%= f.input :poster_path, label: false, placeholder: '/2uNW4WbgBXL25BAbXGLnLqX71Sw.jpg' %>
+  <%= f.input :backdrop_path, label: false, placeholder: '/VuukZLgaCrho2Ar8Scl9HtV3yD.jpg' %>
   <%= f.input :adult, inline_label: 'Yes, Adult Film' %>
   <%= f.input :release_date, label: false, as: :date, html5: true %>
   <%= f.input :overview, label: false, placeholder: 'When Eddie Brock acquires the powers of a symbiote, he will have to release his alter-ego \"Venom\" to save his life.' %>
-  <%#=   TODO FIX THIS f.input :status, collection: Movie.statuses.map {|k, v| [k.humanize.capitalize, v]} %>
-  <%= f.input :status, label: false, as: :select, prompt: "Select status", collection: Movie.statuses.keys %>
+  <%= f.input :status, collection: Movie.statuses.keys.map { |w| [w.humanize.capitalize, w] }, label: false, prompt: "Status" %>
   <%= f.input :budget, label: false, placeholder: 'Budget', html5: true %>
   <%= f.input :revenue, label: false, placeholder: 'Revenue', html5: true %>
   <%= f.input :runtime, label: false, placeholder: 'Runtime', html5: true %>
