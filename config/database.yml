@@ -17,4 +17,4 @@ production:
   database: movierecommendationswithml_production
   username: postgres
   password: password
-  # host: db
+  host: db
