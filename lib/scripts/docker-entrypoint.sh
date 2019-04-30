@@ -20,6 +20,6 @@ if [[ $? != 0 ]]; then
   echo
   bundle exec rake db:setup
 fi
-
+# bundle check || bundle install --binstubs="$BUNDLE_BIN"
 # Execute the given or default command:
 exec "$@"

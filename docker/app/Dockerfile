@@ -34,12 +34,16 @@ ENV RACK_ENV production
 ENV WEB_CONCURRENCY 4
 ENV MAX_THREADS 2
 ENV PORT 3000
+
 ENV BUNDLE_PATH /bundle_cache
-# ENV PATTERN 20190111215903
+ENV GEM_PATH /bundle_cache
+ENV GEM_HOME /bundle_cache
+ENV BUNDLE_BIN /bundle_cache/bin
+ENV PATH "${BUNDLE_BIN}:${PATH}"
 
 RUN gem install bundler
-RUN bundle install --binstubs --path /bundle_cache --without development test --jobs=4
-# bundle install -j "$(getconf _NPROCESSORS_ONLN)" --retry 5 --without development test
+RUN bundle config --global path "$GEM_HOME" && bundle config --global bin "$GEM_HOME/bin"
+RUN bundle install --binstubs path="$BUNDLE_PATH" --without development test --jobs=4
 
 # Remove build dependencies and install runtime dependencies
 RUN apk del build-dependency
@@ -58,4 +62,4 @@ RUN bundle exec rake assets:precompile
 # running the command given
 EXPOSE 3000
 ENTRYPOINT ["lib/scripts/docker-entrypoint.sh"]
-CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
+CMD ["bin/bundle", "exec", "puma", "-C", "config/puma.rb"]

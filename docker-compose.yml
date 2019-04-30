@@ -23,7 +23,7 @@ services:
     command: bundle exec sidekiq -C config/sidekiq.yml
     volumes:
       - '.:/movierecommendationswithml'
-      - 'bundle_cache:/bundle_cache'
+      - 'bundle_cache:/bundle'
     links:
       - 'db'
       - 'redis'
@@ -35,7 +35,8 @@ services:
       dockerfile: ./docker/app/Dockerfile
     volumes:
       - '.:/movierecommendationswithml'
-      - 'bundle_cache:/bundle_cache'
+      - 'bundle_cache:/bundle'
+      # Map bundle cache to named volume
     depends_on:
       - 'db'
       - 'sidekiq'
@@ -44,10 +45,11 @@ services:
     env_file:
       - '.env'
 
-  bundle_cache:
-    image: busybox
-    volumes:
-      - bundle_cache:/bundle_cache
+        #bundle_cache:
+        #image: busybox
+        #volumes:
+        # - /bundle_cache
+ 
   web:
     build:
       context: .
