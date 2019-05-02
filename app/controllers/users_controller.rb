@@ -21,10 +21,10 @@ class UsersController < ApplicationController
     @pagy_reviews, @reviews = pagy(@user.reviews.includes(:movie).order(created_at: :desc), page_param: :page_reviews, params: { active_tab: 'reviews-tab' })
     @pagy_recommendations, @recommendations = pagy(@user.movie_user_recommendations.includes(:movie).order(created_at: :desc), page_param: :page_recommendations, params: { active_tab: 'recommendations-tab' })
     @pagy_lists, @lists = pagy(@user.lists.includes(:movies).order(created_at: :desc), page_param: :page_lists, params: { active_tab: 'lists-tab' })
-    @friendships_count = if @friends.blank?
+    @friendships_count = if @friendships.blank?
                        0
                      else
-                       @user.friends.count
+                       @user.friendships.count
                      end
     if @reviews.blank?
       @avg_review = 0
