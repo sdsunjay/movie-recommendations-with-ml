@@ -236,6 +236,7 @@
 
                   <!-- Beginning of My Recommendations -->
                   <div class="tab-pane fade <%= 'show active' if params[:active_tab] == 'recommendations-tab' %>"  id="recommendations" role="tabpanel" aria-labelledby="recommendations-tab">
+                    <%= link_to 'Create Movie Recommendation', new_movie_user_recommendation_path, class: 'btn btn-lg btn-block text-uppercase' %>
                     <% if @recommendations.try(:any?) %>
                       <div class="row">
                         <div class="card-columns">
