@@ -43,7 +43,7 @@ gem 'jbuilder', '~> 2.5'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'cocoon'
-gem 'devise', '>= 4.6.0', require: true
+gem 'devise', '>= 4.7.1', require: true
 gem 'omniauth-facebook', require: true
 gem 'pagy', '0.19.4'
 gem 'koala', '~> 3.0.0'
