@@ -1,7 +1,8 @@
 class UsersController < ApplicationController
   include Pagy::Frontend
   before_action :authenticate_user!
-  before_action :set_user, only: %i[show edit update liked disliked]
+  before_action :set_user, only: %i[liked disliked]
+  before_action :set_user_admin, only: %i[show edit update]
   before_action :require_admin, only: %i[destroy index]
   before_action :set_user_reviews, only: %i[liked disliked]
   before_action :set_per_page, only: %i[liked disliked]
@@ -45,35 +46,24 @@ class UsersController < ApplicationController
     end
   end
 
-
   # GET /users/:id/edit
   def edit
     @page_title = 'Edit Account'
-    if current_user.super_admin?
-      @user_edit = User.find(params[:id])
-    else
-      @user_edit = current_user
-    end
   end
 
   # PATCH/PUT /users/:id.:format
   def update
     @page_title = 'Edit Account'
-    if current_user.super_admin?
-      @user_edit = User.find(params[:id])
-    else
-      @user_edit = current_user
-    end
     # authorize! :update, @user_edit
     respond_to do |format|
-      if @user_edit.update(user_params)
+      if @user.update(user_params)
         # Sign in the user bypassing validation
         # bypass_sign_in(@user_edit)
         format.html { redirect_to user_path, notice: 'Your profile was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }
-        format.json { render json: @user_edit.errors, status: :unprocessable_entity }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -112,6 +102,14 @@ class UsersController < ApplicationController
   end
 
   private
+
+  def set_user_admin
+    if current_user.super_admin?
+       @user = User.find(params[:id])
+    else
+      @user = current_user
+    end
+  end
 
   def user_params
     # extend with your own params
