@@ -12,7 +12,7 @@ class MoviesController < ApplicationController
   # GET /movies.json
   def index
     @page_title = 'Movies'
-    @pagy, @movies = pagy(Movie.all, items: @per_page)
+    @pagy, @movies = pagy(Movie.where(status: 0).order(popularity: :desc, release_date: :desc), items: @per_page)
   end
 
   # GET /movies/1

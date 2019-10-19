@@ -19,7 +19,7 @@ class GenresController < ApplicationController
   # GET /genres/1.json
   def show
     @page_title = @genre.name
-    @pagy, @movies = pagy(@genre.movies.all, items: @per_page)
+    @pagy, @movies = pagy(@genre.movies.where(status: 0).order(popularity: :desc, release_date: :desc), items: @per_page)
   end
 
   # GET /genres/1/edit
