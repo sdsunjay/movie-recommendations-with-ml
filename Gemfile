@@ -48,7 +48,7 @@ gem 'omniauth-facebook', require: true
 gem 'pagy', '0.19.4'
 gem 'koala', '~> 3.0.0'
 gem 'seed_dump'
-gem 'rubyzip', '~> 1.2.2'
+gem 'rubyzip', '~> 1.3.0'
 gem 'simple_form'
 gem 'country_select', require: 'country_select_without_sort_alphabetical'
 gem 'loofah', '>= 2.2.3'
