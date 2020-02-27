@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_31_003754) do
+ActiveRecord::Schema.define(version: 2019_11_09_040617) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -292,6 +292,7 @@ ActiveRecord::Schema.define(version: 2019_03_31_003754) do
     t.date "birthday"
     t.bigint "education_id"
     t.integer "education_level", limit: 2
+    t.integer "politics", limit: 2
     t.index ["education_id"], name: "index_users_on_education_id"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["provider", "uid"], name: "index_users_on_provider_and_uid"

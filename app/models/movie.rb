@@ -2,7 +2,6 @@
 
 # a top level comment
 class Movie < ApplicationRecord
-  default_scope { order(popularity: :desc) }
   has_many :movie_user_recommendations, dependent: :delete_all
   has_many :users, -> { select(:name, :id) }, through: :movie_user_recommendations
   has_many :reviews, -> { select(:rating, :id, :created_at).order(created_at: :desc) }, dependent: :delete_all

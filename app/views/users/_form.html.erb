@@ -1,4 +1,4 @@
-<%= simple_form_for(@user_edit) do |f| %>
+<%= simple_form_for(@user) do |f| %>
   <%= f.error_notification %>
   <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
   <div class="form-signin">
@@ -8,9 +8,10 @@
     <%= f.input :birthday, label: false, as: :date, input_html: { class: "datepicker"}, html5: true %>
     <%= f.input :location, label: false, placeholder: 'Current Location', html5: true, input_html: { data: { behavior: "autocomplete_location" } } %>
     <%= f.input :hometown, label: false, placeholder: 'Hometown', html5: true, input_html: { data: { behavior: "autocomplete_location" } } %>
+    <%= f.input :politics, collection: User.politics.keys.map { |w| [w.humanize, w] }, label: false, prompt: "Political Leanings" %>
     <%= f.input :education_level, collection: User.education_levels.keys.map { |w| [w.humanize, w] }, label: false, prompt: "Education Level" %>
     <%= f.input :education_name, label: false, placeholder: 'Education', html5: true, input_html: { data: { behavior: "autocomplete_education" } } %>
-    <% if @user_edit.link.blank? %>
+    <% if @user.link.blank? %>
     <%= f.input :link, label: false, placeholder: 'Facebook Link' %>
     <% else %>
     <%= f.input :link, label: false, disabled: true, placeholder: 'Facebook Link', hint: 'You cannot change your facebook link'%>

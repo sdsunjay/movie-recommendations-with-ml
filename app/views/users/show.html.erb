@@ -107,6 +107,17 @@
                         <% end %>
                       </h5>
                         <h5>
+                          <i class="fa fa-landmark" style="color: #00d999;"></i>
+                          Politics:
+                          <% if @user.politics? %>
+                            <i class="fa fa-check" style="color: green"></i>
+                            <%= @user.politics.humanize.capitalize %>
+                          <% else %>
+                            <i class="fa fa-times" style="color: red"></i>
+                            Politics Not Added
+                          <% end %>
+                        </h5>
+                        <h5>
                           <i class="fa fa-graduation-cap" style="color: #00d999;"></i>
                           Education Level:
                           <% if @user.education_level? %>
@@ -236,6 +247,7 @@
 
                   <!-- Beginning of My Recommendations -->
                   <div class="tab-pane fade <%= 'show active' if params[:active_tab] == 'recommendations-tab' %>"  id="recommendations" role="tabpanel" aria-labelledby="recommendations-tab">
+                    <%= link_to 'Create Movie Recommendation', new_movie_user_recommendation_path, class: 'btn btn-lg btn-block text-uppercase' %>
                     <% if @recommendations.try(:any?) %>
                       <div class="row">
                         <div class="card-columns">
