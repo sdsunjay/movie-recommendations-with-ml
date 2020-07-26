@@ -15,7 +15,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def account_update_params
-    accessible = %i[gender hometown location education_name birthday link]
+    accessible = %i[gender hometown location education_name birthday link photo]
     params.require(:user).permit(accessible)
   end
 end

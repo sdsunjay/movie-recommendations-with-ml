@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   include Pagy::Frontend
   before_action :authenticate_user!
-  before_action :set_user, only: %i[liked disliked]
+  before_action :set_user, only: %i[liked disliked show edit update]
   before_action :set_user_admin, only: %i[show edit update]
   before_action :require_admin, only: %i[destroy index]
   before_action :set_user_reviews, only: %i[liked disliked]
@@ -58,7 +58,6 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @user.update(user_params)
         # Sign in the user bypassing validation
-        # bypass_sign_in(@user_edit)
         format.html { redirect_to user_path, notice: 'Your profile was successfully updated.' }
         format.json { head :no_content }
       else
@@ -70,12 +69,10 @@ class UsersController < ApplicationController
 
   # DELETE /users/:id.:format
   def destroy
-    # authorize! :delete, @user
     @user_destroy = User.find(params[:id])
     @user_destroy.reviews.each(&:destroy)
     @user_destroy.friendships.each(&:destroy)
     @user_destroy.movie_user_recommendations.each(&:destroy)
-    # @user.movies.each(&:destroy)
 
     if @user_destroy.destroy
       flash[:notice] = 'User Removed'
@@ -105,7 +102,7 @@ class UsersController < ApplicationController
 
   def set_user_admin
     if current_user.super_admin?
-       @user = User.find(params[:id])
+      @user = User.find(params[:id])
     else
       @user = current_user
     end
@@ -113,7 +110,7 @@ class UsersController < ApplicationController
 
   def user_params
     # extend with your own params
-    accessible = %i[name email gender hometown location education_name education_level birthday link]
+    accessible = %i[name email gender hometown location education_name education_level birthday link photo]
     params.require(:user).permit(accessible)
   end
 end

@@ -14,7 +14,11 @@
     <%= f.input :link, label: false, placeholder: 'Facebook Link' %>
     <% else %>
     <%= f.input :link, label: false, disabled: true, placeholder: 'Facebook Link', hint: 'You cannot change your facebook link'%>
-    <% end %>
+  <% end %>
+  <% if @user.photo.attached? %>
+    <%= image_tag(@user.photo, width: 50, alt: "profile picture") %>
+  <% end %>
+    <%= f.input :photo, label: false, placeholder: 'User Photo' %>
   </div>
   <div class="form-actions">
     <%= f.button :submit %>
