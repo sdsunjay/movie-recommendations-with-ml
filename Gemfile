@@ -1,16 +1,17 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.6.0'
+gem 'activesupport', '>= 5.2.4.3'
 gem 'rack', '>= 2.0.6'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.0'
 # Use postgresql as the database for Active Record
 gem 'pg', '>= 0.18', '< 2.0'
 # Use Puma as the app server
-gem 'puma', '~> 3.11'
+gem 'puma', '>= 3.12.4'
 # Use SCSS for stylesheets
 gem 'bootstrap', '>= 4.3.1'
-gem 'sprockets-rails', :require => 'sprockets/railtie'
+gem 'sprockets-rails', require: 'sprockets/railtie'
 # gem 'compass-rails'
 gem 'autoprefixer-rails'
 gem 'popper_js', '~> 1.14.3'
@@ -48,10 +49,11 @@ gem 'omniauth-facebook', require: true
 gem 'pagy', '0.19.4'
 gem 'koala', '~> 3.0.0'
 gem 'seed_dump'
-gem 'rubyzip', '~> 1.2.2'
-gem 'simple_form'
+gem 'rubyzip', '>= 1.3.0'
+gem 'chartkick', '>= 3.3.0'
+gem 'simple_form', '>= 5.0.0'
 gem 'country_select', require: 'country_select_without_sort_alphabetical'
-gem 'loofah', '>= 2.2.3'
+gem 'loofah', '>= 2.3.1'
 # background jobs
 gem 'sidekiq', '~> 5.2.5'
 # analytics
@@ -60,6 +62,7 @@ gem 'blazer'
 gem 'puma_worker_killer'
 # caching
 gem 'actionpack-action_caching'
+gem 'actionview', '>= 5.2.4.3'
 # searching
 gem 'ransack', github: 'activerecord-hackery/ransack'
 group :development, :test do
@@ -83,6 +86,9 @@ group :test do
   # Easy installation and use of chromedriver to run system tests with Chrome
   gem 'chromedriver-helper'
 end
-
+gem 'nokogiri', '>= 1.10.8'
+group :production do
+  gem 'aws-sdk-s3'
+end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]

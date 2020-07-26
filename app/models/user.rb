@@ -23,6 +23,7 @@ class User < ApplicationRecord
   validates_presence_of :name
   validates_uniqueness_of :email
   validate :validate_age, if: proc { |u| u.birthday.present? }
+  has_one_attached :photo
 
   ACCESS_LEVEL = %i[user admin super_admin]
   enum access_level: ACCESS_LEVEL
@@ -67,6 +68,8 @@ class User < ApplicationRecord
     user = User.new
     user.provider = auth.provider
     user.uid = auth.uid
+
+    nil if check_user_email?(auth.info.email) == false
     user.email = auth.info.email
     user.password = Devise.friendly_token[0, 20]
     user.name = auth.info.name   # assuming the user has a name
@@ -98,6 +101,18 @@ class User < ApplicationRecord
        nil
       # throw error
     end
+  end
+
+  def check_user_email?(email)
+    if email.include? 'tfbnw.net'
+      logger.debug "Bad user! Did not save: #{auth.info.email}"
+      false
+    end
+    if email.include? 'geogatedproject'
+      logger.debug "Bad user! Did not save: #{auth.info.email}"
+      false
+    end
+    true
   end
 
   # TODO: paging does not work anymore
