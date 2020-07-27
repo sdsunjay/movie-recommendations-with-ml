@@ -15,6 +15,3 @@ test:
 production:
   <<: *default
   database: movierecommendationswithml_production
-  username: postgres
-  password: password
-  host: db

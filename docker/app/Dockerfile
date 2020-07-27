@@ -45,6 +45,7 @@ RUN gem install bundler
 RUN bundle config --global path "$GEM_HOME" && bundle config --global bin "$GEM_HOME/bin"
 RUN bundle install --binstubs path="$BUNDLE_PATH" --without development test --jobs=4
 RUN bundle update
+
 # Remove build dependencies and install runtime dependencies
 RUN apk del build-dependency
 RUN apk add --update mariadb-client postgresql-client postgresql-libs sqlite-libs nodejs tzdata

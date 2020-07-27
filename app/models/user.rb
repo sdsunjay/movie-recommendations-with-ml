@@ -28,6 +28,7 @@ class User < ApplicationRecord
   ACCESS_LEVEL = %i[user admin super_admin]
   enum access_level: ACCESS_LEVEL
   enum education_level: %i[in_high_school high_school trade_school in_college undergrad_degree in_grad_school grad_degree]
+  enum politics: %i[apolitical moderate liberal conservative]
 
   def create_list
     list = List.create(user_id: self.id, name: 'Watchlist', description: 'Movies you have not seen, but would like to watch.')

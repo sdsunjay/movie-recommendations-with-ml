@@ -108,6 +108,17 @@
                         <% end %>
                       </h5>
                         <h5>
+                          <i class="fa fa-landmark" style="color: #00d999;"></i>
+                          Politics:
+                          <% if @user.politics? %>
+                            <i class="fa fa-check" style="color: green"></i>
+                            <%= @user.politics.humanize.capitalize %>
+                          <% else %>
+                            <i class="fa fa-times" style="color: red"></i>
+                            Politics Not Added
+                          <% end %>
+                        </h5>
+                        <h5>
                           <i class="fa fa-graduation-cap" style="color: #00d999;"></i>
                           Education Level:
                           <% if @user.education_level? %>
