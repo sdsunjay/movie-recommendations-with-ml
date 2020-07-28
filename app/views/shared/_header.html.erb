@@ -8,11 +8,15 @@
     <ul class="navbar-nav mr-auto">
         <li class=" <%= params[:controller] == 'movies' ? 'nav-item active' : 'nav-item'%>"><%= link_to 'Home', movies_path, class: "nav-link" %></li>
       <% if user_signed_in? %>
+        <li class=" <%= params[:controller] == 'popular_movies' ? 'nav-item active' : 'nav-item'%>"><%= link_to 'Popular', popular_movies_path, class: "nav-link" %></li>
         <%= render 'shared/genres-dropdown' %>
         <%= render 'shared/lists-dropdown' %>
         <li class=" <%= params[:controller] == 'users' ? 'nav-item active' : 'nav-item'%>"><%= link_to 'Account', user_path(current_user), class: "nav-link" %></li>
         <li class="nav-item"><%= link_to('Logout', destroy_user_session_path, class: "nav-link") %></li>
       <% else %>
+        <li class="nav-item">
+          <a class="nav-link disabled" href="#">Popular</a>
+        </li>
         <li class="nav-item">
           <a class="nav-link disabled" href="#">Genres</a>
         </li>

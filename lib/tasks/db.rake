@@ -21,11 +21,41 @@ namespace :db do
     puts ''
   end
 
-  namespace :dump do
+  namespace :dump_movies do
     desc 'Dumps movie and related tables to backups'
     task tables: :environment do
       # table_name = ENV['table']
       table_names = ['categorizations', 'companies', 'genres', 'movie_production_companies', 'movies']
+      table_names.each do |table_name|
+        if table_name.present?
+          dump_fmt   = ensure_format(ENV['format'])
+          dump_sfx   = suffix_for_format(dump_fmt)
+          backup_dir = backup_directory(Rails.env, create: true)
+          full_path  = nil
+          cmd        = nil
+
+          with_config do |app, host, db, user|
+            full_path = "#{backup_dir}/#{Time.now.strftime('%Y%m%d%H%M%S')}_#{db}.#{table_name.parameterize.underscore}.#{dump_sfx}"
+            cmd       = "pg_dump -F #{dump_fmt} -v -O -o -U '#{user}' -h '#{host}' -d '#{db}' -t '#{table_name}' -f '#{full_path}'"
+          end
+
+          puts cmd
+          system cmd
+          puts ''
+          puts "Dumped to file: #{full_path}"
+          puts ''
+        else
+          puts 'Please specify a table name'
+        end
+      end
+    end
+  end
+
+  namespace :dump_user_and_reviews do
+    desc 'Dumps users and reviews tables to backups'
+    task tables: :environment do
+      # table_name = ENV['table']
+      table_names = ['users', 'reviews', 'friendships', 'lists', 'movie_lists']
       table_names.each do |table_name|
         if table_name.present?
           dump_fmt   = ensure_format(ENV['format'])

@@ -16,6 +16,7 @@ Rails.application.routes.draw do
     end
 
     authenticated :user do
+      resources :popular_movies, only: [:index]
       resources :states
       resources :countries
       resources :cities do
