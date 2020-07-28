@@ -2,13 +2,7 @@ FROM alpine:3.8
 
 LABEL maintainer="NGINX Docker Maintainers <docker-maint@nginx.com>"
 
-ENV NGINX_VERSION 1.15.8
-ENV GEOIP_VERSION 1.6.12
-ENV GEOIP_BASE_URL      https://geolite.maxmind.com/download/geoip/database
-ENV GEOIP_CNTR_DB       GeoLite2-Country.mmdb
-ENV GEOIP_CITY_DB       GeoLite2-City.mmdb
-ENV GEOIP_DB_DIR        /usr/local/share/GeoIP
-# ENV LD_LIBRARY_PATH 	/usr/local/lib
+ENV NGINX_VERSION 1.19.1
 WORKDIR /tmp
 
 RUN build_packages="wget build-base ca-certificates linux-headers openssl-dev pcre-dev zlib-dev" \
@@ -17,31 +11,8 @@ RUN build_packages="wget build-base ca-certificates linux-headers openssl-dev pc
 && apk add --update --no-cache wget build-base ca-certificates \
 && cd /tmp \ 
 && apk update && apk upgrade \
-&& apk add --no-cache bash git openssh libmaxminddb-dev \
-# install GeoIP:
-&& wget https://github.com/maxmind/geoip-api-c/releases/download/v${GEOIP_VERSION}/GeoIP-${GEOIP_VERSION}.tar.gz \
-&& tar -zxvf GeoIP-${GEOIP_VERSION}.tar.gz \
-&& cd GeoIP-${GEOIP_VERSION} \
-&& ./configure \
-&& make \
-&& make check \
-&& make install
+&& apk add --no-cache bash git openssh libmaxminddb-dev
 
-# get GeoIP.dat database
-ADD https://geolite.maxmind.com/download/geoip/database/GeoLite2-Country.tar.gz ${GEOIP_CNTR_DB}.tar.gz
-ADD https://geolite.maxmind.com/download/geoip/database/GeoLite2-City.tar.gz ${GEOIP_CITY_DB}.tar.gz
-RUN mkdir -p ${GEOIP_DB_DIR} \
-&& gunzip -c -v /tmp/${GEOIP_CNTR_DB}.tar.gz > ${GEOIP_DB_DIR}/${GEOIP_CNTR_DB} \
-&& gunzip -c -v /tmp/${GEOIP_CITY_DB}.tar.gz > ${GEOIP_DB_DIR}/${GEOIP_CITY_DB} \
-&& cd /usr/local/share/GeoIP/ \
-&& ls -l \
-&& rm -f /tmp/GeoLite2-* \
-&& cd ~
-
-ENV LD_RUN_PATH=/usr/local/lib
-ENV LD_LIBRARY_PATH=/usr/local/lib/
-RUN git clone https://github.com/leev/ngx_http_geoip2_module.git
-VOLUME ${GEOIP_DB_DIR}
 WORKDIR /nginx
 # RUN mkdir nginx
 # install nginx:
@@ -63,7 +34,6 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
 		--http-scgi-temp-path=/var/cache/nginx/scgi_temp \
 		--user=nginx \
 		--group=nginx \
-		--add-dynamic-module=/tmp/ngx_http_geoip2_module \
 		--with-http_ssl_module \
 		--with-http_realip_module \
 		--with-http_addition_module \
@@ -79,14 +49,12 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
 		--with-http_auth_request_module \
 		--with-http_xslt_module=dynamic \
 		--with-http_image_filter_module=dynamic \
-		--with-http_geoip_module=dynamic \
 		--with-http_perl_module=dynamic \
 		--with-threads \
 		--with-stream \
 		--with-stream_ssl_module \
 		--with-stream_ssl_preread_module \
 		--with-stream_realip_module \
-		--with-stream_geoip_module=dynamic \
 		--with-http_slice_module \
 		--with-mail \
 		--with-mail_ssl_module \
@@ -109,7 +77,6 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
 		gnupg1 \
 		libxslt-dev \
 		gd-dev \
-		geoip-dev \
 		perl-dev \
 	&& curl -fSL https://nginx.org/download/nginx-$NGINX_VERSION.tar.gz -o nginx.tar.gz \
 	&& curl -fSL https://nginx.org/download/nginx-$NGINX_VERSION.tar.gz.asc  -o nginx.tar.gz.asc \
@@ -136,9 +103,7 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
 	&& mv objs/nginx objs/nginx-debug \
 	&& mv objs/ngx_http_xslt_filter_module.so objs/ngx_http_xslt_filter_module-debug.so \
 	&& mv objs/ngx_http_image_filter_module.so objs/ngx_http_image_filter_module-debug.so \
-	&& mv objs/ngx_http_geoip_module.so objs/ngx_http_geoip_module-debug.so \
 	&& mv objs/ngx_http_perl_module.so objs/ngx_http_perl_module-debug.so \
-	&& mv objs/ngx_stream_geoip_module.so objs/ngx_stream_geoip_module-debug.so \
 	&& ./configure $CONFIG \
 	&& make -j$(getconf _NPROCESSORS_ONLN) \
 	&& make install \
@@ -150,9 +115,7 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
 	&& install -m755 objs/nginx-debug /usr/sbin/nginx-debug \
 	&& install -m755 objs/ngx_http_xslt_filter_module-debug.so /usr/lib/nginx/modules/ngx_http_xslt_filter_module-debug.so \
 	&& install -m755 objs/ngx_http_image_filter_module-debug.so /usr/lib/nginx/modules/ngx_http_image_filter_module-debug.so \
-	&& install -m755 objs/ngx_http_geoip_module-debug.so /usr/lib/nginx/modules/ngx_http_geoip_module-debug.so \
 	&& install -m755 objs/ngx_http_perl_module-debug.so /usr/lib/nginx/modules/ngx_http_perl_module-debug.so \
-	&& install -m755 objs/ngx_stream_geoip_module-debug.so /usr/lib/nginx/modules/ngx_stream_geoip_module-debug.so \
 	&& ln -s ../../usr/lib/nginx/modules /etc/nginx/modules \
 	&& strip /usr/sbin/nginx* \
 	&& strip /usr/lib/nginx/modules/*.so \
@@ -176,7 +139,6 @@ RUN GPG_KEYS=B0F4253373F8F6F510D42178520A9993A1C052F8 \
 	&& apk del .build-deps \
 	&& apk del .gettext \
 	&& mv /tmp/envsubst /usr/local/bin/ \
-        && rm /usr/local/lib/libGeoIP.a \
         && rm -rf /tmp/src \
         && rm -rf /var/cache/apk/* \
 	# Bring in tzdata so users could set the timezones through the environment
