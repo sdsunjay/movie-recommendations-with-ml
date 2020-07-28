@@ -10,6 +10,7 @@ services:
       - '/home/deploy/pgdata/etc:/etc/postgresql'
       - '/home/deploy/pgdata/log:/var/log/postgresql'
       - '/home/deploy/pgdata/data:/var/lib/postgresql/data'
+      - '/home/deploy/pgdata/backups:/var/lib/postgresql/backup'
   redis:
     image: 'redis:4.0-alpine'
     command: redis-server --requirepass wsciAqNwgG9D7cF^gVXi9NivbUXGzZ1qDia4bQ
