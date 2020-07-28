@@ -4,6 +4,7 @@ class ListsController < ApplicationController
   before_action :set_list, only: %i[show edit update destroy]
   before_action :set_lists, only: %i[show edit update destroy]
   before_action :set_user_reviews, only: %i[show]
+  before_action :set_user_admin, only: %i[show edit update]
   before_action :require_admin, only: %i[index]
   before_action :set_per_page, only: %i[show]
 
@@ -83,6 +84,15 @@ class ListsController < ApplicationController
   end
 
   private
+
+  def set_user_admin
+    if current_user.super_admin?
+      @user = User.find(List.find(params[:id]).user.id)
+    else
+      @user = current_user
+    end
+  end
+
   # Use callbacks to share common setup or constraints between actions.
   def set_list
     @list ||= @user.lists.where(id: params[:id]).first
