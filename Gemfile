@@ -55,7 +55,7 @@ gem 'simple_form', '>= 5.0.0'
 gem 'country_select', require: 'country_select_without_sort_alphabetical'
 gem 'loofah', '>= 2.3.1'
 # background jobs
-gem 'sidekiq', '~> 5.2.5'
+gem 'sidekiq', '~> 5.2.10'
 # analytics
 gem 'ahoy_matey'
 gem 'blazer'
